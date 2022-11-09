@@ -52,3 +52,6 @@ while True:
 
     clock.tick(60)
     pg.display.update()
+
+
+    #teste
