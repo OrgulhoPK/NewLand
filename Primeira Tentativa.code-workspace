@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../pong-completo"
+		},
+		{
+			"path": "../003-tanques-guerra"
+		}
+	],
+	"settings": {}
+}
