@@ -61,9 +61,11 @@ class Game:
             self.jogador.direita()
             self.jogador.mov_direita = True
         if pg.key.get_pressed()[pg.K_w] and (self.jogador.posXY[1] - self.jogador.scroll[1]>0):
-            self.jogador.cima()                                          
+            self.jogador.cima()   
+            self.jogador.mov_cima = True                                       
         if pg.key.get_pressed()[pg.K_s] and (self.jogador.posXY[1] - self.jogador.scroll[1] + 64 < Config.S_HEIGHT):
             self.jogador.baixo()
+            self.jogador.mov_baixo = True
 
             
 

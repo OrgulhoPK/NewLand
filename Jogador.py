@@ -14,6 +14,8 @@ class Jogador:
         self.animation_count = 0
         self.mov_direita = False
         self.mov_esquerda = False
+        self.mov_cima = False
+        self.mov_baixo = False
         
 
     #criar funções para movimentar o jogador
@@ -49,15 +51,23 @@ class Jogador:
 
             
 
-        if not self.mov_esquerda and not self.mov_direita:
-            tela.blit(pg.transform.scale(Imagem.andar[0], (64,64)),(x-self.scroll[0],y-self.scroll[1]))
+        if not self.mov_esquerda and not self.mov_direita and not self.mov_cima and not self.mov_baixo:
+            tela.blit(pg.transform.scale(Imagem.andarP1B[0], (64,64)),(x-self.scroll[0],y-self.scroll[1]))
         
-        elif self.mov_direita:
-            tela.blit(pg.transform.scale(Imagem.andar[self.animation_count//4], (64,64)),(x-self.scroll[0],y-self.scroll[1]))         
+        
+        elif self.mov_direita or (self.mov_direita and (self.mov_cima or self.mov_baixo)):
+            tela.blit(pg.transform.scale(Imagem.andarP1D[self.animation_count//4], (64,64)),(x-self.scroll[0],y-self.scroll[1]))         
             self.mov_direita = False
-        elif self.mov_esquerda:
-            tela.blit(pg.transform.scale(pg.transform.flip(Imagem.andar[self.animation_count//4],True,False), (64,64)),(x-self.scroll[0],y-self.scroll[1]))
+        elif self.mov_esquerda or (self.mov_esquerda and (self.mov_cima or self.mov_baixo)):
+            tela.blit(pg.transform.scale(pg.transform.flip(Imagem.andarP1D[self.animation_count//4],True,False), (64,64)),(x-self.scroll[0],y-self.scroll[1]))
             self.mov_esquerda = False
+        elif self.mov_cima:
+            tela.blit(pg.transform.scale(Imagem.andarP1C[self.animation_count//4], (64,64)),(x-self.scroll[0],y-self.scroll[1]))
+            self.mov_cima = False
+        elif self.mov_baixo:
+            tela.blit(pg.transform.scale(Imagem.andarP1B[self.animation_count//4], (64,64)),(x-self.scroll[0],y-self.scroll[1]))
+            self.mov_baixo = False
+
 
             
         
