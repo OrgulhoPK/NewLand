@@ -54,6 +54,7 @@ class Game:
 
     def movimentos(self):
         #trata somente dos movimentos dos jogadores
+        # E trata dos limites de tela
         if pg.key.get_pressed()[pg.K_a] and (self.jogador.posXY[0] - self.jogador.scroll[0]>0) :
             self.jogador.esquerda()
             self.jogador.mov_esquerda = True
