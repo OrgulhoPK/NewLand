@@ -5,6 +5,7 @@ class Config:
     Player_y = random.randint(0,S_HEIGHT)
     Player_x = random.randint(0,S_WIDHT)
     COR_Tela = (24,164,86) #verde
-    COR_PlayerTest=(255,255,255) #branco
+    COR_PlayerTest = (255,255,255) #branco
+    COR_InimigoTest = (0,0,0) #preto
 
     VelWarrior = 0.2
