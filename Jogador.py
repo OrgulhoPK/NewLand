@@ -9,8 +9,8 @@ class Jogador:
         self.posXY = posXY # atualização da posicao
         self.posWH = posWH #tamanhoOBJ
         self.movimento = 4
-        self.scroll = [0,0]
-        self.animation_count = 0
+        self.scroll = [0,0] # é o que move o personagem ao clicar uma tecla
+        self.animation_count = 0    #é só um contador de animação (só pra trocar o frame)
         self.mov_direita = False
         self.mov_esquerda = False
         self.mov_cima = False

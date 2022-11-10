@@ -4,6 +4,7 @@ from Configs import Config
 from Jogador import Jogador
 from Projeteis import Projetil
 import sys
+from Inimigos import Inimigos
 
 
 class Game:
@@ -14,6 +15,7 @@ class Game:
         self.jogador = Jogador(posXY=(Config.Player_x,Config.Player_y),posWH = (32,32))
         self.projeteis = []
         self.encerrada = False
+        self.Inimigos = Inimigos(posXY=(500,300),posWH = (32,32))
 
 
     def rodar (self):
@@ -59,6 +61,7 @@ class Game:
 
                 
         self.jogador.desenhar(self.tela) 
+        self.Inimigos.desenhar(self.tela)
         pg.display.flip()
         self.FPS_CLOCK.tick(30)
 
