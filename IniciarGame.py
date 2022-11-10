@@ -1,7 +1,3 @@
-#ioioioioioiodiodidodoioio
-
-
-
 import pygame as pg
 
 from Configs import Config
@@ -51,7 +47,17 @@ class Game:
     def desenha(self):
         self.tela.fill((Config.COR_Tela))
         for projeteis in self.projeteis:
-                projeteis.desenha(self.tela) 
+                
+                projeteis.desenha(self.tela)
+                projeteis.atk = True
+
+                
+                
+
+                
+                
+
+                
         self.jogador.desenhar(self.tela) 
         pg.display.flip()
         self.FPS_CLOCK.tick(30)

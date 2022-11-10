@@ -7,7 +7,9 @@ class Imagem:
     esquerda_direitaP1 = caminho.parent / 'P1' / 'P1-andar' / 'esquerda-direita'
     cimaP1 = caminho.parent / 'P1' / 'P1-andar' / 'cima'
     baixoP1 = caminho.parent / 'P1' / 'P1-andar' / 'baixo'
- 
+    
+    #animação de andar do clerigo
+
     andarP1D = [] #esquerda | direita
     andarP1C = [] #cima P1
     andarP1B = [] #baixo P1
@@ -19,5 +21,16 @@ class Imagem:
 
     for i in baixoP1.glob("*.png"):
         andarP1B.append(pg.image.load(i))
+
+
+    #animacao de atk
+
+    caminho2 = caminho.parent / 'P1' / 'P1 - ataque'
+    atk = []
+
+    for i in caminho2.glob("*.png"):
+        atk.append(pg.image.load(i))
+
+    
 
 

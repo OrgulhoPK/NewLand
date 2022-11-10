@@ -1,9 +1,8 @@
-from typing import Tuple
 import pygame as pg
 
 from Configs import Config
 from Imagens import Imagem
-
+from Projeteis import Projetil
 
 class Jogador:
     def __init__(self,posXY, posWH): #(self, x, y, widht, height)
@@ -16,6 +15,8 @@ class Jogador:
         self.mov_esquerda = False
         self.mov_cima = False
         self.mov_baixo = False
+        self.atk = False
+        self.countatk = 0
         
 
     #criar funções para movimentar o jogador
@@ -49,9 +50,17 @@ class Jogador:
         # posição x e y, largura e altura
         x,y,l,a = self.posXY[0],self.posXY[1],self.posWH[0],self.posWH[1]
 
+        if pg.mouse.get_pressed()[0]:
+            self.atk = True
             
+        if self.atk:
+            self.countatk +=1
+            if self.countatk +1 == 9:
+                self.countatk = 0
+                self.atk = False
 
-        if not self.mov_esquerda and not self.mov_direita and not self.mov_cima and not self.mov_baixo:
+        if not self.mov_esquerda and not self.mov_direita and not self.mov_cima and not self.mov_baixo and not self.atk:
+
             tela.blit(pg.transform.scale(Imagem.andarP1B[0], (64,64)),(x-self.scroll[0],y-self.scroll[1]))
         
         
@@ -67,9 +76,8 @@ class Jogador:
         elif self.mov_baixo:
             tela.blit(pg.transform.scale(Imagem.andarP1B[self.animation_count//4], (64,64)),(x-self.scroll[0],y-self.scroll[1]))
             self.mov_baixo = False
+        
 
-
-            
         
 
 
