@@ -68,18 +68,19 @@ class Game:
     def movimentos(self):
         #trata somente dos movimentos dos jogadores
         # E trata dos limites de tela
-        if pg.key.get_pressed()[pg.K_a] and (self.jogador.posXY[0] - self.jogador.scroll[0]>0) :
-            self.jogador.esquerda()
-            self.jogador.mov_esquerda = True
-        if pg.key.get_pressed()[pg.K_d] and (self.jogador.posXY[0] - self.jogador.scroll[0] + 64 < Config.S_WIDHT):          
-            self.jogador.direita()
-            self.jogador.mov_direita = True
-        if pg.key.get_pressed()[pg.K_w] and (self.jogador.posXY[1] - self.jogador.scroll[1]>0):
-            self.jogador.cima()   
-            self.jogador.mov_cima = True                                       
-        if pg.key.get_pressed()[pg.K_s] and (self.jogador.posXY[1] - self.jogador.scroll[1] + 64 < Config.S_HEIGHT):
-            self.jogador.baixo()
-            self.jogador.mov_baixo = True
+        if not self.jogador.atk:
+            if pg.key.get_pressed()[pg.K_a] and (self.jogador.posXY[0] - self.jogador.scroll[0]>0) :
+                self.jogador.esquerda()
+                self.jogador.mov_esquerda = True
+            if pg.key.get_pressed()[pg.K_d] and (self.jogador.posXY[0] - self.jogador.scroll[0] + 64 < Config.S_WIDHT):          
+                self.jogador.direita()
+                self.jogador.mov_direita = True
+            if pg.key.get_pressed()[pg.K_w] and (self.jogador.posXY[1] - self.jogador.scroll[1]>0):
+                self.jogador.cima()   
+                self.jogador.mov_cima = True                                       
+            if pg.key.get_pressed()[pg.K_s] and (self.jogador.posXY[1] - self.jogador.scroll[1] + 64 < Config.S_HEIGHT):
+                self.jogador.baixo()
+                self.jogador.mov_baixo = True
 
             
 
