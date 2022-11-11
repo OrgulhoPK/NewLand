@@ -27,6 +27,6 @@ class Projetil:
             pg.draw.circle(tela,(0,0,0),(self.x,self.y), 5)
         self.contador += 1
         if self.atk and self.contador <=7:
-            tela.blit(pg.transform.scale(Imagem.atk[self.contador], (64,64)),(self.x-32,self.y-32))
+            tela.blit(pg.transform.scale(Imagem.atk[self.contador], (64,64)),(self.x-32,self.y-45))
 
         

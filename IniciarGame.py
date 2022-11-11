@@ -38,7 +38,7 @@ class Game:
                 sys.exit()
             if event.type == pg.MOUSEBUTTONDOWN:
                 if pg.mouse.get_pressed()[0]:
-                    self.projeteis.append(Projetil(self.jogador.posXY[0]-self.jogador.scroll[0]+32,self.jogador.posXY[1]-self.jogador.scroll[1]+32,mouse_x,mouse_y))
+                    self.projeteis.append(Projetil(self.jogador.posXY[0]-self.jogador.scroll[0]+32,self.jogador.posXY[1]-self.jogador.scroll[1]+45,mouse_x,mouse_y))
 
 
         if pg.key.get_pressed()[pg.K_ESCAPE]:
