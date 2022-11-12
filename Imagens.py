@@ -4,9 +4,19 @@ import pygame as pg
 
 class Imagem:
     caminho = Path(__file__)
-    esquerda_direitaP1 = caminho.parent / 'P1' / 'P1-andar' / 'esquerda-direita'
-    cimaP1 = caminho.parent / 'P1' / 'P1-andar' / 'cima'
-    baixoP1 = caminho.parent / 'P1' / 'P1-andar' / 'baixo'
+    #carregamento da imagem de fundo
+    fundo = caminho.parent / 'Images' / 'Map'
+    mapa4 = []
+
+    for i in fundo.glob("*.png"):
+        mapa4.append(pg.image.load(i))
+
+
+
+    #carregamento do andar
+    esquerda_direitaP1 = caminho.parent / 'Images'/'P1' / 'P1-andar' / 'esquerda-direita'
+    cimaP1 = caminho.parent / 'Images'/ 'P1' / 'P1-andar' / 'cima'
+    baixoP1 = caminho.parent / 'Images'/ 'P1' / 'P1-andar' / 'baixo'
     
     #animação de andar do clerigo
 
@@ -25,7 +35,7 @@ class Imagem:
 
     #animacao de atk
 
-    caminho2 = caminho.parent / 'P1' / 'P1 - ataque'
+    caminho2 = caminho.parent / 'Images'/ 'P1' / 'P1 - ataque'
     atk = []
 
     for i in caminho2.glob("*.png"):

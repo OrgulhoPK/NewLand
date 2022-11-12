@@ -55,7 +55,7 @@ class Jogador:
             
         if self.atk:
             self.countatk +=1
-            if self.countatk +1 == 9:
+            if self.countatk +1 >= 8:
                 self.countatk = 0
                 self.atk = False
 

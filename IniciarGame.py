@@ -5,6 +5,7 @@ from Jogador import Jogador
 from Projeteis import Projetil
 import sys
 from Inimigos import Inimigos
+from Imagens import Imagem
 
 
 class Game:
@@ -47,21 +48,20 @@ class Game:
             self.encerrada = True
     
     def desenha(self):
-        self.tela.fill((Config.COR_Tela))
+        #detalhes mapa
+        #self.tela.fill((Config.COR_Tela))
+        self.tela.blit(Imagem.mapa4[0],(0,0))       
+                
+        #desenho jogadores / inimigos
+        self.jogador.desenhar(self.tela) 
+        self.Inimigos.desenhar(self.tela)
+
+        #Desenho projeteis
         for projeteis in self.projeteis:
                 
                 projeteis.desenha(self.tela)
                 projeteis.atk = True
-
-                
-                
-
-                
-                
-
-                
-        self.jogador.desenhar(self.tela) 
-        self.Inimigos.desenhar(self.tela)
+        #ultimo setup
         pg.display.flip()
         self.FPS_CLOCK.tick(30)
 
