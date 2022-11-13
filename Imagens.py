@@ -4,12 +4,25 @@ import pygame as pg
 
 class Imagem:
     caminho = Path(__file__)
+    
+    #Carregamento Menu Inicial
+
+    Inicial = caminho.parent / 'Imagens' / 'Menu Inicial'
+    NomeJogo = []
+    for i in Inicial.glob('*.png'):
+        NomeJogo.append(pg.image.load(i))
+
+
+
+
+
     #carregamento da imagem de fundo
     fundo = caminho.parent / 'Images' / 'Map'
     mapa4 = []
 
     for i in fundo.glob("*.png"):
         mapa4.append(pg.image.load(i))
+
 
 
 
