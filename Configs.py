@@ -1,4 +1,6 @@
+import pygame as pg
 import random
+
 class Config:
     S_HEIGHT = 720
     S_WIDHT = 1280
@@ -9,3 +11,9 @@ class Config:
     COR_InimigoTest = (0,0,0) #preto
 
     VelWarrior = 0.2
+
+    #adicionadas no teste
+    Tela = 0
+    #caixa de selecao do menu 1
+    TelaInicial = [pg.Rect(541,391,184,33),
+                    pg.Rect(508,441,263,37)]

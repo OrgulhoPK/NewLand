@@ -1,11 +1,10 @@
-from IniciarGame import Game
+from NewLand import Jogo
+
 
 def main():
-    jogo = Game()
+    jogo = Jogo()
     jogo.rodar()
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-

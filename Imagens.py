@@ -5,24 +5,29 @@ import pygame as pg
 class Imagem:
     caminho = Path(__file__)
     
+
     #Carregamento Menu Inicial
-
-    Inicial = caminho.parent / 'Imagens' / 'Menu Inicial'
-    NomeJogo = []
+    
+    Inicial = caminho.parent / 'Images' / 'Menu Inicial' / 'Tela Fundo'
+    Titulo = caminho.parent / 'Images' / 'Menu Inicial' / 'Titulo'
+    MenuInicial = []
+    NomeTitulo = []
     for i in Inicial.glob('*.png'):
-        NomeJogo.append(pg.image.load(i))
+        MenuInicial.append(pg.image.load(i))
+
+    for i in Titulo.glob('*.png'):
+        NomeTitulo.append(pg.image.load(i))
 
 
-
-
-
-    #carregamento da imagem de fundo
-    fundo = caminho.parent / 'Images' / 'Map'
-    mapa4 = []
-
-    for i in fundo.glob("*.png"):
-        mapa4.append(pg.image.load(i))
-
+    #Carregamento do Mapa PVP
+    Map1 = caminho.parent / 'Images' / 'Mapa PVP' / 'Map'
+    Centro1 = caminho.parent / 'Images' / 'Mapa PVP' / 'Centro'
+    MapPvP= []
+    Centro=[]
+    for i in Map1.glob('*.png'):
+        MapPvP.append(pg.image.load(i))
+    for i in Centro1.glob('*.png'):
+        Centro.append(pg.image.load(i))
 
 
 
