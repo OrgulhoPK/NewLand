@@ -99,11 +99,9 @@ class PrimeiraTela:
     def SelectMenu(self,opcoes):
         mx,my = pg.mouse.get_pos()
         if opcoes[0].collidepoint((mx,my)):
-            print("collidiu op1")
             if pg.mouse.get_pressed()[0]:
                 return 1
         if opcoes[1].collidepoint((mx,my)):
-            print("colidiu op2")
             if pg.mouse.get_pressed()[0]:
                 return 2
 
