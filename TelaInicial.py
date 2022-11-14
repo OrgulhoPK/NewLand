@@ -8,16 +8,15 @@ class PrimeiraTela:
     def __init__(self,tela):
         self.tela = tela
         self.encerra = False
-        self.fundo = None
         self.FPS_Clock = pg.time.Clock()
         self.contador = 0
-        self.opcoes = Config.TelaInicial
+        self.opcoes = 0
         self.menu = 0
     
     def rodar(self):
         while not self.encerra:
             self.tratamento_eventos()
-            self.SelectMenu()
+            #self.SelectMenu(Config.TelaInicial)
             self.desenha(self.tela)
         
 
@@ -28,6 +27,15 @@ class PrimeiraTela:
                 sys.exit()
                 pg.quit()
 
+        self.opcoes = self.SelectMenu(Config.TelaInicial)
+
+        if self.opcoes == 1:
+            self.StoryMode()
+        
+        if self.opcoes == 2:
+            self.PvP()
+
+
 
 
 
@@ -36,7 +44,6 @@ class PrimeiraTela:
         self.contador +=1
         if self.contador +1 >= 89:
             self.contador = 0
-
 
         tela.blit(Imagem.MenuInicial[0], (0,0)) #TelaFundo
         #Titulo animado
@@ -52,10 +59,10 @@ class PrimeiraTela:
         self.FPS_Clock.tick(30)
         pg.display.flip()     
 
+
     def StoryMode(self):
         self.menu = 1
         while self.menu == 1:
-            print("entrou menu pve")
             self.desenha(self.tela)
             for event in pg.event.get():
                 if (event.type == pg.QUIT):
@@ -64,31 +71,41 @@ class PrimeiraTela:
                 if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                     self.menu = 0
 
-                if (event.type == pg.KEYDOWN and event.key == pg.K_SPACE):
-                    Config.Tela += 1
-                    self.encerra = False
-    def PvP(self):
+
+    def PvP(self): 
+        TelaInicial = [pg.Rect(560,424,130,29),
+                        pg.Rect(560,480,151,29)]
         self.menu = 2
+        
         while self.menu == 2:
+            self.opcoes = self.SelectMenu(TelaInicial)
             self.desenha(self.tela)
-            print("entrou menu pvp")
             for event in pg.event.get():
                 if (event.type == pg.QUIT):
                     sys.exit()
                     pg.quit()
                 if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                     self.menu = 0
+            if self.opcoes == 1:
+                self.menu = 0
+                self.encerra = True
+                Config.Tela = 2
+            if self.opcoes == 2:
+                if pg.mouse.get_pressed()[0]:
+                    self.menu = 0
+            
 
-    def SelectMenu(self):
+
+    def SelectMenu(self,opcoes):
         mx,my = pg.mouse.get_pos()
-        if self.opcoes[0].collidepoint((mx,my)):
+        if opcoes[0].collidepoint((mx,my)):
             print("collidiu op1")
             if pg.mouse.get_pressed()[0]:
-                self.StoryMode()
-        if self.opcoes[1].collidepoint((mx,my)):
+                return 1
+        if opcoes[1].collidepoint((mx,my)):
             print("colidiu op2")
             if pg.mouse.get_pressed()[0]:
-                self.PvP()
+                return 2
 
 
                 

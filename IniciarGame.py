@@ -9,15 +9,15 @@ from Imagens import Imagem
 
 
 class Game:
-    def __init__(self):
+    def __init__(self,tela):
         pg.init()
         self.FPS_CLOCK = pg.time.Clock()
-        self.tela = pg.display.set_mode((Config.S_WIDHT,Config.S_HEIGHT))
+        self.tela = tela
         self.jogador = Jogador(posXY=(Config.Player_x,Config.Player_y),posWH = (32,32))
         self.projeteis = []
         self.encerrada = False
         self.Inimigos = Inimigos(posXY=(500,300),posWH = (32,32))
-
+        self.contador = 0
 
     def rodar (self):
         while not self.encerrada:
@@ -48,19 +48,33 @@ class Game:
             self.encerrada = True
     
     def desenha(self):
-        #detalhes mapa
-        #self.tela.fill((Config.COR_Tela))
-        self.tela.blit(Imagem.mapa4[0],(0,0))       
-                
+        # mapa
+
+        self.tela.blit(Imagem.MapPvP[0], (0,0)) 
+
+        self.contador +=1
+        if self.contador +1 >= 176:
+            self.contador = 0
+        self.tela.blit(Imagem.Centro[self.contador//5],(593,234))
+
+
         #desenho jogadores / inimigos
         self.jogador.desenhar(self.tela) 
-        self.Inimigos.desenhar(self.tela)
+        #self.Inimigos.desenhar(self.tela)
 
         #Desenho projeteis
         for projeteis in self.projeteis:
                 
                 projeteis.desenha(self.tela)
                 projeteis.atk = True
+        
+        #Alguns Detalhes do mapa
+        
+        self.tela.blit(Imagem.MapPvP[1], (506,329))
+        self.tela.blit(Imagem.MapPvP[2], (506,153))
+        
+
+
         #ultimo setup
         pg.display.flip()
         self.FPS_CLOCK.tick(30)

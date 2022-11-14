@@ -2,6 +2,7 @@ import pygame as pg
 
 from Configs import Config
 from TelaInicial import PrimeiraTela
+from IniciarGame import Game
 
 
 class Jogo:
@@ -19,3 +20,6 @@ class Jogo:
             if Config.Tela == 1:
                 NovaTela = PrimeiraTela(self.tela)
                 NovaTela.rodar()
+            if Config.Tela == 2:
+                NovaTela1 = Game(self.tela)
+                NovaTela1.rodar()
