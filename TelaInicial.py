@@ -16,7 +16,6 @@ class PrimeiraTela:
     def rodar(self):
         while not self.encerra:
             self.tratamento_eventos()
-            #self.SelectMenu(Config.TelaInicial)
             self.desenha(self.tela)
         
 

@@ -39,7 +39,8 @@ class Game:
                 sys.exit()
             if event.type == pg.MOUSEBUTTONDOWN:
                 if pg.mouse.get_pressed()[0]:
-                    self.projeteis.append(Projetil(self.jogador.posXY[0]-self.jogador.scroll[0]+32,self.jogador.posXY[1]-self.jogador.scroll[1]+45,mouse_x,mouse_y))
+                    #self.projeteis.append(Projetil(self.jogador.posXY[0]-self.jogador.scroll[0]+32,self.jogador.posXY[1]-self.jogador.scroll[1]+45,mouse_x,mouse_y))
+                    self.projeteis.append(Projetil(self.jogador.X+32,self.jogador.Y+45,mouse_x,mouse_y))
 
 
         if pg.key.get_pressed()[pg.K_ESCAPE]:
@@ -60,7 +61,7 @@ class Game:
 
         #desenho jogadores / inimigos
         self.jogador.desenhar(self.tela) 
-        #self.Inimigos.desenhar(self.tela)
+        self.Inimigos.desenhar(self.tela)
 
         #Desenho projeteis
         for projeteis in self.projeteis:
@@ -83,16 +84,19 @@ class Game:
         #trata somente dos movimentos dos jogadores
         # E trata dos limites de tela
         if not self.jogador.atk:
-            if pg.key.get_pressed()[pg.K_a] and (self.jogador.posXY[0] - self.jogador.scroll[0]>0) :
+            if pg.key.get_pressed()[pg.K_a] and (self.jogador.X >0) :
                 self.jogador.esquerda()
                 self.jogador.mov_esquerda = True
-            if pg.key.get_pressed()[pg.K_d] and (self.jogador.posXY[0] - self.jogador.scroll[0] + 64 < Config.S_WIDHT):          
+
+            if pg.key.get_pressed()[pg.K_d] and (self.jogador.X + 64 < Config.S_WIDHT):          
                 self.jogador.direita()
                 self.jogador.mov_direita = True
-            if pg.key.get_pressed()[pg.K_w] and (self.jogador.posXY[1] - self.jogador.scroll[1]>0):
+
+            if pg.key.get_pressed()[pg.K_w] and (self.jogador.Y > 0):
                 self.jogador.cima()   
-                self.jogador.mov_cima = True                                       
-            if pg.key.get_pressed()[pg.K_s] and (self.jogador.posXY[1] - self.jogador.scroll[1] + 64 < Config.S_HEIGHT):
+                self.jogador.mov_cima = True                 
+                      
+            if pg.key.get_pressed()[pg.K_s] and (self.jogador.Y + 64 < Config.S_HEIGHT):
                 self.jogador.baixo()
                 self.jogador.mov_baixo = True
 
