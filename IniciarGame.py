@@ -17,7 +17,7 @@ class Game:
         self.jogador = Jogador(posXY=(Config.Player_x,Config.Player_y),posWH = (32,32))
         self.projeteis = []
         self.encerrada = False
-        self.Inimigos = Inimigos(posXY=(500,300),posWH = (32,32))
+        self.Inimigos = Inimigos(posXY=(750,400),posWH = (32,32))
         self.contador = 0
         
 

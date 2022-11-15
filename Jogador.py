@@ -55,10 +55,11 @@ class Jogador:
             self.atk = True
             
         if self.atk:
-            self.countatk +=1
+            
             if self.countatk +1 >= 8:
                 self.countatk = 0
                 self.atk = False
+            self.countatk +=1
 
 
         if not self.atk:
