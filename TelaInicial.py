@@ -3,8 +3,10 @@ import sys
 
 from Configs import Config
 from Imagens import Imagem
+from Sons import Sons
 
 class PrimeiraTela:
+    
     def __init__(self,tela):
         self.tela = tela
         self.encerra = False
@@ -104,5 +106,7 @@ class PrimeiraTela:
             if pg.mouse.get_pressed()[0]:
                 return 2
 
+        
 
+        
                 

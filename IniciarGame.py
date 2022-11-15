@@ -6,6 +6,7 @@ from Projeteis import Projetil
 import sys
 from Inimigos import Inimigos
 from Imagens import Imagem
+from Sons import Sons
 
 
 class Game:
@@ -18,6 +19,7 @@ class Game:
         self.encerrada = False
         self.Inimigos = Inimigos(posXY=(500,300),posWH = (32,32))
         self.contador = 0
+        
 
     def rodar (self):
         while not self.encerrada:
@@ -41,7 +43,8 @@ class Game:
                 if pg.mouse.get_pressed()[0]:
                     #self.projeteis.append(Projetil(self.jogador.posXY[0]-self.jogador.scroll[0]+32,self.jogador.posXY[1]-self.jogador.scroll[1]+45,mouse_x,mouse_y))
                     self.projeteis.append(Projetil(self.jogador.X+32,self.jogador.Y+45,mouse_x,mouse_y))
-
+                    #Chamando a função de som do projetil quando o botão do projetil é apertado
+                    Sons.BarulhoProjetil(self)
 
         if pg.key.get_pressed()[pg.K_ESCAPE]:
             sys.exit(0)
@@ -67,7 +70,9 @@ class Game:
         for projeteis in self.projeteis:
                 
                 projeteis.desenha(self.tela)
+                
                 projeteis.atk = True
+                
         
         #Alguns Detalhes do mapa
         
