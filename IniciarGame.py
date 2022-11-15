@@ -15,6 +15,7 @@ class Game:
         self.FPS_CLOCK = pg.time.Clock()
         self.tela = tela
         self.jogador = Jogador(posXY=(Config.Player_x,Config.Player_y),posWH = (32,32))
+        self.jogadores = []
         self.projeteis = []
         self.encerrada = False
         self.Inimigo1 = Inimigos(posXY=(750,400),posWH = (32,32))
@@ -37,13 +38,15 @@ class Game:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
-                sys.exit()
+                sys.exit()            
             if event.type == pg.MOUSEBUTTONDOWN:
                 if pg.mouse.get_pressed()[0]:
-                    
-                    self.projeteis.append(Projetil(self.jogador.X+32,self.jogador.Y+45,5,mouse_x,mouse_y))
-                    
+                    self.projeteis.append(Projetil(self.jogador.X+32,self.jogador.Y+45,5,mouse_x,mouse_y))              
                     Sons.BarulhoProjetil(self)
+        #for jogador in self.jogadores:
+        #    if jogador.disparo():
+        #        pass
+         
         for projetil in self.projeteis:
             if projetil.colisaoProjetil(self.Inimigo1):
                 self.Inimigo1.dano()

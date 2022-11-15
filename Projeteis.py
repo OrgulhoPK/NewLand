@@ -21,6 +21,7 @@ class Projetil:
         self.contador = 0
         self.raio = raio
 
+
     def desenha(self,tela):
 
         self.contador += 1
@@ -35,6 +36,10 @@ class Projetil:
         if self.atk and self.contador <=7:
             tela.blit(pg.transform.scale(Imagem.atk[self.contador], (64,64)),(self.x-32,self.y-45))
         
+
+
+
+
 
     def colisaoProjetil(self,alvo) -> bool:
         return ((self.y - self.raio< alvo.hitbox[1]+alvo.hitbox[3] and

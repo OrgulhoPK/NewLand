@@ -17,15 +17,14 @@ class Jogador:
         self.atk = False
         self.countatk = 0
 
+
         #hitbox = X, Y , Largura, Altura  Rect()
         self.hitbox = (self.X + 17,self.Y+8,31,57)
         
 
     #criar funções para movimentar o jogador
-
     def esquerda(self):
         self.X -= self.movimento
-
 
     def direita(self):
 
@@ -43,7 +42,11 @@ class Jogador:
         pass
 
 
-    def ataque(self):
+    def disparo(self):
+        pass
+
+
+    def dano(self):
         print('hit')
 
 
