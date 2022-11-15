@@ -3,6 +3,7 @@ import pygame as pg
 from Configs import Config
 from TelaInicial import PrimeiraTela
 from IniciarGame import Game
+from Sons import Sons
 
 
 class Jogo:
@@ -18,6 +19,7 @@ class Jogo:
         Config.Tela = 1
         while True:
             if Config.Tela == 1:
+                Sons.menu1.play() 
                 NovaTela = PrimeiraTela(self.tela)
                 NovaTela.rodar()
             if Config.Tela == 2:

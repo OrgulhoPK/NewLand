@@ -17,10 +17,21 @@ class PrimeiraTela:
     
     def rodar(self):
         while not self.encerra:
+            #Chamando o volume da musica do menu
+            Sons.menu1.play()
+            #Mudando o volume da musica do menu iniciar
+            Sons.menu1.set_volume(0.01)
             self.tratamento_eventos()
             self.desenha(self.tela)
-        
 
+    
+    
+    
+        
+        
+         
+
+    
     def tratamento_eventos(self):
         for event in pg.event.get():
             if (event.type == pg.QUIT) or \
@@ -89,6 +100,7 @@ class PrimeiraTela:
                     self.menu = 0
             if self.opcoes == 1:
                 self.menu = 0
+                Sons.menu1.stop()
                 self.encerra = True
                 Config.Tela = 2
             if self.opcoes == 2:
