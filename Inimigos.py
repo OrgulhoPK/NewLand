@@ -3,7 +3,8 @@ from Configs import Config
 
 class Inimigos: 
     def __init__(self,posXY,posWH):
-        self.posXY = posXY
+        self.X = posXY[0]
+        self.Y = posXY[1]
         self.posWH = posWH
         self.movimento = 4
         self.animation_count = 0
@@ -11,7 +12,7 @@ class Inimigos:
         self.mov_esquerda = False
         self.mov_cima = False
         self.mov_baixo = False 
-        
+        self.hitbox = (self.X ,self.Y,35,35)
 
 
     def desenhar(self,tela):
@@ -20,8 +21,9 @@ class Inimigos:
 
         self.animation_count += 1
 
-        x,y,l,a = self.posXY[0],self.posXY[1],self.posWH[0],self.posWH[1]
+        x,y,l,a = self.X,self.Y,self.posWH[0],self.posWH[1]
         
-
+        self.hitbox = (self.X ,self.Y,35,35)
+        pg.draw.rect(tela,Config.COR_Tela,self.hitbox,2)
         pg.draw.rect(tela,Config.COR_InimigoTest,pg.rect.Rect(x,y,l,a))
         
