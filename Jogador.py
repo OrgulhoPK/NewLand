@@ -1,5 +1,4 @@
 import pygame as pg
-
 from Configs import Config
 from Imagens import Imagem
 from Projeteis import Projetil
@@ -17,6 +16,8 @@ class Jogador:
         self.mov_baixo = False
         self.atk = False
         self.countatk = 0
+
+        #hitbox = X, Y , Largura, Altura  Rect()
         self.hitbox = (self.X + 17,self.Y+8,31,57)
         
 
@@ -41,6 +42,9 @@ class Jogador:
     def atualizar_posicao(self):
         pass
 
+
+    def ataque(self):
+        print('hit')
 
 
     def desenhar(self,tela):

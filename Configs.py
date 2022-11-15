@@ -9,6 +9,7 @@ class Config:
     COR_Tela = (24,164,86) #verde
     COR_PlayerTest = (255,255,255) #branco
     COR_InimigoTest = (0,0,0) #preto
+    
 
     VelWarrior = 0.2
 

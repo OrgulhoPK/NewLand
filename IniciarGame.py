@@ -17,7 +17,7 @@ class Game:
         self.jogador = Jogador(posXY=(Config.Player_x,Config.Player_y),posWH = (32,32))
         self.projeteis = []
         self.encerrada = False
-        self.Inimigos = Inimigos(posXY=(750,400),posWH = (32,32))
+        self.Inimigo1 = Inimigos(posXY=(750,400),posWH = (32,32))
         self.contador = 0
         
 
@@ -33,7 +33,6 @@ class Game:
 
     def tratamento_eventos(self):         
         self.movimentos()
-        #self.colisoes()
         mouse_x,mouse_y = pg.mouse.get_pos()
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -41,10 +40,15 @@ class Game:
                 sys.exit()
             if event.type == pg.MOUSEBUTTONDOWN:
                 if pg.mouse.get_pressed()[0]:
-                    #self.projeteis.append(Projetil(self.jogador.posXY[0]-self.jogador.scroll[0]+32,self.jogador.posXY[1]-self.jogador.scroll[1]+45,mouse_x,mouse_y))
-                    self.projeteis.append(Projetil(self.jogador.X+32,self.jogador.Y+45,mouse_x,mouse_y))
-                    #Chamando a função de som do projetil quando o botão do projetil é apertado
+                    
+                    self.projeteis.append(Projetil(self.jogador.X+32,self.jogador.Y+45,5,mouse_x,mouse_y))
+                    
                     Sons.BarulhoProjetil(self)
+        for projetil in self.projeteis:
+            if projetil.colisaoProjetil(self.Inimigo1):
+                self.Inimigo1.dano()
+                self.projeteis.pop(self.projeteis.index(projetil))
+            
 
         if pg.key.get_pressed()[pg.K_ESCAPE]:
             sys.exit(0)
@@ -64,23 +68,18 @@ class Game:
 
         #desenho jogadores / inimigos
         self.jogador.desenhar(self.tela) 
-        self.Inimigos.desenhar(self.tela)
+        self.Inimigo1.desenhar(self.tela)
 
         #Desenho projeteis
-        for projeteis in self.projeteis:
-                
+        for projeteis in self.projeteis:      
                 projeteis.desenha(self.tela)
                 
                 projeteis.atk = True
                 
-        
         #Alguns Detalhes do mapa
-        
         self.tela.blit(Imagem.MapPvP[1], (506,329))
         self.tela.blit(Imagem.MapPvP[2], (506,153))
         
-
-
         #ultimo setup
         pg.display.flip()
         self.FPS_CLOCK.tick(30)
@@ -105,21 +104,16 @@ class Game:
                 self.jogador.baixo()
                 self.jogador.mov_baixo = True
 
+
             
 
 
     #800x 600y
 
-    def colisoes(self):
-        '''if self.jogador.posXY[0] < 0:
-            self.jogador.movimento = 0
-        if self.jogador.posXY[1] < 0:
-            self.jogador.posXY[1]= 0
-        if self.jogador.right > Config.S_WIdwDHT:
-            self.jogador.right = Config.S_WIDHT
-        if self.jogador.top <= 0:
-            self.jogador.top = 0
-        if self.jogador.bottom >= Config.S_HEIGHT:
-            self.jogador.bottom = Config.S_HEIGHT'''
+    
+
+
+        
+        
 
         
