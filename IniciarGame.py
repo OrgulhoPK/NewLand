@@ -6,7 +6,7 @@ from Projeteis import Projetil
 import sys
 from Inimigos import Inimigos
 from Imagens import Imagem
-from Sons import Sons
+#from Sons import Sons
 
 
 class Game:
@@ -49,7 +49,7 @@ class Game:
             if event.type == pg.MOUSEBUTTONDOWN:
                 if pg.mouse.get_pressed()[0]:
                     self.projeteis.append(Projetil(self.jogador.X+32,self.jogador.Y+45,5,mouse_x+1,mouse_y))              
-                    Sons.BarulhoProjetil(self)
+                    #Sons.BarulhoProjetil(self)
         #for jogador in self.jogadores:
         #    if jogador.disparo():
         #        pass

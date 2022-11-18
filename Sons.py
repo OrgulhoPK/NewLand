@@ -3,27 +3,30 @@ import pygame as pg
 
 
 class Sons:
-    pg.mixer.init()
+    pass
+    #caminho = Path(__file__)
+    #pg.mixer.init()
 
 
     ##Chamando a musica menu
-    menu1 = pg.mixer.Sound('menu1.ogg')
+    #som = caminho.parent / 'menu1.ogg'
+   # menu1 = pg.mixer.Sound(som)
 
-    valor = menu1.set_volume(1.0)
+    #valor = menu1.set_volume(1.0)
     
     
     
     
     
-    def BarulhoProjetil(self):
+    #def BarulhoProjetil(self):
         #caminho = Path(__file__)
-        pg.mixer.init()
-        barulho = pg.mixer.Sound('whoosh.ogg')
-        som = barulho.play()
+        #pg.mixer.init()
+        #barulho = pg.mixer.Sound('whoosh.ogg')
+        #som = barulho.play()
 
 
    # def MusicaTelaInicial(self):
-        #caminho = Path(__file__)
+        #
         #pg.mixer.init()
        # menu1 = pg.mixer.Sound('menu1.ogg')
         #somMenu1 = menu1.play()
