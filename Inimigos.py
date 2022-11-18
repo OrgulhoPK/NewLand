@@ -2,7 +2,7 @@ import pygame as pg
 from Configs import Config
 
 class Inimigos: 
-    def __init__(self,posXY,posWH):
+    def __init__(self,posXY,posWH, algo=None):
         self.X = posXY[0]
         self.Y = posXY[1]
         self.posWH = posWH
@@ -13,6 +13,7 @@ class Inimigos:
         self.mov_cima = False
         self.mov_baixo = False 
         self.hitbox = (self.X-2 ,self.Y-2,35,35)
+        self.algo = algo
 
 
     def desenhar(self,tela):

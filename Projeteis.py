@@ -13,7 +13,7 @@ class Projetil:
         self.y = y
         self.mousex = mousex
         self.mousey = mousey
-        self.speed = 15
+        self.speed = 8
         self.angle = math.atan2(y-mousey,x-mousex)
         self.x_vel = math.cos(self.angle)* self.speed
         self.y_vel = math.sin(self.angle)* self.speed

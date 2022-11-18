@@ -4,11 +4,14 @@ import random
 class Config:
     S_HEIGHT = 720
     S_WIDHT = 1280
-    Player_y = random.randint(0,S_HEIGHT - 80)
-    Player_x = random.randint(0,S_WIDHT - 80)
+    Player_y = random.randint(288,433)
+    Player_x = random.randint(127,433)
     COR_Tela = (24,164,86) #verde
     COR_PlayerTest = (255,255,255) #branco
     COR_InimigoTest = (0,0,0) #preto
+    
+    #Configuraçoes do Mapa Background Tiles
+    MapW, MapH = 16,16
     
 
     VelWarrior = 0.2

@@ -16,11 +16,12 @@ class Jogador:
         self.mov_baixo = False
         self.atk = False
         self.countatk = 0
+        
 
 
         #hitbox = X, Y , Largura, Altura  Rect()
         self.hitbox = (self.X + 17,self.Y+8,31,57)
-        
+        self.hitboxX = pg.Rect(self.X+17,self.Y+8,31,57)
 
     #criar funções para movimentar o jogador
     def esquerda(self):
@@ -40,6 +41,12 @@ class Jogador:
 
     def atualizar_posicao(self):
         pass
+
+    def colisao(self,alvo)-> bool:
+
+            colide = self.hitboxX.colliderect(alvo)
+            
+            return colide
 
 
     def disparo(self):
@@ -61,6 +68,7 @@ class Jogador:
         if pg.mouse.get_pressed()[0]:
             self.atk = True
             
+
         if self.atk:
             
             if self.countatk +1 >= 8:
@@ -93,5 +101,8 @@ class Jogador:
                
                 tela.blit(pg.transform.scale(Imagem.andarP1B[self.animation_count//4], (64,64)),(self.X,self.Y))
                 self.mov_baixo = False
+        
+        
         self.hitbox = (self.X + 17,self.Y+8,31,57)
+        self.hitboxX = pg.Rect(self.X+17,self.Y+8,31,57)
         pg.draw.rect(tela,Config.COR_Tela,self.hitbox,2)

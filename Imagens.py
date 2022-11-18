@@ -1,40 +1,72 @@
 from pathlib import Path
 import pygame as pg
-
+from SpriteAndTiles import *
+from Configs import Config
 
 class Imagem:
     caminho = Path(__file__)
     
-
     #Carregamento Menu Inicial
-    
     Inicial = caminho.parent / 'Images' / 'Menu Inicial' / 'Tela Fundo'
     Titulo = caminho.parent / 'Images' / 'Menu Inicial' / 'Titulo'
     MenuInicial = []
     NomeTitulo = []
     for i in Inicial.glob('*.png'):
         MenuInicial.append(pg.image.load(i))
-
     for i in Titulo.glob('*.png'):
         NomeTitulo.append(pg.image.load(i))
 
 
-    #Carregamento do Mapa PVP
-    Map1 = caminho.parent / 'Images' / 'Mapa PVP' / 'Map'
+
+    #Carregamento do Mapa PVP e estruturas
+
+    Map = caminho.parent / 'Images' / 'Mapa PVP' / 'Map'
+    file = Map / 'CSVs' / 'Background.csv'
+    file2 = Map / 'CSVs' / 'Estruturas.csv'
     Centro1 = caminho.parent / 'Images' / 'Mapa PVP' / 'Centro'
-    MapPvP= []
+
+    #leitura e separação do tileset
+    localTile1 = Map /'Background.png'
+    localTile2 = Map / 'Estruturas.png'
+    tileset1 = pg.image.load(localTile1)
+    tileFundo = TileSet(tileset1)
+    tilesetFundo = []
+    tileset2 = pg.image.load(localTile2)
+    tilesetsBack = TileSet(tileset2)
+    tilesetEstruturas = []
+
+    for i in range(0,186): # 186 tiles
+            frame = tileFundo.get_tile(i,Config.MapW,Config.MapH)
+            tilesetFundo.append(frame)
+    for i in range(0,115): # 115 tiles
+            frame = tilesetsBack.get_tile(i,Config.MapW,Config.MapH)
+            tilesetEstruturas.append(frame)
+
+
+
+    #list com os tiles carregados no mapa
+
+    Background = load_tiles(file,tilesetFundo)
+    Estruturas = load_tiles(file2,tilesetEstruturas)
+    ListaColisoes = []
+    for i in Estruturas:
+        x,y = i.rect()
+        ListaColisoes.append(pg.Rect(x,y,16,16))
+
+
+
     Centro=[]
-    for i in Map1.glob('*.png'):
-        MapPvP.append(pg.image.load(i))
     for i in Centro1.glob('*.png'):
         Centro.append(pg.image.load(i))
 
 
 
+
     #carregamento do andar
-    esquerda_direitaP1 = caminho.parent / 'Images'/'P1' / 'P1-andar' / 'esquerda-direita'
-    cimaP1 = caminho.parent / 'Images'/ 'P1' / 'P1-andar' / 'cima'
-    baixoP1 = caminho.parent / 'Images'/ 'P1' / 'P1-andar' / 'baixo'
+    MovimentoP1 = caminho.parent / 'Images'/'P1' / 'P1-andar'
+    esquerda_direitaP1 =  MovimentoP1 / 'esquerda-direita'
+    cimaP1 =  MovimentoP1 / 'cima'
+    baixoP1 = MovimentoP1 / 'baixo'
     
     #animação de andar do clerigo
 
