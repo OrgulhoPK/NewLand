@@ -24,7 +24,7 @@ class Game:
         self.background = Imagem.Background
         self.estruturas = Imagem.Estruturas
         self.lista = Imagem.ListaColisoes
-        self.mov = True
+        self.mov = False
 
     def rodar (self):
         while not self.encerrada:
@@ -35,7 +35,8 @@ class Game:
 
 
     def atualiza_estado(self):
-        self.jogador.atualizar_posicao()
+        #self.jogador.atualizar_posicao()
+        pass
 
     def tratamento_eventos(self):         
         self.movimentos()
@@ -75,15 +76,11 @@ class Game:
         for i in self.estruturas:
            i.desenha(tela)
 
-
-        for i in self.lista:
-            pg.draw.rect(tela,Config.COR_Tela,i,2) 
-
         self.contador +=1
         if self.contador +1 >= 176:
             self.contador = 0
         self.tela.blit(Imagem.Centro[self.contador//5],(593,234))
-
+    
         
 
         #desenho jogadores / inimigos
@@ -105,8 +102,8 @@ class Game:
         #trata somente dos movimentos dos jogadores
         # E trata dos limites de tela
 
-        if not self.jogador.atk and not(self.mov) :
-            if pg.key.get_pressed()[pg.K_a] and (self.jogador.X >0) :
+        if not self.jogador.atk:
+            if pg.key.get_pressed()[pg.K_a] and (self.jogador.X > 0) :
                 self.jogador.esquerda()
                 self.jogador.mov_esquerda = True
 
@@ -121,14 +118,13 @@ class Game:
             if pg.key.get_pressed()[pg.K_s] and (self.jogador.Y + 64 < Config.S_HEIGHT) :
                 self.jogador.baixo()
                 self.jogador.mov_baixo = True
-        self.mov = False
+        
 
 
     def colisoes(self,lista):
-        for i in lista:
-            if self.jogador.colisao(i):
-                print('colidiu')
-                self.mov = True
+        self.jogador.colisao(lista)
+                
+
 
 
 

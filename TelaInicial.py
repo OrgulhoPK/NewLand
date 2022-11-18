@@ -57,16 +57,20 @@ class PrimeiraTela:
         if self.contador +1 >= 89:
             self.contador = 0
 
-        tela.blit(Imagem.MenuInicial[0], (0,0)) #TelaFundo
+        #tela.blit(Imagem.MenuInicial[0], (0,0)) #TelaFundo
+        tela.blit(Imagem.telaFundo1, (0,0))
         #Titulo animado
         tela.blit(pg.transform.scale(Imagem.NomeTitulo[self.contador//4], (325,214)),(479,66))
         #Subtitulo e opçoes
-        tela.blit(Imagem.MenuInicial[1], (500,263))
+        #tela.blit(Imagem.MenuInicial[1], (500,263))
+        tela.blit(Imagem.Adventure, (500,263))
         if self.menu == 0:
-            tela.blit(Imagem.MenuInicial[2], (490,391))
+            #tela.blit(Imagem.MenuInicial[2], (490,391))
+            tela.blit(Imagem.opcoes, (490,391))
         
         if self.menu == 2:
-            tela.blit(Imagem.MenuInicial[3],(490,350))
+            #tela.blit(Imagem.MenuInicial[3],(490,350))
+            tela.blit(Imagem.menuPvP,(490,350))
 
         self.FPS_Clock.tick(30)
         pg.display.flip()     

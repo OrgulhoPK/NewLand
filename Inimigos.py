@@ -1,22 +1,30 @@
 import pygame as pg
+import math
 from Configs import Config
+import random
 
 class Inimigos: 
-    def __init__(self,posXY,posWH, algo=None):
+    def __init__(self,posXY,posWH):
         self.X = posXY[0]
         self.Y = posXY[1]
         self.posWH = posWH
-        self.movimento = 4
+        self.speed = 4
         self.animation_count = 0
-        self.mov_direita = False
-        self.mov_esquerda = False
-        self.mov_cima = False
-        self.mov_baixo = False 
+        self.mov = False
+
         self.hitbox = (self.X-2 ,self.Y-2,35,35)
-        self.algo = algo
+    
+    #def movimento(self,x,y):
+    #    if not self.mov:
+    #        self.angle = math.atan2(self.X-y,self.Y-x)
+    #        x_vel = math.cos(self.angle)* self.speed
+     #       y_vel = math.sin(self.angle)* self.speed
+     #       self.X -= int(x_vel)
+     #       self.Y -= int(y_vel)
 
 
     def desenhar(self,tela):
+
         if self.animation_count +1 >= 28:
             self.animation_count = 0
 

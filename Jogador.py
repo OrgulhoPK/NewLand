@@ -39,14 +39,31 @@ class Jogador:
 
         self.Y  += self.movimento
 
-    def atualizar_posicao(self):
-        pass
 
-    def colisao(self,alvo)-> bool:
+    def colisao(self,alvo):
+        collision_tolerance = 8
+        for i in alvo:
+            colide = self.hitboxX.colliderect(i)
+            if colide:          
+                if abs(i.top - self.hitboxX.bottom) < collision_tolerance:
+                    self.hitboxX.bottom -= collision_tolerance
+                    self.cima()
+                if abs(i.bottom - self.hitboxX.top) < collision_tolerance:
+                    self.hitboxX.bottom += collision_tolerance
+                    self.baixo()
 
-            colide = self.hitboxX.colliderect(alvo)
-            
-            return colide
+                if abs(i.right - self.hitboxX.left) < collision_tolerance:
+                    self.hitboxX.left += collision_tolerance
+                    self.direita()
+                    
+                if abs(i.left - self.hitboxX.right) < collision_tolerance:
+                    self.hitboxX.right -= collision_tolerance
+                    self.esquerda()
+                        
+                
+
+                
+        
 
 
     def disparo(self):

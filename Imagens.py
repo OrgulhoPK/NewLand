@@ -9,6 +9,14 @@ class Imagem:
     #Carregamento Menu Inicial
     Inicial = caminho.parent / 'Images' / 'Menu Inicial' / 'Tela Fundo'
     Titulo = caminho.parent / 'Images' / 'Menu Inicial' / 'Titulo'
+    telaFundo = Inicial / '1 - TelaFundoMenu.png'
+    Adventure = Inicial / '2 - the adventure.png'
+    opcoes = Inicial / '3 - opcoes.png'
+    menuPvP = Inicial / '4 - Menu PVP.png'
+    telaFundo1 = pg.image.load(telaFundo)
+    Adventure = pg.image.load(Adventure)
+    opcoes = pg.image.load(opcoes)
+    menuPvP = pg.image.load(menuPvP)
     MenuInicial = []
     NomeTitulo = []
     for i in Inicial.glob('*.png'):
@@ -52,7 +60,8 @@ class Imagem:
     for i in Estruturas:
         x,y = i.rect()
         ListaColisoes.append(pg.Rect(x,y,16,16))
-
+    rec = pg.Rect(0,0,1,1)
+    #union = rec.unionall_ip(ListaColisoes)
 
 
     Centro=[]
