@@ -3,14 +3,12 @@ import Configs
 
 
 class Personagens:
-    def __init__(self,vida,dano):
+    def __init__(self,vida,dano,sprites):
         #vida,dano,skillbasica,skillespecial,estado
         self.vida = vida
         self.dano = dano
+        self.sprite = sprites
+        self.habilidades = []
 
-    def Habilidade_Basica(self):
-        pass
 
-    def Habilidade_Especial(self):
-        pass
 

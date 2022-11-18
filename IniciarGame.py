@@ -52,11 +52,10 @@ class Game:
                     #Sons.BarulhoProjetil(self)
         #for jogador in self.jogadores:
         #    if jogador.disparo():
-        #        pass
-         
+        #        pass     
         for projetil in self.projeteis:
             if projetil.colisaoProjetil(self.Inimigo1):
-                self.Inimigo1.dano()
+                self.Inimigo1.hit()
                 self.projeteis.pop(self.projeteis.index(projetil))
             
 
