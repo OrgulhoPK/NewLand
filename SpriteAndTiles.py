@@ -1,6 +1,7 @@
 ''' .py com classes referentes a leitura csv 
    e impressão de todas os tiles'''
-import csv, sys,os
+
+import csv,os
 import pygame as pg
 
 from Configs import Config

@@ -13,6 +13,7 @@ class Imagem:
     Adventure = Inicial / '2 - the adventure.png'
     opcoes = Inicial / '3 - opcoes.png'
     menuPvP = Inicial / '4 - Menu PVP.png'
+    #Coloquei separado, porque no linux estava lendo no for em ordem diferente
     telaFundo1 = pg.image.load(telaFundo)
     Adventure = pg.image.load(Adventure)
     opcoes = pg.image.load(opcoes)

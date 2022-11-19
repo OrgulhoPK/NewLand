@@ -75,6 +75,9 @@ class Game:
         for i in self.estruturas:
            i.desenha(tela)
 
+        for i in self.lista:
+            pg.draw.rect(tela,Config.COR_Tela,i,2)
+
         self.contador +=1
         if self.contador +1 >= 176:
             self.contador = 0
