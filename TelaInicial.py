@@ -19,7 +19,6 @@ class PrimeiraTela:
         while not self.encerra:
             #Chamando o volume da musica do menu
             Sons.menu1.play()
-            #Mudando o volume da musica do menu iniciar
             Sons.menu1.set_volume(0.01)
             self.tratamento_eventos()
             self.desenha(self.tela)
@@ -40,12 +39,9 @@ class PrimeiraTela:
                 pg.quit()
 
         self.opcoes = self.SelectMenu(Config.TelaInicial)
-
         if self.opcoes == 1:
             self.StoryMode()
         
-        if self.opcoes == 2:
-            self.PvP()
 
 
 
@@ -66,8 +62,6 @@ class PrimeiraTela:
         if self.menu == 0:
             tela.blit(Imagem.opcoes, (490,391))
         
-        if self.menu == 2:
-            tela.blit(Imagem.menuPvP,(490,350))
 
         self.FPS_Clock.tick(30)
         pg.display.flip()     
@@ -83,31 +77,12 @@ class PrimeiraTela:
                     pg.quit()
                 if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                     self.menu = 0
-
-
-    def PvP(self): 
-        TelaInicial = [pg.Rect(560,424,130,29),
-                        pg.Rect(560,480,151,29)]
-        self.menu = 2
-        
-        while self.menu == 2:
-            self.opcoes = self.SelectMenu(TelaInicial)
-            self.desenha(self.tela)
-            for event in pg.event.get():
-                if (event.type == pg.QUIT):
-                    sys.exit()
-                    pg.quit()
-                if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
+                if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
                     self.menu = 0
-            if self.opcoes == 1:
-                self.menu = 0
-                Sons.menu1.stop()
-                self.encerra = True
-                Config.Tela = 2
-            if self.opcoes == 2:
-                if pg.mouse.get_pressed()[0]:
-                    self.menu = 0
-            
+                    self.encerra = True
+                    Sons.menu1.stop()
+                    Config.Telas = 2
+                               
 
 
     def SelectMenu(self,opcoes):
@@ -115,9 +90,7 @@ class PrimeiraTela:
         if opcoes[0].collidepoint((mx,my)):
             if pg.mouse.get_pressed()[0]:
                 return 1
-        if opcoes[1].collidepoint((mx,my)):
-            if pg.mouse.get_pressed()[0]:
-                return 2
+
 
         
 

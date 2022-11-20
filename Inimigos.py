@@ -32,6 +32,7 @@ class Inimigos:
     def hit(self):
         if self.vida>0:
             self.vida -=1
+            
         else:
             self.visible = False
 

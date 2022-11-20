@@ -2,25 +2,32 @@ import pygame as pg
 from Configs import Config
 from Imagens import Imagem
 from Projeteis import Projetil
-
+from Personagens import Personagem
 class Jogador:
-    def __init__(self,posXY, posWH): #(self, x, y, widht, height)
+    def __init__(self,posXY, posWH,personagem:Personagem): #(self, x, y, widht, height)
         self.X = posXY[0]
         self.Y = posXY[1]
         self.posWH = posWH #tamanhoOBJ
         self.movimento = 4
-        self.animation_count = 0    #é só um contador de animação (só pra trocar o frame)
+        #referente ao personagem
+        self.vida = 10
+        self.dano = 10
+        #referente ao personagem vivo ou nao
+        self.visible= True
+        self.personagem = personagem
+
+        #referente à animação do personagem    
+        self.anim_count = 0    #é só um contador de animação (trocar o frame)
         self.mov_direita = False
         self.mov_esquerda = False
         self.mov_cima = False
         self.mov_baixo = False
         self.atk = False
         self.countatk = 0
-        self.vida = 10
-        self.dano = 10
-        self.visible= True
-        
 
+
+        
+        
         #hitbox = X, Y , Largura, Altura  Rect()
         self.hitbox = pg.Rect(self.X+17,self.Y+8,31,57)
 
@@ -52,6 +59,7 @@ class Jogador:
                 if abs(i.left - self.hitbox.right) < collision_tolerance:
                     self.hitbox.right -= collision_tolerance
                     self.esquerda()
+
                         
 
     def disparo(self):
@@ -63,43 +71,55 @@ class Jogador:
         else:
             self.visible = False
 
+
+
+
     def desenhar(self,tela):
+        esq_Dir = self.personagem.sprites[0]
+        cima = self.personagem.sprites[1]
+        baixo = self.personagem.sprites[2]
+        ataque = self.personagem.sprites[3]
         #tratamento da animação (desenho)
         if self.visible:
-            if self.animation_count +1 >= 28:
-                self.animation_count = 0
-            self.animation_count +=1
+            if self.anim_count +1 >= 28:
+                self.anim_count = 0
+            self.anim_count +=1
 
             #Tratamento da animação de ataque
             if pg.mouse.get_pressed()[0]:
                 self.atk = True
             if self.atk:   
-                if self.countatk +1 >= 8:
+                if self.countatk +1 >= 17:
                     self.countatk = 0
                     self.atk = False
+
+                if self.countatk <=17:
+                    tela.blit(pg.transform.scale(ataque[self.countatk//2], (64,64)),(self.X-32,self.Y-45))
+        
                 self.countatk +=1
             
             if not self.atk:
                 if not self.mov_esquerda and not self.mov_direita and not self.mov_cima and not self.mov_baixo:
-                    tela.blit(pg.transform.scale(Imagem.andarP1B[0], (64,64)),(self.X,self.Y))
+                    tela.blit(pg.transform.scale(baixo[0], (64,64)),(self.X,self.Y))
                 
                 elif self.mov_direita or (self.mov_direita and (self.mov_cima or self.mov_baixo)):
                     
-                    tela.blit(pg.transform.scale(Imagem.andarP1D[self.animation_count//4], (64,64)),(self.X,self.Y))
+                    tela.blit(pg.transform.scale(esq_Dir[self.anim_count//4], (64,64)),(self.X,self.Y))
                     self.mov_direita = False
 
                 elif self.mov_esquerda or (self.mov_esquerda and (self.mov_cima or self.mov_baixo)):
-                    tela.blit(pg.transform.scale(pg.transform.flip(Imagem.andarP1D[self.animation_count//4],True,False), (64,64)),(self.X,self.Y))
+                    tela.blit(pg.transform.scale(pg.transform.flip(esq_Dir[self.anim_count//4],True,False), (64,64)),(self.X,self.Y))
                     self.mov_esquerda = False
 
                 elif self.mov_cima:
-                    tela.blit(pg.transform.scale(Imagem.andarP1C[self.animation_count//4], (64,64)),(self.X,self.Y))  
+                    tela.blit(pg.transform.scale(cima[self.anim_count//4], (64,64)),(self.X,self.Y))  
                     self.mov_cima = False
 
                 elif self.mov_baixo:
-                    tela.blit(pg.transform.scale(Imagem.andarP1B[self.animation_count//4], (64,64)),(self.X,self.Y))
+                    tela.blit(pg.transform.scale(baixo[self.anim_count//4], (64,64)),(self.X,self.Y))
                     self.mov_baixo = False
 
+            #atualizar posicao do hitbox
             self.hitbox = pg.Rect(self.X+17,self.Y+8,31,57)
             pg.draw.rect(tela,Config.COR_Tela,self.hitbox,2)
             pg.draw.rect(tela,(255,0,0),(self.hitbox[0],self.hitbox[1]-20,40,8))

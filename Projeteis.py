@@ -20,24 +20,29 @@ class Projetil:
         self.atk = False
         self.contador = 0
         self.raio = raio
+        self.multiplicador = 3
 
 
     def desenha(self,tela):
 
         self.contador += 1
 
-        if self.contador +1 >=8:
+        if self.contador +1 >=16:
             self.atk = False            
             self.x -= int(self.x_vel)
             self.y -= int(self.y_vel)
             
             pg.draw.circle(tela,(0,0,0),(self.x,self.y), self.raio)
 
-        if self.atk and self.contador <=7:
-            tela.blit(pg.transform.scale(Imagem.atk[self.contador], (64,64)),(self.x-32,self.y-45))
         
 
 
+    def ataque(self,lista):
+        for i in lista:
+            colide = self.colisaoProjetil(i)
+            if colide:
+                i.hit('dano')
+                
 
 
 

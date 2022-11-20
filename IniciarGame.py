@@ -10,12 +10,12 @@ from Imagens import Imagem
 
 
 class Game:
-    def __init__(self,tela):
+    def __init__(self,tela,jogadores):
         pg.init()
         self.FPS_CLOCK = pg.time.Clock()
         self.tela = tela
-        self.jogador = Jogador(posXY=(Config.Player_x,Config.Player_y),posWH = (32,32))
-        self.jogadores = []
+        #self.jogador = Jogador(posXY=(Config.Player_x,Config.Player_y),posWH = (32,32),personagem=)
+        self.jogador = jogadores
         
         self.projeteis = []
         self.encerrada = False
@@ -48,7 +48,7 @@ class Game:
                 sys.exit()            
             if event.type == pg.MOUSEBUTTONDOWN:
                 if pg.mouse.get_pressed()[0]:
-                    self.projeteis.append(Projetil(self.jogador.X+32,self.jogador.Y+45,5,mouse_x+1,mouse_y))              
+                    self.projeteis.append(Projetil(self.jogador.X+32,self.jogador.Y+45,5,mouse_x,mouse_y))              
                     #Sons.BarulhoProjetil(self)
         #for jogador in self.jogadores:
         #    if jogador.disparo():
@@ -70,13 +70,10 @@ class Game:
         for i in self.background:
             i.desenha(tela)
 
-        
 
         for i in self.estruturas:
            i.desenha(tela)
 
-        for i in self.lista:
-            pg.draw.rect(tela,Config.COR_Tela,i,2)
 
         self.contador +=1
         if self.contador +1 >= 176:
@@ -103,7 +100,7 @@ class Game:
     def movimentos(self):
         #trata somente dos movimentos dos jogadores
         # E trata dos limites de tela
-
+        
         if not self.jogador.atk:
             if pg.key.get_pressed()[pg.K_a] and (self.jogador.X > 0) :
                 self.jogador.esquerda()
@@ -120,11 +117,12 @@ class Game:
             if pg.key.get_pressed()[pg.K_s] and (self.jogador.Y + 64 < Config.S_HEIGHT) :
                 self.jogador.baixo()
                 self.jogador.mov_baixo = True
-        
+
 
 
     def colisoes(self,lista):
         self.jogador.colisao(lista)
+        
                 
 
 

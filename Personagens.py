@@ -1,14 +1,12 @@
 import pygame as pg
-import Configs
 
 
-class Personagens:
+class Personagem:
     def __init__(self,vida,dano,sprites):
         #vida,dano,skillbasica,skillespecial,estado
         self.vida = vida
         self.dano = dano
-        self.sprite = sprites
+        self.sprites = sprites  #[Esq_dir,cima,baixo,ataque]
+        #self.skills = skills
         self.habilidades = []
-
-
-
+        

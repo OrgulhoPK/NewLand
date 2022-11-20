@@ -4,10 +4,6 @@
 import csv,os
 import pygame as pg
 
-from Configs import Config
-
-
-
 
 #classe feita para gerar o mapa, apartir do arquivo CSV
 
@@ -32,7 +28,7 @@ def load_tiles(filename,tileset):
             if  line == 0:
                 pass
             else:
-                image.append(Tile(tileset[line],x*Config.MapW,y*Config.MapH))        
+                image.append(Tile(tileset[line],x*16,y*16))        
             x+=1
         y+=1
     return image
