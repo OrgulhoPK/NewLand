@@ -54,7 +54,7 @@ class Game:
         #    if jogador.disparo():
         #        pass     
         for projetil in self.projeteis:
-            if projetil.colisaoProjetil(self.Inimigo1):
+            if projetil.colisaoProjetil(self.Inimigo1) and self.Inimigo1.visible:
                 self.Inimigo1.hit()
                 self.projeteis.pop(self.projeteis.index(projetil))
             
