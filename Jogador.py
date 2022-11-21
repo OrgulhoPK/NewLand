@@ -67,6 +67,7 @@ class Jogador:
 
     def hit(self):
         if self.vida>0:
+            self.dano = True
             self.vida -=1
         else:
             self.visible = False
@@ -79,7 +80,8 @@ class Jogador:
         cima = self.personagem.sprites[1]
         baixo = self.personagem.sprites[2]
         ataque = self.personagem.sprites[3]
-        #tratamento da animação (desenho)
+
+        #Contador de animação (desenho)
         if self.visible:
             if self.anim_count +1 >= 28:
                 self.anim_count = 0
