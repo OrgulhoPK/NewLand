@@ -89,12 +89,12 @@ class Jogador:
             if pg.mouse.get_pressed()[0]:
                 self.atk = True
             if self.atk:   
-                if self.countatk +1 >= 17:
+                if self.countatk +1 >= 9:
                     self.countatk = 0
                     self.atk = False
 
-                if self.countatk <=17:
-                    tela.blit(pg.transform.scale(ataque[self.countatk//2], (64,64)),(self.X-32,self.Y-45))
+                if self.countatk <=8:
+                    tela.blit(pg.transform.scale(ataque[self.countatk], (64,64)),(self.X,self.Y))
         
                 self.countatk +=1
             

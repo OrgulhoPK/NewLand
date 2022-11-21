@@ -27,7 +27,7 @@ class Projetil:
 
         self.contador += 1
 
-        if self.contador +1 >=16:
+        if self.contador +1 >=9:
             self.atk = False            
             self.x -= int(self.x_vel)
             self.y -= int(self.y_vel)

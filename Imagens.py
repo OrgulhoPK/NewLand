@@ -31,7 +31,7 @@ class Imagem:
     Map = caminho.parent / 'Imagens' / 'Mapa PVP' / 'Map'
     file = Map / 'CSVs' / 'Background.csv'
     file2 = Map / 'CSVs' / 'Estruturas.csv'
-    Centro1 = caminho.parent / 'Images' / 'Mapa PVP' / 'Centro'
+    Centro1 = caminho.parent / 'Imagens' / 'Mapa PVP' / 'Centro'
 
     #leitura e separação do tileset
     localTile1 = Map /'Background.png'
