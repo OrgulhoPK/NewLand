@@ -24,6 +24,12 @@ class Imagem:
     #Carregamento Selecao personagens + Historias
     FundoSelecao = Inicial / 'Tela Selecao.png'
     FundoSelecao1 = pg.image.load(FundoSelecao)
+    Historia_Heitor = Inicial / 'Historia_D.Heitor.png'
+    HHeitor = pg.image.load(Historia_Heitor)
+    Historia_Ida = Inicial / 'Historia_Ida.png'
+    HIda = pg.image.load(Historia_Ida)
+    Historia_Jurupari = Inicial / 'Historia_Jurupari.png'
+    HJurupari = pg.image.load(Historia_Jurupari)
 
     
 

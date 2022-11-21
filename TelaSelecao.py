@@ -38,24 +38,26 @@ class TelaSelecao:
             self.contador = 0
         corArcoIris = (random.randint(0,255),random.randint(0,255),random.randint(0,255))
         tela.blit(Imagem.FundoSelecao1, (0,0))
-        tela.blit(Imagem.NomeTitulo[self.contador//4],(479,66))
+        tela.blit(Imagem.NomeTitulo[self.contador//4],(540,0))
 
 
 
         if self.rect == 1:
             pg.draw.rect(tela,corArcoIris,Config.SelecaoPersonagem[0],2)
-            tela.blit(pg.transform.scale(Imagem.C_andarD[self.contador//8], (64,64)),(320,240))
+            tela.blit(pg.transform.scale(Imagem.C_andarD[self.contador//8], (64,64)),(310,235))
+            tela.blit(Imagem.HHeitor,(860,310))
+
 
 
         if self.rect == 2:
             pg.draw.rect(tela,corArcoIris,Config.SelecaoPersonagem[1],2)
-            tela.blit(pg.transform.scale(Imagem.D_andarD[self.contador//8], (64,64)),(320,300))
-
+            tela.blit(pg.transform.scale(Imagem.D_andarD[self.contador//8], (64,64)),(310,300))
+            tela.blit(Imagem.HIda,(860,310))
 
         if self.rect == 3:
             pg.draw.rect(tela,corArcoIris,Config.SelecaoPersonagem[2],2)
-            tela.blit(pg.transform.scale(Imagem.S_andarD[self.contador//8], (64,64)),(320,360))
-
+            tela.blit(pg.transform.scale(Imagem.S_andarD[self.contador//8], (64,64)),(310,365))
+            tela.blit(Imagem.HJurupari,(860,310))
 
         if self.rect == 4:
             pg.draw.rect(tela,corArcoIris,Config.SelecaoPersonagem[3],2)
