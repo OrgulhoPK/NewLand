@@ -12,7 +12,7 @@ class Config:
     COR_Tela = (24,164,86) #verde
     COR_PlayerTest = (255,255,255) #branco
     COR_InimigoTest = (0,0,0) #preto
-    Jogadores = Personagem
+    Jogadores =Personagem
 
 
    
@@ -35,3 +35,5 @@ class Config:
     #Personagem = Personagem (vida,dano,Sprites:list , Skills: list)
     #clerigo
     D_Heitor = Personagem(10,10,Imagem.Sprites_Clerigo)
+    Ida = Personagem(10,10,Imagem.Sprites_Duelista)
+    Jurupari = Personagem(10,10,Imagem.Sprites_Shaman)

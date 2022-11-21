@@ -14,7 +14,6 @@ class TelaSelecao:
         self.opcoes = 0
         self.menu = 0
         self.rect = 0
-        self.clerigo = Config.D_Heitor
     def rodar(self):
         while not self.encerra:
             self.tratamento_eventos()
@@ -45,15 +44,17 @@ class TelaSelecao:
 
         if self.rect == 1:
             pg.draw.rect(tela,corArcoIris,Config.SelecaoPersonagem[0],2)
-            tela.blit(pg.transform.scale(Imagem.C_andarP1D[self.contador//8], (64,64)),(320,240))
+            tela.blit(pg.transform.scale(Imagem.C_andarD[self.contador//8], (64,64)),(320,240))
 
 
         if self.rect == 2:
             pg.draw.rect(tela,corArcoIris,Config.SelecaoPersonagem[1],2)
+            tela.blit(pg.transform.scale(Imagem.D_andarD[self.contador//8], (64,64)),(320,300))
 
 
         if self.rect == 3:
             pg.draw.rect(tela,corArcoIris,Config.SelecaoPersonagem[2],2)
+            tela.blit(pg.transform.scale(Imagem.S_andarD[self.contador//8], (64,64)),(320,360))
 
 
         if self.rect == 4:
@@ -72,14 +73,20 @@ class TelaSelecao:
         self.opcoes = self.SelectMenu(tela,Config.SelecaoPersonagem)
 
         if self.opcoes == 1:
-            Personagem = self.clerigo
+            Personagem = Config.D_Heitor
             Config.Jogadores = Jogador(posXY=(Config.Player_x,Config.Player_y),posWH = (32,32),personagem=Personagem)
             self.encerra = True
             Config.Telas = 3
         if self.opcoes == 2:
-            pass
+            Personagem = Config.Ida
+            Config.Jogadores = Jogador(posXY=(Config.Player_x,Config.Player_y),posWH = (32,32),personagem=Personagem)
+            self.encerra = True
+            Config.Telas = 3
         if self.opcoes == 3:
-            pass
+            Personagem = Config.Jurupari
+            Config.Jogadores = Jogador(posXY=(Config.Player_x,Config.Player_y),posWH = (32,32),personagem=Personagem)
+            self.encerra = True
+            Config.Telas = 3
         if self.opcoes == 4:
             pass
 

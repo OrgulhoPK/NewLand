@@ -81,23 +81,78 @@ class Imagem:
     cimaP1 =  Clerigo / 'andar' / 'cima'
     baixoP1 = Clerigo / 'andar' / 'baixo'   
     
-    C_andarP1D = [] #esquerda | direita
-    C_andarP1C = [] #cima P1
-    C_andarP1B = [] #baixo P1
+    C_andarD = [] #esquerda | direita
+    C_andarC = [] #cima P1
+    C_andarB = [] #baixo P1
     for i in esquerda_direitaP1.glob("*.png"):
-        C_andarP1D.append(pg.image.load(i))
+        C_andarD.append(pg.image.load(i))
     for i in cimaP1.glob("*.png"):
-        C_andarP1C.append(pg.image.load(i))
+        C_andarC.append(pg.image.load(i))
     for i in baixoP1.glob("*.png"):
-        C_andarP1B.append(pg.image.load(i))
+        C_andarB.append(pg.image.load(i))
 
     #animacao de atk
-    C_ataque = Clerigo / 'ataque'
+    C_ataque = Clerigo / 'ataque' / 'esquerda-direita'
+    # [cima,baixo,esquerda-direita]
     C_atk = []
     for i in C_ataque.glob("*.png"):
         C_atk.append(pg.image.load(i))
     
-    Sprites_Clerigo = [C_andarP1D,C_andarP1C,C_andarP1B,C_atk]
+    Sprites_Clerigo = [C_andarD,C_andarC,C_andarB,C_atk]
+
+
+    #Duelista
+    Duelista = Personagens / 'Duelista'
+
+    #carregamento do andar
+    esquerda_direitaP2 =  Duelista / 'andar' / 'esquerda-direita'
+    cimaP2 =  Duelista / 'andar' / 'cima'
+    baixoP2 = Duelista / 'andar' / 'baixo'   
+    
+    D_andarD = [] #esquerda | direita
+    D_andarC = [] #cima P1
+    D_andarB = [] #baixo P1
+    for i in esquerda_direitaP2.glob("*.png"):
+        D_andarD.append(pg.image.load(i))
+    for i in cimaP2.glob("*.png"):
+        D_andarC.append(pg.image.load(i))
+    for i in baixoP2.glob("*.png"):
+        D_andarB.append(pg.image.load(i))
+
+    #animacao de atk
+    D_ataque = Duelista / 'ataque' / 'esquerda-direita'
+    D_atk = []
+    for i in D_ataque.glob("*.png"):
+        D_atk.append(pg.image.load(i))
+    
+    Sprites_Duelista = [D_andarD,D_andarC,D_andarB,D_atk]
+
+
+    #Shaman
+    Shaman = Personagens / 'Shaman'
+
+    #carregamento do andar
+    esquerda_direitaP3 =  Shaman / 'andar' / 'esquerda-direita'
+    cimaP3 =  Shaman / 'andar' / 'cima'
+    baixoP3 = Shaman / 'andar' / 'baixo'   
+    
+    S_andarD = [] #esquerda | direita
+    S_andarC = [] #cima P3
+    S_andarB = [] #baixo P3
+    for i in esquerda_direitaP3.glob("*.png"):
+        S_andarD.append(pg.image.load(i))
+    for i in cimaP3.glob("*.png"):
+        S_andarC.append(pg.image.load(i))
+    for i in baixoP3.glob("*.png"):
+        S_andarB.append(pg.image.load(i))
+
+    #animacao de atk
+    S_ataque = Shaman / 'ataque' / 'esquerda-direita'
+    S_atk = []
+    for i in S_ataque.glob("*.png"):
+        S_atk.append(pg.image.load(i))
+    
+    Sprites_Shaman = [S_andarD,S_andarC,S_andarB,S_atk]
     
 
     
