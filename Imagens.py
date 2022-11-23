@@ -161,6 +161,12 @@ class Imagem:
     Sprites_Shaman = [S_andarD,S_andarC,S_andarB,S_atk]
     
 
+    #Ataque fireball
     
+    Habilidades = caminho.parent / 'Imagens' / 'Habilidades'
+    S_fireball = Habilidades / 'Fireball'
+    S_fireball1 = [] 
+    for i in S_fireball.glob("*.png"):
+        S_fireball1.append(pg.image.load(i))
 
 

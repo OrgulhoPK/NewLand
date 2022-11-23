@@ -21,11 +21,13 @@ class Projetil:
         self.contador = 0
         self.raio = raio
         self.multiplicador = 3
+        self.anim = 0
 
 
     def desenha(self,tela):
 
         self.contador += 1
+
 
         if self.contador +1 >=9:
             self.atk = False            
@@ -33,7 +35,16 @@ class Projetil:
             self.y -= int(self.y_vel)
             
             pg.draw.circle(tela,(0,0,0),(self.x,self.y), self.raio)
+            self.anim += 1
 
+
+            if self.anim + 1 >= 21:
+                self.anim = 0
+            
+            
+            
+            tela.blit(pg.transform.scale(Imagem.S_fireball1[self.anim//2],(32,32)),(self.x-16,self.y-16))
+        
         
 
 
