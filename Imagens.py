@@ -159,6 +159,33 @@ class Imagem:
         S_atk.append(pg.image.load(i))
     
     Sprites_Shaman = [S_andarD,S_andarC,S_andarB,S_atk]
+
+
+    #Tanker -------------------------------
+    Tanker = Personagens / 'Tanker'
+
+    #carregamento do andar
+    esquerda_direitaP4 =  Tanker / 'andar' / 'esquerda-direita'
+    cimaP4 =  Tanker / 'andar' / 'cima'
+    baixoP4 = Tanker / 'andar' / 'baixo'   
+    
+    T_andarD = [] #esquerda | direita
+    T_andarC = [] #cima P4
+    T_andarB = [] #baixo P4
+    for i in esquerda_direitaP4.glob("*.png"):
+        T_andarD.append(pg.image.load(i))
+    for i in cimaP4.glob("*.png"):
+        T_andarC.append(pg.image.load(i))
+    for i in baixoP4.glob("*.png"):
+        T_andarB.append(pg.image.load(i))
+
+    #animacao de atk
+    T_ataque = Tanker / 'ataque' / 'esquerda-direita'
+    T_atk = []
+    for i in T_ataque.glob("*.png"):
+        T_atk.append(pg.image.load(i))
+    
+    Sprites_Tanker = [T_andarD,T_andarC,T_andarB,T_atk]
     
 
 

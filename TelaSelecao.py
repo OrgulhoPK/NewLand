@@ -61,6 +61,7 @@ class TelaSelecao:
 
         if self.rect == 4:
             pg.draw.rect(tela,corArcoIris,SelecaoPersonagem[3],2)
+            tela.blit(pg.transform.scale(Imagem.T_andarD[self.contador//8], (64,64)),(310,430))
 
             
 
@@ -93,7 +94,11 @@ class TelaSelecao:
             self.encerra = True
             setup.NumTela = 3
         if self.opcoes == 4:
-            pass
+            Personagem = Ubiratan
+            NewPlayer = Jogador(posXY=(Player_x,Player_y),posWH = (32,32),personagem=Personagem)
+            AdicionarJogador(NewPlayer)
+            self.encerra = True
+            setup.NumTela = 3
 
 
     def SelectMenu(self,opcoes):

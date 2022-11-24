@@ -33,6 +33,8 @@ SelecaoPersonagem = [pg.Rect(120,249,157,50),
 D_Heitor = Personagem(10,10,Imagem.Sprites_Clerigo)
 Ida = Personagem(10,10,Imagem.Sprites_Duelista)
 Jurupari = Personagem(10,10,Imagem.Sprites_Shaman)
+Ubiratan = Personagem(10,10,Imagem.Sprites_Tanker)
+
 
 #Mob
 Soldadinho = Personagem(10,10,Imagem.Sprites_Soldadinho)
