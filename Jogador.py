@@ -1,7 +1,6 @@
 import pygame as pg
-from Configs import Config
-from Imagens import Imagem
-from Projeteis import Projetil
+from Configs import *
+
 from Personagens import Personagem
 class Jogador:
     def __init__(self,posXY, posWH,personagem:Personagem): #(self, x, y, widht, height)
@@ -26,8 +25,7 @@ class Jogador:
         self.countatk = 0
 
 
-        
-        
+
         #hitbox = X, Y , Largura, Altura  Rect()
         self.hitbox = pg.Rect(self.X+17,self.Y+8,31,57)
 
@@ -59,6 +57,7 @@ class Jogador:
                 if abs(i.left - self.hitbox.right) < collision_tolerance:
                     self.hitbox.right -= collision_tolerance
                     self.esquerda()
+                    
 
                         
 
@@ -124,6 +123,6 @@ class Jogador:
 
             #atualizar posicao do hitbox
             self.hitbox = pg.Rect(self.X+17,self.Y+8,31,57)
-            pg.draw.rect(tela,Config.COR_Tela,self.hitbox,2)
+            pg.draw.rect(tela,COR_Tela,self.hitbox,2)
             pg.draw.rect(tela,(255,0,0),(self.hitbox[0],self.hitbox[1]-20,40,8))
             pg.draw.rect(tela,(0,128,0),(self.hitbox[0],self.hitbox[1]-20,40 - (4 * (10-self.vida)),8))
