@@ -1,6 +1,6 @@
 import pygame as pg,sys,random
 
-from Configs import Config
+from Configs import *
 from Imagens import Imagem
 from Jogador import Jogador
 from Personagens import Personagem
@@ -28,7 +28,7 @@ class TelaSelecao:
                 pg.quit()
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 self.encerra = True
-                Config.Telas = 1
+                Telas = 1
 
 
 
@@ -43,25 +43,24 @@ class TelaSelecao:
 
 
         if self.rect == 1:
-            pg.draw.rect(tela,corArcoIris,Config.SelecaoPersonagem[0],2)
+            pg.draw.rect(tela,corArcoIris,SelecaoPersonagem[0],2)
             tela.blit(pg.transform.scale(Imagem.C_andarD[self.contador//8], (64,64)),(310,235))
             tela.blit(Imagem.HHeitor,(860,310))
 
 
 
         if self.rect == 2:
-            pg.draw.rect(tela,corArcoIris,Config.SelecaoPersonagem[1],2)
+            pg.draw.rect(tela,corArcoIris,SelecaoPersonagem[1],2)
             tela.blit(pg.transform.scale(Imagem.D_andarD[self.contador//8], (64,64)),(310,300))
             tela.blit(Imagem.HIda,(860,310))
 
         if self.rect == 3:
-            pg.draw.rect(tela,corArcoIris,Config.SelecaoPersonagem[2],2)
+            pg.draw.rect(tela,corArcoIris,SelecaoPersonagem[2],2)
             tela.blit(pg.transform.scale(Imagem.S_andarD[self.contador//8], (64,64)),(310,365))
             tela.blit(Imagem.HJurupari,(860,310))
 
         if self.rect == 4:
-            pg.draw.rect(tela,corArcoIris,Config.SelecaoPersonagem[3],2)
-            tela.blit(pg.transform.scale(Imagem.T_andarD[self.contador//8], (64,64)),(310,430))
+            pg.draw.rect(tela,corArcoIris,SelecaoPersonagem[3],2)
 
             
 
@@ -73,33 +72,31 @@ class TelaSelecao:
                 
 
     def Selecao(self,tela):
-        self.opcoes = self.SelectMenu(tela,Config.SelecaoPersonagem)
+        self.opcoes = self.SelectMenu(SelecaoPersonagem)
 
         if self.opcoes == 1:
-            Personagem = Config.D_Heitor
-            Config.Jogadores = Jogador(posXY=(Config.Player_x,Config.Player_y),posWH = (32,32),personagem=Personagem)
+            Personagem = D_Heitor
+            NewPlayer = Jogador(posXY=(Player_x,Player_y),posWH = (32,32),personagem=Personagem)
+            AdicionarJogador(NewPlayer)
             self.encerra = True
-            Config.Telas = 3
+            setup.NumTela = 3
         if self.opcoes == 2:
-            Personagem = Config.Ida
-            Config.Jogadores = Jogador(posXY=(Config.Player_x,Config.Player_y),posWH = (32,32),personagem=Personagem)
+            Personagem = Ida
+            NewPlayer = Jogador(posXY=(Player_x,Player_y),posWH = (32,32),personagem=Personagem)
+            AdicionarJogador(NewPlayer)
             self.encerra = True
-            Config.Telas = 3
+            setup.NumTela = 3
         if self.opcoes == 3:
-            Personagem = Config.Jurupari
-            Config.Jogadores = Jogador(posXY=(Config.Player_x,Config.Player_y),posWH = (32,32),personagem=Personagem)
+            Personagem = Jurupari
+            NewPlayer = Jogador(posXY=(Player_x,Player_y),posWH = (32,32),personagem=Personagem)
+            AdicionarJogador(NewPlayer)
             self.encerra = True
-            Config.Telas = 3
+            setup.NumTela = 3
         if self.opcoes == 4:
-            Personagem = Config.Ubiratan
-            Config.Jogadores = Jogador(posXY=(Config.Player_x,Config.Player_y),posWH = (32,32),personagem=Personagem)
-            self.encerra = True
-            Config.Telas = 3
-            
-            
+            pass
 
 
-    def SelectMenu(self,tela,opcoes):
+    def SelectMenu(self,opcoes):
         mx,my = pg.mouse.get_pos()
         if opcoes[0].collidepoint((mx,my)):
             self.rect = 1

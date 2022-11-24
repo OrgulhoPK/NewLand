@@ -1,7 +1,7 @@
 import pygame as pg
 import sys
 
-from Configs import Config
+from Configs import *
 from Imagens import Imagem
 from Sons import Sons
 
@@ -14,21 +14,15 @@ class PrimeiraTela:
         self.contador = 0
         self.opcoes = 0
         self.menu = 0
+
     
     def rodar(self):
         while not self.encerra:
             #Chamando o volume da musica do menu
             Sons.menu1.play()
-            Sons.menu1.set_volume(0.01)
+            Sons.menu1.set_volume(0.10)
             self.tratamento_eventos()
             self.desenha(self.tela)
-
-    
-    
-    
-        
-        
-         
 
     
     def tratamento_eventos(self):
@@ -38,13 +32,9 @@ class PrimeiraTela:
                 sys.exit()
                 pg.quit()
 
-        self.opcoes = self.SelectMenu(Config.TelaInicial)
+        self.opcoes = self.SelectMenu(TelaInicial)
         if self.opcoes == 1:
             self.StoryMode()
-        
-
-
-
 
 
     def desenha(self,tela):
@@ -61,7 +51,6 @@ class PrimeiraTela:
         tela.blit(Imagem.Adventure, (500,263))
         if self.menu == 0:
             tela.blit(Imagem.opcoes, (490,391))
-        
 
         self.FPS_Clock.tick(30)
         pg.display.flip()     
@@ -80,8 +69,9 @@ class PrimeiraTela:
                 if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
                     self.menu = 0
                     self.encerra = True
+                    setup.NumTela = 2
                     Sons.menu1.stop()
-                    Config.Telas = 2
+                    
                                
 
 

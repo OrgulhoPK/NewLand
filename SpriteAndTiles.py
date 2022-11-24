@@ -1,6 +1,5 @@
 ''' .py com classes referentes a leitura csv 
    e impressão de todas os tiles'''
-
 import csv,os
 import pygame as pg
 
@@ -61,9 +60,8 @@ class Tile:
     def rect (self):
 
         return (self.posX,self.posY)
-
+    
 
     def desenha(self,screen):
-        imagem = self.tileImage.convert()
         self.tileImage.set_colorkey((0,0,0))
         screen.blit(self.tileImage,(self.posX,self.posY))

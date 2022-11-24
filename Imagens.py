@@ -79,9 +79,8 @@ class Imagem:
     #Animação dos Personagens em ordem
     Personagens = caminho.parent / 'Imagens' / 'Personagens'
 
-    #Clerigo
+    #Clerigo ---------------------------------
     Clerigo = Personagens / 'Clerigo'
-
     #carregamento do andar
     esquerda_direitaP1 =  Clerigo / 'andar' / 'esquerda-direita'
     cimaP1 =  Clerigo / 'andar' / 'cima'
@@ -107,7 +106,8 @@ class Imagem:
     Sprites_Clerigo = [C_andarD,C_andarC,C_andarB,C_atk]
 
 
-    #Duelista
+  
+    #Duelista ------------------------
     Duelista = Personagens / 'Duelista'
 
     #carregamento do andar
@@ -134,7 +134,7 @@ class Imagem:
     Sprites_Duelista = [D_andarD,D_andarC,D_andarB,D_atk]
 
 
-    #Shaman
+    #Shaman -------------------------------
     Shaman = Personagens / 'Shaman'
 
     #carregamento do andar
@@ -161,51 +161,37 @@ class Imagem:
     Sprites_Shaman = [S_andarD,S_andarC,S_andarB,S_atk]
     
 
-#Tanker
-    Tanker = Personagens / 'Tanker'
+
+
+    #Animacao do Mob
+    Soldado = Personagens / 'Mob_Soldadinho'
 
     #carregamento do andar
-    esquerda_direitaP4 =  Tanker / 'andar' / 'esquerda-direita'
-    cimaP4 =  Tanker / 'andar' / 'cima'
-    baixoP4 = Tanker / 'andar' / 'baixo'   
+    esquerda_direitaMob =  Soldado / 'andar' / 'esquerda-direita'
+    cimaMob =  Soldado / 'andar' / 'cima'
+    baixoMob = Soldado / 'andar' / 'baixo'   
     
-    T_andarD = [] #esquerda | direita
-    T_andarC = [] #cima P1
-    T_andarB = [] #baixo P1
-    for i in esquerda_direitaP4.glob("*.png"):
-        T_andarD.append(pg.image.load(i))
-    for i in cimaP4.glob("*.png"):
-        T_andarC.append(pg.image.load(i))
-    for i in baixoP4.glob("*.png"):
-        T_andarB.append(pg.image.load(i))
+    Mob_andarD = [] #esquerda | direita
+    Mob_andarC = [] #cima P3
+    Mob_andarB = [] #baixo P3
+    for i in esquerda_direitaMob.glob("*.png"):
+        Mob_andarD.append(pg.image.load(i))
+    for i in cimaMob.glob("*.png"):
+        Mob_andarC.append(pg.image.load(i))
+    for i in baixoMob.glob("*.png"):
+        Mob_andarB.append(pg.image.load(i))
 
     #animacao de atk
-    T_ataque = Tanker / 'ataque' / 'esquerda-direita'
-    T_atk = []
-    for i in T_ataque.glob("*.png"):
-        T_atk.append(pg.image.load(i))
+    Mob_ataque = Shaman / 'ataque' / 'esquerda-direita'
+    Mob_atk = []
+    for i in Mob_ataque.glob("*.png"):
+        Mob_atk.append(pg.image.load(i))
     
-    Sprites_Tanker = [T_andarD,T_andarC,T_andarB,T_atk]
+    Sprites_Soldadinho = [Mob_andarD,Mob_andarC,Mob_andarB,Mob_atk]
 
+    #Animação ataques 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    #Ataque fireball
+    #Ataque fireball ----------------------
     
     Habilidades = caminho.parent / 'Imagens' / 'Habilidades'
     S_fireball = Habilidades / 'Fireball'
@@ -214,5 +200,3 @@ class Imagem:
         S_fireball1.append(pg.image.load(i))
 
 
-
-print(len(Imagem.T_andarD))

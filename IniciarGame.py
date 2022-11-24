@@ -1,25 +1,24 @@
 import pygame as pg
 
-from Configs import Config
-from Jogador import Jogador
+from Configs import *
 from Projeteis import Projetil
 import sys
-from Inimigos import Inimigos
+from Inimigos import Inimigo
 from Imagens import Imagem
 #from Sons import Sons
 
 
 class Game:
     def __init__(self,tela,jogadores):
-        pg.init()
+
         self.FPS_CLOCK = pg.time.Clock()
         self.tela = tela
-        #self.jogador = Jogador(posXY=(Config.Player_x,Config.Player_y),posWH = (32,32),personagem=)
-        self.jogador = jogadores
+        #self.jogador = Jogador(posXY=( Player_x, Player_y),posWH = (32,32),personagem=)
+        self.jogador = jogadores[0]
         
         self.projeteis = []
         self.encerrada = False
-        self.Inimigo1 = Inimigos(posXY=(750,400),posWH = (32,32))
+        self.Inimigo1 = Inimigo(posXY=(991,40),posWH =(32,32),personagem=Soldadinho)
         self.contador = 0
         self.background = Imagem.Background
         self.estruturas = Imagem.Estruturas
@@ -29,14 +28,9 @@ class Game:
     def rodar (self):
         while not self.encerrada:
             self.tratamento_eventos()
-            self.atualiza_estado()
             self.colisoes(self.lista)
             self.desenha(self.tela)         
 
-
-    def atualiza_estado(self):
-        #self.jogador.atualizar_posicao()
-        pass
 
     def tratamento_eventos(self):         
         self.movimentos()
@@ -106,7 +100,7 @@ class Game:
                 self.jogador.esquerda()
                 self.jogador.mov_esquerda = True
 
-            if pg.key.get_pressed()[pg.K_d] and (self.jogador.X + 64 < Config.S_WIDHT) :          
+            if pg.key.get_pressed()[pg.K_d] and (self.jogador.X + 64 < S_WIDHT) :          
                 self.jogador.direita()
                 self.jogador.mov_direita = True
 
@@ -114,7 +108,7 @@ class Game:
                 self.jogador.cima()   
                 self.jogador.mov_cima = True                 
                       
-            if pg.key.get_pressed()[pg.K_s] and (self.jogador.Y + 64 < Config.S_HEIGHT) :
+            if pg.key.get_pressed()[pg.K_s] and (self.jogador.Y + 64 < S_HEIGHT) :
                 self.jogador.baixo()
                 self.jogador.mov_baixo = True
 

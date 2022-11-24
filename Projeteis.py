@@ -2,7 +2,7 @@ import math
 import pygame as pg
 import random 
 
-from Configs import Config
+from Configs import *
 from Imagens import Imagem
 
 
