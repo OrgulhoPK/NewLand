@@ -18,7 +18,7 @@ class Game:
         
         self.projeteis = []
         self.encerrada = False
-        self.Inimigo1 = Inimigo(posXY=(991,40),posWH =(32,32),personagem=Soldadinho)
+        self.Inimigo1 = Inimigo(posXY=(991,350),posWH =(32,32),personagem=Soldadinho)
         self.contador = 0
         self.background = Imagem.Background
         self.estruturas = Imagem.Estruturas
