@@ -11,7 +11,7 @@ class Inimigo:
         self.posWH = posWH
         self.inimigovx = 0
         self.inimigovy = 0
-        self.speed = 0.8
+        self.speed = 1
         self.atk = False
         self.move = True
         self.anim_mov = 0
@@ -104,18 +104,17 @@ class Inimigo:
             colide = self.hitbox.colliderect(i)
             if colide:          
                 if abs(i.top - self.hitbox.bottom) < collision_tolerance:
-                    self.hitbox.bottom -= collision_tolerance
-                    self.y -= self.inimigovy 
+                    self.hitbox.bottom -= collision_tolerance 
+                    self.y -= self.speed
                 if abs(i.bottom - self.hitbox.top) < collision_tolerance:
-                    self.hitbox.top += collision_tolerance
-                    self.y += self.inimigovy 
+                    self.hitbox.top += collision_tolerance 
+                    self.y += self.speed
                 if abs(i.right - self.hitbox.left) < collision_tolerance:
-                    self.hitbox.left += collision_tolerance
-                    self.x += self.inimigovx  
+                    self.hitbox.left += collision_tolerance 
+                    self.x += self.speed
                 if abs(i.left - self.hitbox.right) < collision_tolerance:
-                    self.hitbox.right -= collision_tolerance
-                    self.x -= self.inimigovx 
-                    
+                    self.hitbox.right -= collision_tolerance 
+                    self.x -= self.speed
 
 
 

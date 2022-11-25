@@ -51,16 +51,16 @@ class Jogador:
             colide = self.hitbox.colliderect(i)
             if colide:          
                 if abs(i.top - self.hitbox.bottom) < collision_tolerance:
-                    self.hitbox.bottom -= collision_tolerance
+                    self.hitbox.bottom -= collision_tolerance 
                     self.cima()
                 if abs(i.bottom - self.hitbox.top) < collision_tolerance:
-                    self.hitbox.top += collision_tolerance
+                    self.hitbox.top += collision_tolerance 
                     self.baixo()
                 if abs(i.right - self.hitbox.left) < collision_tolerance:
-                    self.hitbox.left += collision_tolerance
+                    self.hitbox.left += collision_tolerance 
                     self.direita()  
                 if abs(i.left - self.hitbox.right) < collision_tolerance:
-                    self.hitbox.right -= collision_tolerance
+                    self.hitbox.right -= collision_tolerance 
                     self.esquerda()
                     
 
