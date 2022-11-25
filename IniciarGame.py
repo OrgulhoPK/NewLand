@@ -14,7 +14,8 @@ class Game:
         self.FPS_CLOCK = pg.time.Clock()
         self.tela = tela
         #self.jogador = Jogador(posXY=( Player_x, Player_y),posWH = (32,32),personagem=)
-        self.jogador = jogadores[0]
+        self.jogador1 = jogadores[0]
+        self.jogador2 = jogadores[1]
         
         self.projeteis = []
         self.encerrada = False
@@ -46,7 +47,8 @@ class Game:
 
             if event.type == pg.MOUSEBUTTONDOWN:
                 if pg.mouse.get_pressed()[0]:
-                    self.projeteis.append(Projetil(self.jogador.X+32,self.jogador.Y+45,5,mouse_x,mouse_y))              
+                    self.projeteis.append(Projetil(self.jogador1.X+32,self.jogador1.Y+45,5,mouse_x,mouse_y))      
+                    self.projeteis.append(Projetil(self.jogador2.X+32,self.jogador2.Y+45,5,mouse_x,mouse_y))          
                     #Sons.BarulhoProjetil(self)
         #for jogador in self.jogadores:
         #    if jogador.disparo():
@@ -78,7 +80,8 @@ class Game:
         
 
         #desenho jogadores / inimigos
-        self.jogador.desenhar(tela) 
+        self.jogador1.desenhar(tela) 
+        self.jogador2.desenhar(tela) 
         self.Inimigo1.desenhar(tela)
         
         #Desenho projeteis
@@ -96,27 +99,47 @@ class Game:
         #trata somente dos movimentos dos jogadores
         # E trata dos limites de tela
         
-        if not self.jogador.atk:
-            if pg.key.get_pressed()[pg.K_a] and (self.jogador.X > 0) :
-                self.jogador.esquerda()
-                self.jogador.mov_esquerda = True
+        if not self.jogador1.atk:
+            if pg.key.get_pressed()[pg.K_a] and (self.jogador1.X > 0) :
+                self.jogador1.esquerda()
+                self.jogador1.mov_esquerda = True
 
-            if pg.key.get_pressed()[pg.K_d] and (self.jogador.X + 64 < S_WIDHT) :          
-                self.jogador.direita()
-                self.jogador.mov_direita = True
+            if pg.key.get_pressed()[pg.K_d] and (self.jogador1.X + 64 < S_WIDHT) :          
+                self.jogador1.direita()
+                self.jogador1.mov_direita = True
 
-            if pg.key.get_pressed()[pg.K_w] and (self.jogador.Y > 0) : 
-                self.jogador.cima()   
-                self.jogador.mov_cima = True                 
+            if pg.key.get_pressed()[pg.K_w] and (self.jogador1.Y > 0) : 
+                self.jogador1.cima()   
+                self.jogador1.mov_cima = True                 
                       
-            if pg.key.get_pressed()[pg.K_s] and (self.jogador.Y + 64 < S_HEIGHT) :
-                self.jogador.baixo()
-                self.jogador.mov_baixo = True
+            if pg.key.get_pressed()[pg.K_s] and (self.jogador1.Y + 64 < S_HEIGHT) :
+                self.jogador1.baixo()
+                self.jogador1.mov_baixo = True
+            
+            
+            #Movimento jogador 2
+        if not self.jogador2.atk:
+            if pg.key.get_pressed()[pg.K_j] and (self.jogador2.X > 0) :
+                self.jogador2.esquerda()
+                self.jogador2.mov_esquerda = True
+
+            if pg.key.get_pressed()[pg.K_l] and (self.jogador2.X + 64 < S_WIDHT) :          
+                self.jogador2.direita()
+                self.jogador2.mov_direita = True
+
+            if pg.key.get_pressed()[pg.K_i] and (self.jogador2.Y > 0) : 
+                self.jogador2.cima()   
+                self.jogador2.mov_cima = True                 
+                      
+            if pg.key.get_pressed()[pg.K_k] and (self.jogador2.Y + 64 < S_HEIGHT) :
+                self.jogador2.baixo()
+                self.jogador2.mov_baixo = True
 
 
 
     def colisoes(self,lista):
-        self.jogador.colisao(lista)
+        self.jogador1.colisao(lista)
+        self.jogador2.colisao(lista)
         
                 
 
