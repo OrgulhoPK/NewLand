@@ -29,16 +29,14 @@ class Projetil:
         self.contador += 1
 
 
-        if self.contador +1 >=9:
+        if self.contador +1 >=17:
             self.atk = False            
             self.x -= int(self.x_vel)
             self.y -= int(self.y_vel)
             self.anim += 1
             if self.anim + 1 >= 21:
-                self.anim = 0
-            
-            
-            
+                self.anim = 0     
+                  
             tela.blit(pg.transform.scale(Imagem.S_fireball1[self.anim//2],(32,32)),(self.x-16,self.y-16))
         
         

@@ -16,12 +16,21 @@ class melee:
     def sleep(self):
         pass
 
-    def Basica(self,tela,x,y,alvo):
-        self.x = x
-        self.y = y
+    #mob e a duelista
+    def Basica(self,dados):
+        tela = dados[0]
+        self.x = dados[1]
+        self.y = dados[2]
+        alvo = dados[3]
         rect = pg.Rect(self.x+32,self.y+20,80,40)
         if rect.colliderect(alvo.hitbox):
-            print('hit')
+            alvo.hit()
+
+            # - - - - - - - - -
+            # 1 1 + 0 0 0 0 + -
+            # 1 1 0 0 0 0 0 0 -
+            # 1 1 + 0 0 0 0 + -
+            # - - - - - - - - -
 
 
     

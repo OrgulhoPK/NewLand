@@ -16,7 +16,8 @@ class Jogador:
         self.visible= True
         self.sprites = personagem.sprites
         self.habilidade = personagem.habilidade
-
+        self.cooldown1= 0
+        self.cooldown2= 0
 
         #referente à animação do personagem    
         self.anim_mov = 0    #é só um contador de animação (trocar o frame)
@@ -24,8 +25,7 @@ class Jogador:
         self.mov_vx = 0
         self.mov_vy = 0
         self.atk = False
-
-
+        self.dados = []
 
 
         #hitbox = X, Y , Largura, Altura  Rect()
@@ -70,7 +70,7 @@ class Jogador:
         pass
 
     def ataque(self,tela,alvo):
-        self.habilidade.Basica(tela,self.X,self.Y,alvo)
+        self.dados= [tela,self.X,self.Y,alvo]
         
 
     def hit(self):
@@ -98,17 +98,21 @@ class Jogador:
             self.anim_mov +=1
 
             #Tratamento da animação de ataque
-            if pg.mouse.get_pressed()[0] :
-
-                self.atk = True
-            if self.atk:   
-                if self.countatk +1 >= 9:
+            #if pg.mouse.get_pressed()[0] :
+            #    self.atk = True
+            if self.atk:
+                self.cooldown1 = 0   
+                if self.countatk +1 == 15:
+                    self.habilidade.Basica(self.dados)
+                if self.countatk +1 >= 17:
                     self.countatk = 0
                     self.atk = False
+                    self.dados.clear()
+                
                 if self.nome == 'Ida' or self.nome == 'Soldadinho':
-                    tela.blit(ataque[self.countatk],(self.X-64,self.Y-64))
+                    tela.blit(ataque[self.countatk//2],(self.X-64,self.Y-64))
                 else:
-                    tela.blit(pg.transform.scale(ataque[self.countatk], (64,64)),(self.X,self.Y))
+                    tela.blit(pg.transform.scale(ataque[self.countatk//2], (64,64)),(self.X,self.Y))
         
                 self.countatk +=1
             
@@ -135,6 +139,9 @@ class Jogador:
                     tela.blit(pg.transform.scale(baixo[self.anim_mov//4], (64,64)),(self.X,self.Y))
                 
                 self.parar()
+                self.cooldown1 += 1
+
+
                 
 
 

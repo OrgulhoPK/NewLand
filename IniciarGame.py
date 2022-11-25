@@ -30,12 +30,13 @@ class Game:
         while not self.encerrada:
             self.tratamento_eventos()
             self.colisoes(self.lista)
-            self.desenha(self.tela)         
+            self.desenha(self.tela)     
+               
 
 
-    def tratamento_eventos(self):         
+    def tratamento_eventos(self):
+        mouse_x,mouse_y = pg.mouse.get_pos()         
         self.movimentos()
-        mouse_x,mouse_y = pg.mouse.get_pos()
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
@@ -44,31 +45,38 @@ class Game:
                 self.encerrada = True
                 setup.NumTela = 2
                 setup.Jogadores.clear()
+
+            #tratamento dos ataques
+            #teclas de ataque básico
             if event.type == pg.KEYDOWN and event.key == pg.K_e:
-                self.jogador1.atk = True
-                self.jogador1.ataque(self.tela,self.Inimigo1)
-
+                if self.jogador1.cooldown1 >= 30:
+                    self.jogador1.ataque(self.tela,self.Inimigo1)
+                    self.jogador1.atk = True
+                    
             if event.type == pg.KEYDOWN and event.key == pg.K_o:
-                self.jogador2.atk = True
-                self.jogador2.ataque(self.tela,self.Inimigo1)
+                if self.jogador2.cooldown1 >= 30:
+                    self.jogador2.ataque(self.tela,self.Inimigo1)
+                    self.jogador2.atk = True
+                    
 
+            #Teclas de habilidades especiais
             if event.type == pg.MOUSEBUTTONDOWN:
                 if pg.mouse.get_pressed()[0]:
                     self.projeteis.append(Projetil(self.jogador1.X+32,self.jogador1.Y+45,5,mouse_x,mouse_y))      
                     self.projeteis.append(Projetil(self.jogador2.X+32,self.jogador2.Y+45,5,mouse_x,mouse_y))          
                     #Sons.BarulhoProjetil(self)
-    
 
-        #for jogador in self.jogadores:
-        #    if jogador.disparo():
-        #        pass     
         for projetil in self.projeteis:
             if projetil.colisaoProjetil(self.Inimigo1) and self.Inimigo1.visible:
                 self.Inimigo1.hit()
                 self.projeteis.pop(self.projeteis.index(projetil))
+            
         
             
-            
+
+        
+
+
     
     def desenha(self,tela):
         # mapa

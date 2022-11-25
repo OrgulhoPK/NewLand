@@ -84,6 +84,7 @@ class Inimigo:
 
 
     def hit(self):
+        print('hit')
         if self.vida>0:
             self.vida -=1
             
