@@ -11,14 +11,13 @@ class TelaSelecao:
         self.encerra = False
         self.FPS_Clock = pg.time.Clock()
         self.contador = 0
-        self.opcoes = 0
         self.menu = 0
         self.rect = 0
     def rodar(self):
         while not self.encerra:
             self.tratamento_eventos()
             self.desenha(self.tela)
-            self.Selecao(self.tela)    
+            self.DefinirJogadores()    
 
     def tratamento_eventos(self):
     
@@ -72,33 +71,49 @@ class TelaSelecao:
     
                 
 
-    def Selecao(self,tela):
-        self.opcoes = self.SelectMenu(SelecaoPersonagem)
+    def Selecao(self):
+        opcoes = self.SelectMenu(SelecaoPersonagem)
 
-        if self.opcoes == 1:
+        if opcoes == 1:
             Personagem = D_Heitor
             NewPlayer = Jogador(posXY=(Player_x,Player_y),posWH = (32,32),personagem=Personagem)
             AdicionarJogador(NewPlayer)
-            self.encerra = True
-            setup.NumTela = 3
-        if self.opcoes == 2:
+           
+        if opcoes == 2:
             Personagem = Ida
             NewPlayer = Jogador(posXY=(Player_x,Player_y),posWH = (32,32),personagem=Personagem)
             AdicionarJogador(NewPlayer)
-            self.encerra = True
-            setup.NumTela = 3
-        if self.opcoes == 3:
+            
+        if opcoes == 3:
             Personagem = Jurupari
             NewPlayer = Jogador(posXY=(Player_x,Player_y),posWH = (32,32),personagem=Personagem)
             AdicionarJogador(NewPlayer)
-            self.encerra = True
-            setup.NumTela = 3
-        if self.opcoes == 4:
+            
+        if opcoes == 4:
             Personagem = Ubiratan
             NewPlayer = Jogador(posXY=(Player_x,Player_y),posWH = (32,32),personagem=Personagem)
             AdicionarJogador(NewPlayer)
-            self.encerra = True
-            setup.NumTela = 3
+            
+
+    def DefinirJogadores(self):
+        
+        if len(Jogadores) != 0:
+            Jogadores.clear()
+        
+        self.Selecao()
+        
+        if len(Jogadores) == 1:
+            print("1")
+            self.Selecao()
+        
+        
+        
+        
+
+        
+
+
+
 
 
     def SelectMenu(self,opcoes):
@@ -106,6 +121,7 @@ class TelaSelecao:
         if opcoes[0].collidepoint((mx,my)):
             self.rect = 1
             if pg.mouse.get_pressed()[0]:
+                print("um")
                 return 1
         if opcoes[1].collidepoint((mx,my)):
             self.rect = 2
