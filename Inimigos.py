@@ -22,6 +22,7 @@ class Inimigo:
         self.hitbox = pg.Rect(self.x+17,self.y+34,31,31)
         self.raio = 500
         self.personagem = personagem
+
          
     def movimento(self,jogador1:Jogador,jogador2:Jogador):
         distancia1 = math.sqrt(((self.hitbox.centerx - jogador1.hitbox.centerx)**2) +
@@ -100,7 +101,6 @@ class Inimigo:
 
     def desenhar(self,tela):
         esq_Dir = self.personagem.sprites[0]
-        cima = self.personagem.sprites[1]
         baixo = self.personagem.sprites[2]
         ataque = self.personagem.sprites[3]
         if self.visible:
@@ -114,19 +114,10 @@ class Inimigo:
                 
                 elif self.inimigovx>0 or (self.inimigovx>0 and (self.inimigovy>0 or self.inimigovy<0)):                    
                     tela.blit(pg.transform.scale(esq_Dir[self.anim_mov//4], (64,64)),(self.x,self.y))
-                    self.mov_direita = False
 
                 elif self.inimigovx<0 or (self.inimigovx<0 and (self.inimigovy>0 or self.inimigovy<0)):
                     tela.blit(pg.transform.scale(pg.transform.flip(esq_Dir[self.anim_mov//4],True,False), (64,64)),(self.x,self.y))
-                    self.mov_esquerda = False
 
-                elif self.inimigovy<0:
-                    tela.blit(pg.transform.scale(cima[self.anim_mov//4], (64,64)),(self.x,self.y))  
-                    self.mov_cima = False
-
-                elif self.inimigovy>0:
-                    tela.blit(pg.transform.scale(baixo[self.anim_mov//4], (64,64)),(self.x,self.y))
-                    self.mov_baixo = False
             #pg.draw.circle(tela,(COR_Tela),(x+16,y+16), self.raio)
 
 
