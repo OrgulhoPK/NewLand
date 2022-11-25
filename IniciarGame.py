@@ -98,6 +98,7 @@ class Game:
     def movimentos(self):
         #trata somente dos movimentos dos jogadores
         # E trata dos limites de tela
+
         
         if not self.jogador1.atk:
             if pg.key.get_pressed()[pg.K_a] and (self.jogador1.X > 0) :
@@ -135,11 +136,16 @@ class Game:
                 self.jogador2.baixo()
                 self.jogador2.mov_baixo = True
 
+        #trata movimento do inimigo
+        self.Inimigo1.movimento(self.jogador1,self.jogador2)
 
 
     def colisoes(self,lista):
         self.jogador1.colisao(lista)
         self.jogador2.colisao(lista)
+        
+
+
         
                 
 

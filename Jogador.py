@@ -9,11 +9,12 @@ class Jogador:
         self.posWH = posWH #tamanhoOBJ
         self.movimento = 4
         #referente ao personagem
-        self.vida = 10
-        self.dano = 10
+        self.vida = personagem.vida
+        self.dano = personagem.dano
         #referente ao personagem vivo ou nao
         self.visible= True
         self.personagem = personagem
+
 
         #referente à animação do personagem    
         self.anim_mov = 0    #é só um contador de animação (trocar o frame)
@@ -27,7 +28,7 @@ class Jogador:
 
 
         #hitbox = X, Y , Largura, Altura  Rect()
-        self.hitbox = pg.Rect(self.X+17,self.Y+8,31,57)
+        self.hitbox = pg.Rect(self.X+17,self.Y+34,31,31)
 
     #criar funções para movimentar o jogador
     def esquerda(self):
@@ -41,7 +42,7 @@ class Jogador:
 
     #Função que calcula colisão com uma lista de objetos
     def colisao(self,alvo):
-        collision_tolerance = 8
+        collision_tolerance = 10
         for i in alvo:
             colide = self.hitbox.colliderect(i)
             if colide:          
@@ -122,7 +123,7 @@ class Jogador:
                     self.mov_baixo = False
 
             #atualizar posicao do hitbox
-            self.hitbox = pg.Rect(self.X+17,self.Y+8,31,57)
+            self.hitbox = pg.Rect(self.X+17,self.Y+34,31,31)
             pg.draw.rect(tela,COR_Tela,self.hitbox,2)
-            pg.draw.rect(tela,(255,0,0),(self.hitbox[0],self.hitbox[1]-20,40,8))
-            pg.draw.rect(tela,(0,128,0),(self.hitbox[0],self.hitbox[1]-20,40 - (4 * (10-self.vida)),8))
+            pg.draw.rect(tela,(255,0,0),(self.X+17,self.Y,40,8))
+            pg.draw.rect(tela,(0,128,0),(self.X+17,self.Y,40 - (4 * (10-self.vida)),8))

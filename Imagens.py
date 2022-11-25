@@ -215,6 +215,7 @@ class Imagem:
         Mob_atk.append(pg.image.load(i))
     
     Sprites_Soldadinho = [Mob_andarD,Mob_andarC,Mob_andarB,Mob_atk]
+    print(len(Mob_andarD))
 
     #Animação ataques 
 
