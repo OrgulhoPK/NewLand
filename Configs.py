@@ -42,13 +42,10 @@ Soldadinho = Personagem(10,10,Imagem.Sprites_Soldadinho)
 
 
 #Jogadores 1 e 2
-Jogadores = []
-def AdicionarJogador(NewPlayer):
-    Jogadores.append(NewPlayer)
-
 
 class setup:
     NumTela = 0
+    Jogadores = []
 
 
 

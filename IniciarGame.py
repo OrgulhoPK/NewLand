@@ -34,12 +34,16 @@ class Game:
 
     def tratamento_eventos(self):         
         self.movimentos()
-        
         mouse_x,mouse_y = pg.mouse.get_pos()
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
-                sys.exit()            
+                sys.exit()    
+            if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:        
+                self.encerrada = True
+                setup.NumTela = 2
+                setup.Jogadores.clear()
+
             if event.type == pg.MOUSEBUTTONDOWN:
                 if pg.mouse.get_pressed()[0]:
                     self.projeteis.append(Projetil(self.jogador.X+32,self.jogador.Y+45,5,mouse_x,mouse_y))              
@@ -51,12 +55,9 @@ class Game:
             if projetil.colisaoProjetil(self.Inimigo1) and self.Inimigo1.visible:
                 self.Inimigo1.hit()
                 self.projeteis.pop(self.projeteis.index(projetil))
+        
             
-
-        if pg.key.get_pressed()[pg.K_ESCAPE]:
-            sys.exit(0)
-        if pg.key.get_pressed()[pg.K_ESCAPE]:
-            self.encerrada = True
+            
     
     def desenha(self,tela):
         # mapa

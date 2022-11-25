@@ -17,7 +17,6 @@ class Jogo:
 
     def rodar(self):
         setup.NumTela = 1
-
         while True:
             if setup.NumTela == 1:
                 Sons.menu1.play() 
@@ -27,7 +26,7 @@ class Jogo:
                 NovaTela = TelaSelecao(self.tela)
                 NovaTela.rodar()
             if setup.NumTela == 3:
-                NovaTela1 = Game(self.tela,Jogadores)
+                NovaTela1 = Game(self.tela,setup.Jogadores)
                 NovaTela1.rodar()
 
             

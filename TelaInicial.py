@@ -29,8 +29,9 @@ class PrimeiraTela:
         for event in pg.event.get():
             if (event.type == pg.QUIT) or \
                 (event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE):
-                sys.exit()
                 pg.quit()
+                sys.exit()
+                
 
         self.opcoes = self.SelectMenu(TelaInicial)
         if self.opcoes == 1:

@@ -20,16 +20,13 @@ class TelaSelecao:
             self.DefinirJogadores()    
 
     def tratamento_eventos(self):
-    
         for event in pg.event.get():
             if (event.type == pg.QUIT):
                 sys.exit()
                 pg.quit()
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
-                self.encerra = True
-                Telas = 1
-
-
+                    self.encerra = True
+                    setup.NumTela = 1
 
     def desenha(self,tela):
         self.contador += 1
@@ -66,10 +63,7 @@ class TelaSelecao:
 
         self.FPS_Clock.tick(30)
         pg.display.flip()
-        
-            
-    
-                
+                    
 
     def Selecao(self):
         opcoes = self.SelectMenu(SelecaoPersonagem)
@@ -77,62 +71,59 @@ class TelaSelecao:
         if opcoes == 1:
             Personagem = D_Heitor
             NewPlayer = Jogador(posXY=(Player_x,Player_y),posWH = (32,32),personagem=Personagem)
-            AdicionarJogador(NewPlayer)
-           
+            setup.Jogadores.append(NewPlayer)
+
         if opcoes == 2:
             Personagem = Ida
             NewPlayer = Jogador(posXY=(Player_x,Player_y),posWH = (32,32),personagem=Personagem)
-            AdicionarJogador(NewPlayer)
-            
+            setup.Jogadores.append(NewPlayer)
+
         if opcoes == 3:
             Personagem = Jurupari
             NewPlayer = Jogador(posXY=(Player_x,Player_y),posWH = (32,32),personagem=Personagem)
-            AdicionarJogador(NewPlayer)
+            setup.Jogadores.append(NewPlayer)
             
         if opcoes == 4:
             Personagem = Ubiratan
             NewPlayer = Jogador(posXY=(Player_x,Player_y),posWH = (32,32),personagem=Personagem)
-            AdicionarJogador(NewPlayer)
-            
+            setup.Jogadores.append(NewPlayer)            
 
     def DefinirJogadores(self):
-        
-        if len(Jogadores) != 0:
-            Jogadores.clear()
-        
+        if len(setup.Jogadores) == 2:
+            self.encerra = True
+            setup.NumTela = 3
         self.Selecao()
         
-        if len(Jogadores) == 1:
-            print("1")
-            self.Selecao()
-        
-        
-        
-        
-
-        
-
-
-
 
 
     def SelectMenu(self,opcoes):
         mx,my = pg.mouse.get_pos()
-        if opcoes[0].collidepoint((mx,my)):
-            self.rect = 1
-            if pg.mouse.get_pressed()[0]:
-                print("um")
-                return 1
-        if opcoes[1].collidepoint((mx,my)):
-            self.rect = 2
-            if pg.mouse.get_pressed()[0]:
-                return 2
-        if opcoes[2].collidepoint((mx,my)):
-            self.rect = 3
-            if pg.mouse.get_pressed()[0]:
-                return 3
-        if opcoes[3].collidepoint((mx,my)):
-            self.rect = 4
-            if pg.mouse.get_pressed()[0]:
-                return 4
-    
+        for event in pg.event.get():
+            if opcoes[0].collidepoint((mx,my)):
+                self.rect = 1
+                if event.type == pg.MOUSEBUTTONDOWN:
+                    if pg.mouse.get_pressed()[0]:
+                        print('SS')
+                        return 1
+            if opcoes[1].collidepoint((mx,my)):
+                self.rect = 2
+                if event.type == pg.MOUSEBUTTONDOWN:
+                    if pg.mouse.get_pressed()[0]:
+                        return 2
+            if opcoes[2].collidepoint((mx,my)):
+                self.rect = 3
+                if event.type == pg.MOUSEBUTTONDOWN:
+                    if pg.mouse.get_pressed()[0]:
+                        return 3
+            if opcoes[3].collidepoint((mx,my)):
+                self.rect = 4
+                if event.type == pg.MOUSEBUTTONDOWN:
+                    if pg.mouse.get_pressed()[0]:
+                        return 4
+            if (event.type == pg.QUIT):
+                pg.quit()
+                sys.exit()
+            if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
+                self.encerra = True
+                setup.NumTela = 1
+            
