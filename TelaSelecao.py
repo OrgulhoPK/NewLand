@@ -84,7 +84,7 @@ class TelaSelecao:
             setup.Jogadores.append(NewPlayer)
             
         if opcoes == 4:
-            Personagem = Ubiratan
+            Personagem = Guaraci
             NewPlayer = Jogador(posXY=(Player_x,Player_y),posWH = (32,32),personagem=Personagem)
             setup.Jogadores.append(NewPlayer)            
 
@@ -103,7 +103,6 @@ class TelaSelecao:
                 self.rect = 1
                 if event.type == pg.MOUSEBUTTONDOWN:
                     if pg.mouse.get_pressed()[0]:
-                        print('SS')
                         return 1
             if opcoes[1].collidepoint((mx,my)):
                 self.rect = 2

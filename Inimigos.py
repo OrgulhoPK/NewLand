@@ -13,7 +13,7 @@ class Inimigo:
         self.inimigovy = 0
         self.speed = 0.8
         self.atk = False
-
+        self.move = True
         self.anim_mov = 0
         self.mov = False
         self.vida = personagem.vida
@@ -21,7 +21,7 @@ class Inimigo:
         self.visible= True
         self.hitbox = pg.Rect(self.x+17,self.y+34,31,31)
         self.raio = 500
-        self.personagem = personagem
+        self.sprites = personagem.sprites
 
          
     def movimento(self,jogador1:Jogador,jogador2:Jogador):
@@ -89,7 +89,7 @@ class Inimigo:
             
         else:
             self.visible = False
-
+    
     def areaameaca(self,alvo) -> bool:
         return ((self.y +16- self.raio< alvo.hitbox[1]+alvo.hitbox[3] and
             self.y +16 + self.raio>alvo.hitbox[1]) and 
@@ -97,36 +97,57 @@ class Inimigo:
             self.x +16- self.raio < alvo.hitbox[0]+alvo.hitbox[2]
             ))
 
+    def colisao(self,alvo):
+        
+        collision_tolerance = 10
+        for i in alvo:
+            colide = self.hitbox.colliderect(i)
+            if colide:          
+                if abs(i.top - self.hitbox.bottom) < collision_tolerance:
+                    self.hitbox.bottom -= collision_tolerance
+                    self.y -= self.inimigovy 
+                if abs(i.bottom - self.hitbox.top) < collision_tolerance:
+                    self.hitbox.top += collision_tolerance
+                    self.y += self.inimigovy 
+                if abs(i.right - self.hitbox.left) < collision_tolerance:
+                    self.hitbox.left += collision_tolerance
+                    self.x += self.inimigovx  
+                if abs(i.left - self.hitbox.right) < collision_tolerance:
+                    self.hitbox.right -= collision_tolerance
+                    self.x -= self.inimigovx 
+                    
+
 
 
     def desenhar(self,tela):
-        esq_Dir = self.personagem.sprites[0]
-        baixo = self.personagem.sprites[2]
-        ataque = self.personagem.sprites[3]
+        esq_Dir = self.sprites[0]
+        baixo = self.sprites[2]
+        ataque = self.sprites[3]
         if self.visible:
-            if self.anim_mov +1 >= 28:
-                self.anim_mov = 0
-            self.anim_mov += 1
-            #desenha o mob
-            if not self.atk:
-                if self.inimigovx == 0 and self.inimigovy == 0:
-                    tela.blit(pg.transform.scale(baixo[0], (64,64)),(self.x,self.y))
-                
-                elif self.inimigovx>0 or (self.inimigovx>0 and (self.inimigovy>0 or self.inimigovy<0)):                    
-                    tela.blit(pg.transform.scale(esq_Dir[self.anim_mov//4], (64,64)),(self.x,self.y))
+            if self.move:
+                if self.anim_mov +1 >= 28:
+                    self.anim_mov = 0
+                self.anim_mov += 1
+                #desenha o mob
+                if not self.atk:
+                    if self.inimigovx == 0 and self.inimigovy == 0:
+                        tela.blit(pg.transform.scale(baixo[0], (64,64)),(self.x,self.y))
+                    
+                    elif self.inimigovx>0 or (self.inimigovx>0 and (self.inimigovy>0 or self.inimigovy<0)):                    
+                        tela.blit(pg.transform.scale(esq_Dir[self.anim_mov//4], (64,64)),(self.x,self.y))
 
-                elif self.inimigovx<0 or (self.inimigovx<0 and (self.inimigovy>0 or self.inimigovy<0)):
-                    tela.blit(pg.transform.scale(pg.transform.flip(esq_Dir[self.anim_mov//4],True,False), (64,64)),(self.x,self.y))
+                    elif self.inimigovx<0 or (self.inimigovx<0 and (self.inimigovy>0 or self.inimigovy<0)):
+                        tela.blit(pg.transform.scale(pg.transform.flip(esq_Dir[self.anim_mov//4],True,False), (64,64)),(self.x,self.y))
 
-            #pg.draw.circle(tela,(COR_Tela),(x+16,y+16), self.raio)
+                #pg.draw.circle(tela,(COR_Tela),(x+16,y+16), self.raio)
 
 
 
-            pg.draw.rect(tela,COR_Tela,self.hitbox,2)
-            #atualiza o hitbox do mob e barra de vida
-            self.hitbox = pg.Rect(self.x+17,self.y+34,31,31)
-            pg.draw.rect(tela,(255,0,0),(self.x+17,self.y,40,8))
-            pg.draw.rect(tela,(0,128,0),(self.x+17,self.y,40 - (4 * (10-self.vida)),8))
+                pg.draw.rect(tela,COR_Tela,self.hitbox,2)
+                #atualiza o hitbox do mob e barra de vida
+                self.hitbox = pg.Rect(self.x+17,self.y+34,31,31)
+                pg.draw.rect(tela,(255,0,0),(self.x+17,self.y,40,8))
+                pg.draw.rect(tela,(0,128,0),(self.x+17,self.y,40 - (4 * (10-self.vida)),8))
 
 
 

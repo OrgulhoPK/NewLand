@@ -33,11 +33,7 @@ class Projetil:
             self.atk = False            
             self.x -= int(self.x_vel)
             self.y -= int(self.y_vel)
-            
-            pg.draw.circle(tela,(0,0,0),(self.x,self.y), self.raio)
             self.anim += 1
-
-
             if self.anim + 1 >= 21:
                 self.anim = 0
             

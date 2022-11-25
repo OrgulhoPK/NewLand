@@ -2,6 +2,7 @@ import pygame as pg
 import random
 from Personagens import Personagem
 from Imagens import Imagem
+from Habilidades import melee
 
 
 
@@ -28,16 +29,21 @@ SelecaoPersonagem = [pg.Rect(120,249,157,50),
                 pg.Rect(120,444,157,50)]
 
 
+
+
+#Lista de habilidades
+Basica = melee(80)
+
 #Lista de personagens
 #Personagem = Personagem (vida,dano,Sprites:list , Skills: list)
-D_Heitor = Personagem(10,10,Imagem.Sprites_Clerigo)
-Ida = Personagem(10,10,Imagem.Sprites_Duelista)
-Jurupari = Personagem(10,10,Imagem.Sprites_Shaman)
-Ubiratan = Personagem(10,10,Imagem.Sprites_Tanker)
+D_Heitor = Personagem('Heitor',10,10,Imagem.Sprites_Clerigo,Basica)
+Ida = Personagem('Ida',10,10,Imagem.Sprites_Duelista,Basica)
+Jurupari = Personagem('Jurupari',10,10,Imagem.Sprites_Shaman,Basica)
+Guaraci = Personagem('Guaraci',10,10,Imagem.Sprites_Tanker,Basica)
 
 
 #Mob
-Soldadinho = Personagem(10,10,Imagem.Sprites_Soldadinho)
+Soldadinho = Personagem('Soldadinho',10,10,Imagem.Sprites_Soldadinho,Basica)
 
 
 
@@ -46,6 +52,8 @@ Soldadinho = Personagem(10,10,Imagem.Sprites_Soldadinho)
 class setup:
     NumTela = 0
     Jogadores = []
+
+
 
 
 

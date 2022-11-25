@@ -9,21 +9,22 @@ class Jogador:
         self.posWH = posWH #tamanhoOBJ
         self.movimento = 4
         #referente ao personagem
+        self.nome = personagem.nome
         self.vida = personagem.vida
         self.dano = personagem.dano
         #referente ao personagem vivo ou nao
         self.visible= True
-        self.personagem = personagem
+        self.sprites = personagem.sprites
+        self.habilidade = personagem.habilidade
 
 
         #referente à animação do personagem    
         self.anim_mov = 0    #é só um contador de animação (trocar o frame)
-        self.mov_direita = False
-        self.mov_esquerda = False
-        self.mov_cima = False
-        self.mov_baixo = False
+        self.countatk = 0    #contador animacao ataque 
+        self.mov_vx = 0
+        self.mov_vy = 0
         self.atk = False
-        self.countatk = 0
+
 
 
 
@@ -39,6 +40,9 @@ class Jogador:
         self.Y -= self.movimento
     def baixo(self):
         self.Y  += self.movimento
+    def parar(self):
+        self.mov_vy = 0
+        self.mov_vx = 0
 
     #Função que calcula colisão com uma lista de objetos
     def colisao(self,alvo):
@@ -50,7 +54,7 @@ class Jogador:
                     self.hitbox.bottom -= collision_tolerance
                     self.cima()
                 if abs(i.bottom - self.hitbox.top) < collision_tolerance:
-                    self.hitbox.bottom += collision_tolerance
+                    self.hitbox.top += collision_tolerance
                     self.baixo()
                 if abs(i.right - self.hitbox.left) < collision_tolerance:
                     self.hitbox.left += collision_tolerance
@@ -65,6 +69,10 @@ class Jogador:
     def disparo(self):
         pass
 
+    def ataque(self,tela,alvo):
+        self.habilidade.Basica(tela,self.X,self.Y,alvo)
+        
+
     def hit(self):
         if self.vida>0:
             self.dano = True
@@ -76,10 +84,12 @@ class Jogador:
 
 
     def desenhar(self,tela):
-        esq_Dir = self.personagem.sprites[0]
-        cima = self.personagem.sprites[1]
-        baixo = self.personagem.sprites[2]
-        ataque = self.personagem.sprites[3]
+        esq_Dir = self.sprites[0]
+        cima = self.sprites[1]
+        baixo = self.sprites[2]
+        ataque = self.sprites[3]
+        #pg.draw.circle(tela,(0,0,0),(self.X+70,self.Y+35),40)
+        pg.draw.ellipse(tela, (0,0,0), [self.X+32,self.Y+20, 80, 40])
 
         #Contador de animação (desenho)
         if self.visible:
@@ -88,42 +98,50 @@ class Jogador:
             self.anim_mov +=1
 
             #Tratamento da animação de ataque
-            if pg.mouse.get_pressed()[0]:
+            if pg.mouse.get_pressed()[0] :
+
                 self.atk = True
             if self.atk:   
                 if self.countatk +1 >= 9:
                     self.countatk = 0
                     self.atk = False
-
-                if self.countatk <=8:
+                if self.nome == 'Ida' or self.nome == 'Soldadinho':
+                    tela.blit(ataque[self.countatk],(self.X-64,self.Y-64))
+                else:
                     tela.blit(pg.transform.scale(ataque[self.countatk], (64,64)),(self.X,self.Y))
         
                 self.countatk +=1
             
 
             if not self.atk:
-                if not self.mov_esquerda and not self.mov_direita and not self.mov_cima and not self.mov_baixo:
+                if self.mov_vx == 0 and self.mov_vy ==0:
                     tela.blit(pg.transform.scale(baixo[0], (64,64)),(self.X,self.Y))
-                
-                elif self.mov_direita or (self.mov_direita and (self.mov_cima or self.mov_baixo)):
-                    
+
+                elif self.mov_vx == 1 or (self.mov_vx ==1 and 
+                    (self.mov_vy == 1 or self.mov_vy == -1)):                
                     tela.blit(pg.transform.scale(esq_Dir[self.anim_mov//4], (64,64)),(self.X,self.Y))
-                    self.mov_direita = False
 
-                elif self.mov_esquerda or (self.mov_esquerda and (self.mov_cima or self.mov_baixo)):
+
+                elif self.mov_vx == -1 or (self.mov_vx == -1 and
+                    (self.mov_vy == 1 or self.mov_vy == -1)):   
                     tela.blit(pg.transform.scale(pg.transform.flip(esq_Dir[self.anim_mov//4],True,False), (64,64)),(self.X,self.Y))
-                    self.mov_esquerda = False
 
-                elif self.mov_cima:
+
+                elif self.mov_vy == -1:
                     tela.blit(pg.transform.scale(cima[self.anim_mov//4], (64,64)),(self.X,self.Y))  
-                    self.mov_cima = False
 
-                elif self.mov_baixo:
+
+                elif self.mov_vy == 1:
                     tela.blit(pg.transform.scale(baixo[self.anim_mov//4], (64,64)),(self.X,self.Y))
-                    self.mov_baixo = False
+                
+                self.parar()
+                
+
+
 
             #atualizar posicao do hitbox
             self.hitbox = pg.Rect(self.X+17,self.Y+34,31,31)
+            
             pg.draw.rect(tela,COR_Tela,self.hitbox,2)
             pg.draw.rect(tela,(255,0,0),(self.X+17,self.Y,40,8))
             pg.draw.rect(tela,(0,128,0),(self.X+17,self.Y,40 - (4 * (10-self.vida)),8))

@@ -16,7 +16,7 @@ class Game:
         #self.jogador = Jogador(posXY=( Player_x, Player_y),posWH = (32,32),personagem=)
         self.jogador1 = jogadores[0]
         self.jogador2 = jogadores[1]
-        
+        self.melee = []
         self.projeteis = []
         self.encerrada = False
         self.Inimigo1 = Inimigo(posXY=(991,350),posWH =(32,32),personagem=Soldadinho)
@@ -44,12 +44,21 @@ class Game:
                 self.encerrada = True
                 setup.NumTela = 2
                 setup.Jogadores.clear()
+            if event.type == pg.KEYDOWN and event.key == pg.K_e:
+                self.jogador1.atk = True
+                self.jogador1.ataque(self.tela,self.Inimigo1)
+
+            if event.type == pg.KEYDOWN and event.key == pg.K_o:
+                self.jogador2.atk = True
+                self.jogador2.ataque(self.tela,self.Inimigo1)
 
             if event.type == pg.MOUSEBUTTONDOWN:
                 if pg.mouse.get_pressed()[0]:
                     self.projeteis.append(Projetil(self.jogador1.X+32,self.jogador1.Y+45,5,mouse_x,mouse_y))      
                     self.projeteis.append(Projetil(self.jogador2.X+32,self.jogador2.Y+45,5,mouse_x,mouse_y))          
                     #Sons.BarulhoProjetil(self)
+    
+
         #for jogador in self.jogadores:
         #    if jogador.disparo():
         #        pass     
@@ -103,38 +112,38 @@ class Game:
         if not self.jogador1.atk:
             if pg.key.get_pressed()[pg.K_a] and (self.jogador1.X > 0) :
                 self.jogador1.esquerda()
-                self.jogador1.mov_esquerda = True
+                self.jogador1.mov_vx = -1
 
             if pg.key.get_pressed()[pg.K_d] and (self.jogador1.X + 64 < S_WIDHT) :          
                 self.jogador1.direita()
-                self.jogador1.mov_direita = True
+                self.jogador1.mov_vx = 1
 
             if pg.key.get_pressed()[pg.K_w] and (self.jogador1.Y > 0) : 
                 self.jogador1.cima()   
-                self.jogador1.mov_cima = True                 
+                self.jogador1.mov_vy = -1                
                       
             if pg.key.get_pressed()[pg.K_s] and (self.jogador1.Y + 64 < S_HEIGHT) :
                 self.jogador1.baixo()
-                self.jogador1.mov_baixo = True
-            
+                self.jogador1.mov_vy = 1
             
             #Movimento jogador 2
         if not self.jogador2.atk:
             if pg.key.get_pressed()[pg.K_j] and (self.jogador2.X > 0) :
                 self.jogador2.esquerda()
-                self.jogador2.mov_esquerda = True
+                self.jogador2.mov_vx = -1               
 
             if pg.key.get_pressed()[pg.K_l] and (self.jogador2.X + 64 < S_WIDHT) :          
                 self.jogador2.direita()
-                self.jogador2.mov_direita = True
+                self.jogador2.mov_vx = 1          
 
             if pg.key.get_pressed()[pg.K_i] and (self.jogador2.Y > 0) : 
                 self.jogador2.cima()   
-                self.jogador2.mov_cima = True                 
-                      
+                self.jogador2.mov_vy = -1
+                                              
             if pg.key.get_pressed()[pg.K_k] and (self.jogador2.Y + 64 < S_HEIGHT) :
                 self.jogador2.baixo()
-                self.jogador2.mov_baixo = True
+                self.jogador2.mov_vy = 1
+                
 
         #trata movimento do inimigo
         self.Inimigo1.movimento(self.jogador1,self.jogador2)
@@ -143,7 +152,7 @@ class Game:
     def colisoes(self,lista):
         self.jogador1.colisao(lista)
         self.jogador2.colisao(lista)
-        
+        self.Inimigo1.colisao(lista)
 
 
         
