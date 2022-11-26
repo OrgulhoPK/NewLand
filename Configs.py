@@ -34,6 +34,7 @@ SelecaoPersonagem = [pg.Rect(120,249,157,50),
 #Lista de habilidades
 Basica = melee(80)
 
+
 #Lista de personagens
 #Personagem = Personagem (vida,dano,Sprites:list , Skills: list)
 D_Heitor = Personagem('Heitor',10,10,Imagem.Sprites_Clerigo,Basica)
@@ -43,7 +44,7 @@ Guaraci = Personagem('Guaraci',10,10,Imagem.Sprites_Tanker,Basica)
 
 
 #Mob
-Soldadinho = Personagem('Soldadinho',10,10,Imagem.Sprites_Soldadinho,Basica)
+Soldadinho = Personagem('Soldadinho',100,10,Imagem.Sprites_Soldadinho,Basica)
 
 
 

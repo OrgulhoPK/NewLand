@@ -26,7 +26,8 @@ class Jogador:
         self.mov_vy = 0
         self.atk = False
         self.dados = []
-
+        #referente ao uso de habilidades
+        self.sequenciaATK = 0
 
         #hitbox = X, Y , Largura, Altura  Rect()
         self.hitbox = pg.Rect(self.X+17,self.Y+34,31,31)
@@ -102,15 +103,20 @@ class Jogador:
             #    self.atk = True
             if self.atk:
                 self.cooldown1 = 0   
-                if self.countatk +1 == 15:
-                    self.habilidade.Basica(self.dados)
-                if self.countatk +1 >= 17:
+
+
+                if self.countatk +1 >= 25:
                     self.countatk = 0
                     self.atk = False
                     self.dados.clear()
                 
                 if self.nome == 'Ida' or self.nome == 'Soldadinho':
-                    tela.blit(ataque[self.countatk//2],(self.X-64,self.Y-64))
+                    if self.countatk +1 >= 15:
+                        self.X += self.movimento*3
+                        self.habilidade.Basica(self.dados)
+                        tela.blit(ataque[self.countatk//2],(self.X-64,self.Y-64))
+                    else:
+                        tela.blit(ataque[self.countatk//2],(self.X-64,self.Y-64))
                 else:
                     tela.blit(pg.transform.scale(ataque[self.countatk//2], (64,64)),(self.X,self.Y))
         
