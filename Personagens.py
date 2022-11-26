@@ -2,7 +2,7 @@ import pygame as pg
 from Habilidades import melee
 
 class Personagem:
-    def __init__(self,nome,vida,dano,sprites,habilidade:melee):
+    def __init__(self,nome,vida,dano,sprites,habilidade):
         #vida,dano,skillbasica,skillespecial,estado
         self.nome = nome
         self.vida = vida

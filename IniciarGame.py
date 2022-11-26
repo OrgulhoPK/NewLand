@@ -95,9 +95,10 @@ class Game:
         
 
         #desenho jogadores / inimigos
+        self.Inimigo1.desenhar(tela)
         self.jogador1.desenhar(tela) 
         self.jogador2.desenhar(tela) 
-        self.Inimigo1.desenhar(tela)
+        
         
         #Desenho projeteis
         for projeteis in self.projeteis:      

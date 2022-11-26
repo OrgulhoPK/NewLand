@@ -216,8 +216,14 @@ class Imagem:
     
     Sprites_Soldadinho = [Mob_andarD,Mob_andarC,Mob_andarB,Mob_atk]
 
-    #Animação ataques 
 
+    #Animação ataques 
+    dano = caminho.parent / 'Imagens' / 'hitDamage'
+    hitDamage = []
+    for i in dano.glob("*.png"):
+        hitDamage.append(pg.image.load(i))
+
+        
     #Ataque fireball ----------------------
     
     Habilidades = caminho.parent / 'Imagens' / 'Habilidades'

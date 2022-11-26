@@ -32,19 +32,19 @@ SelecaoPersonagem = [pg.Rect(120,249,157,50),
 
 
 #Lista de habilidades
-Basica = melee(80)
+BasicaIda = melee(80)
 
 
 #Lista de personagens
 #Personagem = Personagem (vida,dano,Sprites:list , Skills: list)
-D_Heitor = Personagem('Heitor',10,10,Imagem.Sprites_Clerigo,Basica)
-Ida = Personagem('Ida',10,10,Imagem.Sprites_Duelista,Basica)
-Jurupari = Personagem('Jurupari',10,10,Imagem.Sprites_Shaman,Basica)
-Guaraci = Personagem('Guaraci',10,10,Imagem.Sprites_Tanker,Basica)
+D_Heitor = Personagem('Heitor',10,10,Imagem.Sprites_Clerigo,BasicaIda)
+Ida = Personagem('Ida',10,10,Imagem.Sprites_Duelista,BasicaIda)
+Jurupari = Personagem('Jurupari',10,10,Imagem.Sprites_Shaman,BasicaIda)
+Guaraci = Personagem('Guaraci',10,10,Imagem.Sprites_Tanker,BasicaIda)
 
 
 #Mob
-Soldadinho = Personagem('Soldadinho',100,10,Imagem.Sprites_Soldadinho,Basica)
+Soldadinho = Personagem('Soldadinho',100,10,Imagem.Sprites_Soldadinho,BasicaIda)
 
 
 

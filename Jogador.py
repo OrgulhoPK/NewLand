@@ -105,14 +105,14 @@ class Jogador:
             if self.atk:
                 self.cooldown1 = 0   
                 
-                if self.nome == 'Ida' or self.nome == 'Soldadinho':
+                if self.nome == 'Ida':
                     if self.countatk +1 >= 25:
                         self.countatk = 0
                         self.atk = False
                         self.dados.clear()
                     
-                    if self.countatk +1 >= 15:
-                        self.X += self.movimento*3
+                    if self.countatk +1 >= 13:
+                        self.X += self.movimento*2
                         self.habilidade.Basica(self.X,self.Y,self.dados)
                         tela.blit(ataque[self.countatk//2],(self.X-64,self.Y-64))
                     else:
@@ -120,12 +120,13 @@ class Jogador:
                 else:
                     if self.countatk +1 >= 33:
                         self.countatk = 0
+                        self.habilidade.contador =0
                         self.atk = False
                         self.dados.clear()
                     tela.blit(pg.transform.scale(ataque[self.countatk//4], (64,64)),(self.X,self.Y))
                 
                 self.countatk +=1
-                print((self.countatk))
+
             
 
             if not self.atk:
