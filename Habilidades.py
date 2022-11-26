@@ -17,11 +17,12 @@ class melee:
         pass
 
     #mob e a duelista
-    def Basica(self,dados):
+    def Basica(self,x,y,dados):
+        
+        self.x = x
+        self.y = y
         tela = dados[0]
-        self.x = dados[1]
-        self.y = dados[2]
-        alvo = dados[3]
+        alvo = dados[1]
         rect = pg.Rect(self.x+32,self.y+20,80,40)
         if rect.colliderect(alvo.hitbox):
             alvo.hit()
@@ -31,6 +32,16 @@ class melee:
             # 1 1 0 0 0 0 0 0 -
             # 1 1 + 0 0 0 0 + -
             # - - - - - - - - -
+    def BasicaGuaraci():
+        pass
+
+        # - - - - - - - - -
+        # 1 1 0 + - - - - -
+        # 1 1 0 + - - - - -
+        # 1 1 0 + - - - - -
+        # - - - - - - - - -
+
+
 
 
     

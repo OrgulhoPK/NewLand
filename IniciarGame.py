@@ -51,12 +51,10 @@ class Game:
             if event.type == pg.KEYDOWN and event.key == pg.K_e:
                 if self.jogador1.cooldown1 >= 30:
                     self.jogador1.ataque(self.tela,self.Inimigo1)
-                    self.jogador1.atk = True
                     
             if event.type == pg.KEYDOWN and event.key == pg.K_o:
                 if self.jogador2.cooldown1 >= 30:
                     self.jogador2.ataque(self.tela,self.Inimigo1)
-                    self.jogador2.atk = True
                     
 
             #Teclas de habilidades especiais

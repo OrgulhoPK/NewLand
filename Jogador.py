@@ -71,7 +71,8 @@ class Jogador:
         pass
 
     def ataque(self,tela,alvo):
-        self.dados= [tela,self.X,self.Y,alvo]
+        self.dados= [tela,alvo]
+        self.atk = True
         
 
     def hit(self):
@@ -90,8 +91,8 @@ class Jogador:
         baixo = self.sprites[2]
         ataque = self.sprites[3]
         #pg.draw.circle(tela,(0,0,0),(self.X+70,self.Y+35),40)
-        pg.draw.ellipse(tela, (0,0,0), [self.X+32,self.Y+20, 80, 40])
-
+        #pg.draw.ellipse(tela, (0,0,0), [self.X+32,self.Y+20, 80, 40])
+        pg.draw.rect(tela,(255,100,2),[self.X+32,self.Y+20, 27, 35])
         #Contador de animação (desenho)
         if self.visible:
             if self.anim_mov+1 >= 28:
@@ -103,24 +104,28 @@ class Jogador:
             #    self.atk = True
             if self.atk:
                 self.cooldown1 = 0   
-
-
-                if self.countatk +1 >= 25:
-                    self.countatk = 0
-                    self.atk = False
-                    self.dados.clear()
                 
                 if self.nome == 'Ida' or self.nome == 'Soldadinho':
+                    if self.countatk +1 >= 25:
+                        self.countatk = 0
+                        self.atk = False
+                        self.dados.clear()
+                    
                     if self.countatk +1 >= 15:
                         self.X += self.movimento*3
-                        self.habilidade.Basica(self.dados)
+                        self.habilidade.Basica(self.X,self.Y,self.dados)
                         tela.blit(ataque[self.countatk//2],(self.X-64,self.Y-64))
                     else:
                         tela.blit(ataque[self.countatk//2],(self.X-64,self.Y-64))
                 else:
-                    tela.blit(pg.transform.scale(ataque[self.countatk//2], (64,64)),(self.X,self.Y))
-        
+                    if self.countatk +1 >= 33:
+                        self.countatk = 0
+                        self.atk = False
+                        self.dados.clear()
+                    tela.blit(pg.transform.scale(ataque[self.countatk//4], (64,64)),(self.X,self.Y))
+                
                 self.countatk +=1
+                print((self.countatk))
             
 
             if not self.atk:
