@@ -125,13 +125,20 @@ class Imagem:
     for i in baixoP2.glob("*.png"):
         D_andarB.append(pg.image.load(i))
 
+
     #animacao de atk
     D_ataque = Duelista / 'ataque' / 'esquerda-direita'
     D_atk = []
     for i in D_ataque.glob("*.png"):
         D_atk.append(pg.image.load(i))
+    #animacao de especial
+    D_special = Duelista / 'ataque' / 'Giro'
+    D_spec = []
+    for i in D_special.glob("*.png"):
+        D_spec.append(pg.image.load(i))
+
     
-    Sprites_Duelista = [D_andarD,D_andarC,D_andarB,D_atk]
+    Sprites_Duelista = [D_andarD,D_andarC,D_andarB,D_atk,D_spec]
 
 
     #Shaman -------------------------------

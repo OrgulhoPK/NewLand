@@ -25,6 +25,7 @@ class Jogador:
         self.mov_vx = 0
         self.mov_vy = 0
         self.atk = False
+        self.specialAtk = False
         self.dados = []
         #referente ao uso de habilidades
         self.sequenciaATK = 0
@@ -90,9 +91,10 @@ class Jogador:
         cima = self.sprites[1]
         baixo = self.sprites[2]
         ataque = self.sprites[3]
+        especial = self.sprites[4]
         #pg.draw.circle(tela,(0,0,0),(self.X+70,self.Y+35),40)
-        #pg.draw.ellipse(tela, (0,0,0), [self.X+32,self.Y+20, 80, 40])
-        pg.draw.rect(tela,(255,100,2),[self.X+32,self.Y+20, 27, 35])
+        pg.draw.ellipse(tela, (0,0,0), [(self.X+(32*self.mov_vx)),self.Y+20, 80, 40])
+        pg.draw.rect(tela,(255,100,2),[self.hitbox.centerx + self.mov_vx,self.Y+20, 27, 35])
         #Contador de animação (desenho)
         if self.visible:
             if self.anim_mov+1 >= 28:
@@ -102,34 +104,64 @@ class Jogador:
             #Tratamento da animação de ataque
             #if pg.mouse.get_pressed()[0] :
             #    self.atk = True
-            if self.atk:
-                self.cooldown1 = 0   
-                
+           
+            if self.specialAtk:
                 if self.nome == 'Ida':
-                    if self.countatk +1 >= 25:
-                        self.countatk = 0
-                        self.atk = False
-                        self.dados.clear()
                     
-                    if self.countatk +1 >= 13:
-                        self.X += self.movimento*2
-                        self.habilidade.Basica(self.X,self.Y,self.dados)
-                        tela.blit(ataque[self.countatk//2],(self.X-64,self.Y-64))
+                    if self.mov_vx == -1:
+                        #self.X += self.movimento*2
+                        if self.countatk == 13:
+                            self.habilidade.Basica(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
+
+                        tela.blit(pg.transform.flip(especial[self.countatk//2],True,False),(self.X-64,self.Y-64))
+
                     else:
-                        tela.blit(ataque[self.countatk//2],(self.X-64,self.Y-64))
-                else:
-                    if self.countatk +1 >= 33:
+                        #self.X += self.movimento*2
+                        if self.mov_vx == 0:
+                            if self.countatk > 15:
+                                self.habilidade.Basica(self.X,self.Y,self.dados,(self.mov_vx +1,self.mov_vy))
+                        else:
+                            if self.countatk > 15:
+                                self.habilidade.Basica(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
+                        tela.blit(especial[self.countatk//2],(self.X-64,self.Y-64))
+                    
+                    if self.countatk +1 >= 24:
                         self.countatk = 0
-                        self.habilidade.contador =0
                         self.atk = False
                         self.dados.clear()
-                    tela.blit(pg.transform.scale(ataque[self.countatk//4], (64,64)),(self.X,self.Y))
-                
-                self.countatk +=1
 
-            
+                    self.countatk +=1
 
-            if not self.atk:
+            if self.atk:
+                if self.nome == 'Ida':
+                    
+                    if self.mov_vx == -1:
+                        #self.X += self.movimento*2
+                        if self.countatk == 13:
+                            self.habilidade.EspecialD(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
+
+                        tela.blit(pg.transform.flip(ataque[self.countatk//2],True,False),(self.X-64,self.Y-64))
+
+                    else:
+                        #self.X += self.movimento*2
+                        if self.mov_vx == 0:
+                            if self.countatk == 13:
+                                self.habilidade.EspecialD(self.X,self.Y,self.dados,(self.mov_vx +1,self.mov_vy))
+                        else:
+                            if self.countatk == 13:
+                                self.habilidade.EspecialD(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
+                        tela.blit(ataque[self.countatk//2],(self.X-64,self.Y-64))
+                    
+                    if self.countatk +1 >= 16:
+                        self.countatk = 0
+                        self.atk = False
+                        self.dados.clear()
+
+                    self.countatk +=1
+
+
+
+            if not self.atk and not self.specialAtk:
                 if self.mov_vx == 0 and self.mov_vy ==0:
                     tela.blit(pg.transform.scale(baixo[0], (64,64)),(self.X,self.Y))
 
@@ -152,10 +184,6 @@ class Jogador:
                 
                 self.parar()
                 self.cooldown1 += 1
-
-
-                
-
 
 
             #atualizar posicao do hitbox

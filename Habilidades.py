@@ -19,13 +19,36 @@ class melee:
         pass
 
     #mob e a duelista
-    def Basica(self,x,y,dados):
+    def Basica(self,x,y,dados,velxy):
         
         self.x = x
         self.y = y
         tela = dados[0]
         alvo = dados[1]
-        rect = pg.Rect(self.x+32,self.y+20,80,40)
+        velx,vely= velxy
+        rect = pg.Rect((self.x+(32*velx)),self.y+20, 80, 40)
+        
+        if rect.colliderect(alvo.hitbox):
+            if self.contador+1 >=5:
+                self.contador = 0
+            tela.blit(pg.transform.scale(Imagem.hitDamage[self.contador],(128,128)),(alvo.x-32,alvo.y-32))
+            alvo.hit()
+            self.contador+=1
+
+    def EspecialD(self,x,y,dados,velxy):
+        self.x = x
+        self.y = y
+        tela = dados[0]
+        alvo = dados[1]
+        velx,vely= velxy
+        rect = pg.Rect((self.x+(32*velx)),self.y+20, 80, 40)
+        
+        if rect.colliderect(alvo.hitbox):
+            if self.contador+1 >=5:
+                self.contador = 0
+            tela.blit(pg.transform.scale(Imagem.hitDamage[self.contador],(128,128)),(alvo.x-32,alvo.y-32))
+            alvo.hit()
+            self.contador+=1
         
         if rect.colliderect(alvo.hitbox):
             if self.contador+1 >=5:
