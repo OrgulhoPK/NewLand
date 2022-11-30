@@ -50,13 +50,6 @@ class melee:
             alvo.hit()
             self.contador+=1
         
-        if rect.colliderect(alvo.hitbox):
-            if self.contador+1 >=5:
-                self.contador = 0
-            tela.blit(pg.transform.scale(Imagem.hitDamage[self.contador],(128,128)),(alvo.x-32,alvo.y-32))
-            alvo.hit()
-            self.contador+=1
-        
     
 
 

@@ -143,7 +143,7 @@ class Inimigo:
 
 
 
-                pg.draw.rect(tela,COR_Tela,self.hitbox,2)
+                #pg.draw.rect(tela,COR_Tela,self.hitbox,2)
                 #atualiza o hitbox do mob e barra de vida
                 self.hitbox = pg.Rect(self.x+17,self.y+34,31,31)
                 pg.draw.rect(tela,(255,0,0),(self.x+17,self.y,40,8))

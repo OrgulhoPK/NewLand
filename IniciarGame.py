@@ -48,13 +48,20 @@ class Game:
 
             #tratamento dos ataques
             #teclas de ataque básico
-            if event.type == pg.KEYDOWN and event.key == pg.K_e:
-                if self.jogador1.cooldown1 >= 30:
+            if event.type == pg.KEYDOWN and event.key == pg.K_q:
+                if self.jogador1.cooldown1 >= 15:
                     self.jogador1.ataque(self.tela,self.Inimigo1)
+
+            if event.type == pg.KEYDOWN and event.key == pg.K_e:
+                if self.jogador1.cooldown2 >= 30:
+                    self.jogador1.ataque_especial(self.tela,self.Inimigo1)
                     
-            if event.type == pg.KEYDOWN and event.key == pg.K_o:
-                if self.jogador2.cooldown1 >= 30:
+            if event.type == pg.KEYDOWN and event.key == pg.K_u:
+                if self.jogador2.cooldown1 >= 15:
                     self.jogador2.ataque(self.tela,self.Inimigo1)
+            if event.type == pg.KEYDOWN and event.key == pg.K_o:
+                if self.jogador2.cooldown2 >= 30:
+                    self.jogador2.ataque_especial(self.tela,self.Inimigo1)
                     
 
             #Teclas de habilidades especiais
@@ -116,7 +123,7 @@ class Game:
         # E trata dos limites de tela
 
         
-        if not self.jogador1.atk:
+        if not self.jogador1.atk and not self.jogador1.atkEspecial:
             if pg.key.get_pressed()[pg.K_a] and (self.jogador1.X > 0) :
                 self.jogador1.esquerda()
                 self.jogador1.mov_vx = -1
@@ -134,7 +141,7 @@ class Game:
                 self.jogador1.mov_vy = 1
             
             #Movimento jogador 2
-        if not self.jogador2.atk:
+        if not self.jogador2.atk and not self.jogador2.atkEspecial:
             if pg.key.get_pressed()[pg.K_j] and (self.jogador2.X > 0) :
                 self.jogador2.esquerda()
                 self.jogador2.mov_vx = -1               
