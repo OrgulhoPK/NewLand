@@ -11,6 +11,7 @@ class Jogador:
         #referente ao personagem
         self.nome = personagem.nome
         self.vida = personagem.vida
+        self.hpmax = personagem.vida
         self.dano = personagem.dano
         #referente ao personagem vivo ou nao
         self.visible= True
@@ -202,4 +203,5 @@ class Jogador:
             
             #pg.draw.rect(tela,COR_Tela,self.hitbox,2)
             pg.draw.rect(tela,(255,0,0),(self.X+17,self.Y,40,8))
-            pg.draw.rect(tela,(0,128,0),(self.X+17,self.Y,40 - (4 * (10-self.vida)),8))
+            #40 - (4 * (10-self.vida))
+            pg.draw.rect(tela,(0,128,0),(self.X+17,self.Y,((self.vida/self.hpmax)*40),8))

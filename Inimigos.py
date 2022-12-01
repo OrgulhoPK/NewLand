@@ -17,6 +17,7 @@ class Inimigo:
         self.anim_mov = 0
         self.mov = False
         self.vida = personagem.vida
+        self.hpmax = personagem.vida
         self.dano = personagem.dano
         self.visible= True
         self.hitbox = pg.Rect(self.x+17,self.y+34,31,31)
@@ -147,7 +148,7 @@ class Inimigo:
                 #atualiza o hitbox do mob e barra de vida
                 self.hitbox = pg.Rect(self.x+17,self.y+34,31,31)
                 pg.draw.rect(tela,(255,0,0),(self.x+17,self.y,40,8))
-                pg.draw.rect(tela,(0,128,0),(self.x+17,self.y,40 - (4 * (10-self.vida)),8))
+                pg.draw.rect(tela,(0,128,0),(self.x+17,self.y,((self.vida/self.hpmax)*40),8))
 
 
 
