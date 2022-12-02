@@ -160,7 +160,7 @@ class Jogador:
                         else:
                             if self.countspec > 10:
                                 self.X += self.movimento*1.5
-                                self.habilidade.Basica(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
+                                self.habilidade.EspecialD(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
                         tela.blit(especial[self.countspec//2],(self.X-64,self.Y-64))
                     
                     if self.countspec +1 >= 23:

@@ -225,15 +225,18 @@ class Imagem:
 
 
     #Animação ataques 
-    dano = caminho.parent / 'Imagens' / 'hitDamage'
+    Habilidades = caminho.parent / 'Imagens' / 'Habilidades'
+    dano = Habilidades / 'hitDamage'
     hitDamage = []
     for i in dano.glob("*.png"):
         hitDamage.append(pg.image.load(i))
-
-        
-    #Ataque fireball ----------------------
     
-    Habilidades = caminho.parent / 'Imagens' / 'Habilidades'
+    s_tornado = Habilidades / 'tornado'
+    tornado = []
+    for i in s_tornado.glob("*.png"):
+        tornado.append(pg.image.load(i))
+
+    
     S_fireball = Habilidades / 'Fireball'
     S_fireball1 = [] 
     for i in S_fireball.glob("*.png"):
