@@ -133,13 +133,16 @@ class Jogador:
                             if self.countatk == 13:
                                 self.habilidade.EspecialD(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
                         tela.blit(ataque[self.countatk//2],(self.X-64,self.Y-64))
-                    
+
                     if self.countatk +1 >= 16:
                         self.countatk = 0
                         self.atk = False
                         self.dados.clear()
-
                     self.countatk +=1
+                if self.nome == 'Heitor':
+                    pass
+
+
             if self.atkEspecial:
                 if self.nome == 'Ida':
                     
