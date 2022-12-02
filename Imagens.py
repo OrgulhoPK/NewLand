@@ -165,7 +165,16 @@ class Imagem:
     for i in S_ataque.glob("*.png"):
         S_atk.append(pg.image.load(i))
     
-    Sprites_Shaman = [S_andarD,S_andarC,S_andarB,S_atk]
+    
+
+    #Animacao de conjuracao shaman
+    S_especial = Shaman / 'ataque' / 'Especial'
+    S_esp = []
+    for i in S_especial.glob("*.png"):
+        S_esp.append(pg.image.load(i))
+
+    Sprites_Shaman = [S_andarD,S_andarC,S_andarB,S_atk,S_esp]
+
 
 
     #Tanker -------------------------------
