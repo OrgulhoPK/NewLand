@@ -4,11 +4,12 @@ from Configs import *
 from Personagens import Personagem
 class Jogador:
     def __init__(self,posXY, posWH,personagem:Personagem): #(self, x, y, widht, height)
+        #posição e movimento
         self.X = posXY[0]
         self.Y = posXY[1]
         self.posWH = posWH #tamanhoOBJ
         self.movimento = 4
-        #referente ao personagem
+        #personagem
         self.nome = personagem.nome
         self.vida = personagem.vida
         self.hpmax = personagem.vida
@@ -17,10 +18,13 @@ class Jogador:
         self.dados = []   #Dados dos inimigos
         self.projeteis = []  #list projeteis
 
-        #referente ao personagem vivo ou nao
+        #personagem vivo ou nao
         self.visible= True
         self.sprites = personagem.sprites
         self.habilidade = personagem.habilidade
+
+        
+        
 
 
         #Contadores de animação e  cooldown de habilidades
@@ -39,6 +43,7 @@ class Jogador:
         self.mov_vy = 0
         self.atk = False
         self.atkEspecial = False
+        self.acao = True
         
         #referente ao uso de habilidades
         
@@ -83,13 +88,14 @@ class Jogador:
     def disparo(self):
         pass
 
-    def ataque(self,tela,alvo):
-        self.dados= [tela,alvo]
+    def ataque(self,tela,alvo,mouseXY=None):
+        self.dados= [tela,alvo,mouseXY]
         self.atk = True
 
-    def ataque_especial(self,tela,alvo):
-        self.dados= [tela,alvo]
+    def ataque_especial(self,tela,alvo,jogador = None):
+        self.dados= [tela,alvo,jogador]
         self.atkEspecial = True
+        
 
         
 
@@ -101,7 +107,25 @@ class Jogador:
             self.visible = False
 
 
+    def getMouse(self):
 
+        for event in pg.event.get():
+            mouseXY = None
+            mx,my = pg.mouse.get_pos()
+            if mouseXY is None:
+                print("ai")
+                self.acao = False
+                self.dados[2].acao = False
+                self.dados[1].acao = False
+
+            if event.type == pg.MOUSEBUTTONDOWN:
+                if pg.mouse.get_pressed()[0]:
+                    print("aiai")
+                    mouseXY = (mx,my)
+                    self.acao = False
+                    self.dados[2].acao = False
+                    self.dados[1].acao = False
+                    return mouseXY
 
     def desenhar(self,tela):
         esq_Dir = self.sprites[0]
@@ -109,7 +133,7 @@ class Jogador:
         baixo = self.sprites[2]
         ataque = self.sprites[3]
         especial = self.sprites[4]
-        #pg.draw.circle(tela,(0,0,0),(self.X+70,self.Y+35),40)
+        pg.draw.circle(tela,(255,0,0),(self.X+32,self.Y+35),90,1)
         #pg.draw.ellipse(tela, (0,0,0), [(self.X+(32*self.mov_vx)),self.Y+20, 80, 40])
         #pg.draw.rect(tela,(255,100,2),[self.hitbox.centerx + self.mov_vx,self.Y+20, 27, 35])
         #Contador de animação (desenho)
@@ -146,7 +170,7 @@ class Jogador:
                     self.countatk +=1
 
                 #Heitor
-                if self.nome == 'Heitor': 
+                if self.nome == 'Heitor' or self.nome == 'Jurupari': 
 
                     if self.mov_vx == -1:
                         tela.blit(pg.transform.flip(ataque[self.countatk//2],True,False),(self.X,self.Y))
@@ -198,6 +222,12 @@ class Jogador:
 
                     self.countspec +=1
 
+                if self.nome == 'Jurupari':
+                    mouseXY = self.getMouse()
+                    if self.acao:
+                        print(mouseXY)
+                        self.ataque_especial = False
+
 
 
             if not self.atk and not self.atkEspecial:
@@ -240,3 +270,6 @@ class Jogador:
             pg.draw.rect(tela,(255,0,0),(self.X+17,self.Y,40,8))
             #40 - (4 * (10-self.vida))
             pg.draw.rect(tela,(0,128,0),(self.X+17,self.Y,((self.vida/self.hpmax)*40),8))
+
+
+    

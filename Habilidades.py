@@ -84,6 +84,17 @@ class melee:
     def ataque(self,lista):
         pass
 
+
+    def EspecialJ(self,x,y,dados,velxy):
+        #pausar a tela até obter X e Y (posicao do mouse)
+        #Usar posição X e Y pra criar um circulo que vai determinar colisão com inimigos
+        pass
+
+
+
+
+
+
     def colisao(self,alvo) -> bool:
         return ((self.y - self.raio< alvo.hitbox[1]+alvo.hitbox[3] and
             self.y + self.raio>alvo.hitbox[1]) and 
@@ -93,6 +104,7 @@ class melee:
 
 
 
+    
 
 
 class Projetil:
@@ -158,3 +170,4 @@ class Projetil:
             (self.x + self.raio>alvo.hitbox[0] and 
             self.x - self.raio < alvo.hitbox[0]+alvo.hitbox[2]
             ))
+

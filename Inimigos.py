@@ -23,6 +23,7 @@ class Inimigo:
         self.hitbox = pg.Rect(self.x+17,self.y+34,31,31)
         self.raio = 500
         self.sprites = personagem.sprites
+        self.acao = True
 
          
     def movimento(self,jogador1:Jogador,jogador2:Jogador):

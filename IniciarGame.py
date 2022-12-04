@@ -25,6 +25,7 @@ class Game:
         self.estruturas = Imagem.Estruturas
         self.lista = Imagem.ListaColisoes
         self.mov = False
+        self.acao = True
 
     def rodar (self):
         while not self.encerrada:
@@ -54,14 +55,28 @@ class Game:
 
             if event.type == pg.KEYDOWN and event.key == pg.K_e:
                 if self.jogador1.cooldown2 >= 30:
-                    self.jogador1.ataque_especial(self.tela,self.Inimigo1)
+                    if self.jogador1.nome == 'Jurupari':
+                        self.jogador1.ataque_especial(self.tela,self.Inimigo1,self.jogador2)
+                        
+                    
+                    else:
+                        self.jogador1.ataque_especial(self.tela,self.Inimigo1)
+
                     
             if event.type == pg.KEYDOWN and event.key == pg.K_u:
                 if self.jogador2.cooldown1 >= 15:
                     self.jogador2.ataque(self.tela,self.Inimigo1)
+
+
             if event.type == pg.KEYDOWN and event.key == pg.K_o:
                 if self.jogador2.cooldown2 >= 30:
-                    self.jogador2.ataque_especial(self.tela,self.Inimigo1)
+                    if self.jogador1.nome == 'Jurupari':
+                       
+                        self.jogador2.ataque_especial(self.tela,self.Inimigo1,self.jogador1)
+                    
+                    
+                    else:
+                        self.jogador2.ataque_especial(self.tela,self.Inimigo1)
                     
 
             #Teclas de habilidades especiais
@@ -122,7 +137,7 @@ class Game:
         # E trata dos limites de tela
 
         
-        if not self.jogador1.atk and not self.jogador1.atkEspecial:
+        if not self.jogador1.atk and not self.jogador1.atkEspecial and self.jogador1.acao:
 
             if pg.key.get_pressed()[pg.K_a] and (self.jogador1.X > 0) :
                 self.jogador1.esquerda()
@@ -141,7 +156,7 @@ class Game:
                 self.jogador1.mov_vy = 1
             
             #Movimento jogador 2
-        if not self.jogador2.atk and not self.jogador2.atkEspecial:
+        if not self.jogador2.atk and not self.jogador2.atkEspecial and self.jogador2.acao:
             if pg.key.get_pressed()[pg.K_j] and (self.jogador2.X > 0) :
                 self.jogador2.esquerda()
                 self.jogador2.mov_vx = -1               
@@ -160,7 +175,8 @@ class Game:
                 
 
         #trata movimento do inimigo
-        self.Inimigo1.movimento(self.jogador1,self.jogador2)
+        if self.Inimigo1.acao:
+            self.Inimigo1.movimento(self.jogador1,self.jogador2)
 
 
     def colisoes(self,lista):
@@ -170,7 +186,7 @@ class Game:
 
 
         
-                
+    
 
 
 
