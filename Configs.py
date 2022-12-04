@@ -34,13 +34,13 @@ SelecaoPersonagem = [pg.Rect(120,249,157,50),
 #Lista de habilidades
 BasicaIda = melee(5,Imagem.hitDamage)
 BasicaHeitor = melee(18,Imagem.tornado)
-
+BasicaJuripari = melee(5,Imagem.S_fireball1)
 
 #Lista de personagens
 #Personagem = Personagem (vida,dano,Sprites:list , Skills: list)
 D_Heitor = Personagem('Heitor',10,10,Imagem.Sprites_Clerigo,BasicaHeitor)
 Ida = Personagem('Ida',10,10,Imagem.Sprites_Duelista,BasicaIda)
-Jurupari = Personagem('Jurupari',10,10,Imagem.Sprites_Shaman,BasicaIda)
+Jurupari = Personagem('Jurupari',10,10,Imagem.Sprites_Shaman,BasicaJuripari)
 Guaraci = Personagem('Guaraci',10,10,Imagem.Sprites_Tanker,BasicaIda)
 
 
