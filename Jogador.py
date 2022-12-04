@@ -144,7 +144,7 @@ class Jogador:
                         self.countatk = 0
                         self.atk = False
                     self.countatk +=1
-                    
+
                 #Heitor
                 if self.nome == 'Heitor': 
 
@@ -156,7 +156,7 @@ class Jogador:
                     if self.countatk +1 >= 16:
                         self.countatk = 0
                         self.atk = False
-                        projetil = self.habilidade.BasicaRange(self.X,self.Y,(self.mov_vx,self.mov_vy))
+                        projetil = self.habilidade.BasicaRange(self.nome,self.X,self.Y,(self.mov_vx,self.mov_vy))
                         self.projeteis.append(projetil) 
                         
                         

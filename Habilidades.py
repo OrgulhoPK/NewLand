@@ -51,15 +51,15 @@ class melee:
             alvo.hit()
             self.contador+=1
         
-    def BasicaRange(self,x,y,velxy):
+    def BasicaRange(self,nome,x,y,velxy):
         velx = velxy[0]
         vely = velxy[1]
         x = x+32
         y = y+40
         if velx == 0 and vely == 0:
-            return (Projetil(x,y,self.raio,x+1,y,self.spriteBasica))      
+            return (Projetil(nome,x,y,self.raio,x+1,y,self.spriteBasica))      
         else:
-            return (Projetil(x,y,self.raio,x+velx, y+vely,self.spriteBasica))
+            return (Projetil(nome,x,y,self.raio,x+velx, y+vely,self.spriteBasica))
 
             #self.projeteis.append(Projetil(self.jogador1.X+32,self.jogador1.Y+45,5,mouse_x,mouse_y))      
 
@@ -96,7 +96,7 @@ class melee:
 
 
 class Projetil:
-    def __init__(self,x,y,raio,mousex,mousey,sprite):
+    def __init__(self,nome,x,y,raio,mousex,mousey,sprite):
         self.x = x
         self.y = y
         self.mousex = mousex
@@ -111,6 +111,7 @@ class Projetil:
         self.multiplicador = 3
         self.anim = 0
         self.sprite = sprite
+        self.nome = nome
 
     def desenha(self,tela):
 
@@ -119,9 +120,16 @@ class Projetil:
         self.x -= int(self.x_vel)
         self.y -= int(self.y_vel)
 
-          
-        pg.draw.circle(tela,(0,0,0),(self.x,self.y),self.raio)
-        tela.blit(pg.transform.scale(self.sprite[self.anim//2],(64,64)),(self.x-16,self.y-16))
+        if self.nome == 'Heitor': 
+            pg.draw.circle(tela,(0,0,0),(self.x+25,self.y+10),self.raio)
+            tela.blit(pg.transform.scale(self.sprite[self.anim//2],(64,64)),(self.x,self.y-32))
+        
+        if self.nome == 'Jurupari':   
+            pg.draw.circle(tela,(0,0,0),(self.x,self.y),self.raio)     
+            tela.blit(pg.transform.scale(Imagem.S_fireball1[self.anim//2],(32,32)),(self.x-16,self.y-16))
+        
+        
+        
         if self.anim + 1 >= 16:
             self.anim = 0   
         self.anim += 1
@@ -138,7 +146,14 @@ class Projetil:
 
 
     def colisaoProjetil(self,alvo) -> bool:
-        return ((self.y - self.raio< alvo.hitbox[1]+alvo.hitbox[3] and
+        if self.nome == 'Heitor': 
+            return ((self.y+10 - self.raio< alvo.hitbox[1]+alvo.hitbox[3] and
+                self.y+10 + self.raio>alvo.hitbox[1]) and 
+                (self.x+25 + self.raio>alvo.hitbox[0] and 
+                self.x+25 - self.raio < alvo.hitbox[0]+alvo.hitbox[2]
+                ))
+        else:
+            return ((self.y - self.raio< alvo.hitbox[1]+alvo.hitbox[3] and
             self.y + self.raio>alvo.hitbox[1]) and 
             (self.x + self.raio>alvo.hitbox[0] and 
             self.x - self.raio < alvo.hitbox[0]+alvo.hitbox[2]

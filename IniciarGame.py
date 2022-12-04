@@ -123,7 +123,7 @@ class Game:
 
         
         if not self.jogador1.atk and not self.jogador1.atkEspecial:
-            
+
             if pg.key.get_pressed()[pg.K_a] and (self.jogador1.X > 0) :
                 self.jogador1.esquerda()
                 self.jogador1.mov_vx = -1

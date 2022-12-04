@@ -33,7 +33,7 @@ SelecaoPersonagem = [pg.Rect(120,249,157,50),
 
 #Lista de habilidades
 BasicaIda = melee(5,Imagem.hitDamage)
-BasicaHeitor = melee(20,Imagem.tornado)
+BasicaHeitor = melee(18,Imagem.tornado)
 
 
 #Lista de personagens
