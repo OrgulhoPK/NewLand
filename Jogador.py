@@ -13,29 +13,37 @@ class Jogador:
         self.vida = personagem.vida
         self.hpmax = personagem.vida
         self.dano = personagem.dano
+        self.hitbox = pg.Rect(self.X+17,self.Y+34,31,31)
+        self.dados = []   #Dados dos inimigos
+        self.projeteis = []  #list projeteis
+
         #referente ao personagem vivo ou nao
         self.visible= True
         self.sprites = personagem.sprites
         self.habilidade = personagem.habilidade
-        self.cooldown1= 0
-        self.cooldown2= 0
 
-        #referente à animação do personagem    
-        #contadores de animaçao (separados para cada tipo de animacao )
-        self.anim_mov = 0    #é só um contador de animação (trocar o frame)
+
+        #Contadores de animação e  cooldown de habilidades
+        self.cooldown1= 0
+ 
+        self.cooldown2= 0
+        self.sequenciaATK = 0
+        self.anim_mov = 0    
         self.countatk = 0
         self.countspec =  0  
+
+
+        #Orientacao do personagem e animação
         # direcao xy
         self.mov_vx = 0
         self.mov_vy = 0
         self.atk = False
         self.atkEspecial = False
-        self.dados = []
+        
         #referente ao uso de habilidades
-        self.sequenciaATK = 0
+        
 
-        #hitbox = X, Y , Largura, Altura  Rect()
-        self.hitbox = pg.Rect(self.X+17,self.Y+34,31,31)
+
 
     #criar funções para movimentar o jogador
     def esquerda(self):
@@ -114,18 +122,16 @@ class Jogador:
             #if pg.mouse.get_pressed()[0] :
             #    self.atk = True
            
-
             if self.atk:
+                #Ida
                 if self.nome == 'Ida':            
                     if self.mov_vx == -1:
-                        #self.X += self.movimento*2
+
                         if self.countatk == 13:
                             self.habilidade.EspecialD(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
 
                         tela.blit(pg.transform.flip(ataque[self.countatk//2],True,False),(self.X-64,self.Y-64))
-
                     else:
-                        #self.X += self.movimento*2
                         if self.mov_vx == 0:
                             if self.countatk == 13:
                                 self.habilidade.EspecialD(self.X,self.Y,self.dados,(self.mov_vx +1,self.mov_vy))
@@ -133,14 +139,33 @@ class Jogador:
                             if self.countatk == 13:
                                 self.habilidade.EspecialD(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
                         tela.blit(ataque[self.countatk//2],(self.X-64,self.Y-64))
-
+                    
                     if self.countatk +1 >= 16:
                         self.countatk = 0
                         self.atk = False
-                        self.dados.clear()
                     self.countatk +=1
-                if self.nome == 'Heitor':
-                    pass
+                    
+                #Heitor
+                if self.nome == 'Heitor': 
+
+                    if self.mov_vx == -1:
+                        tela.blit(pg.transform.flip(ataque[self.countatk//2],True,False),(self.X,self.Y))
+                    else:
+                        tela.blit(ataque[self.countatk//2],(self.X,self.Y))  
+                                                     
+                    if self.countatk +1 >= 16:
+                        self.countatk = 0
+                        self.atk = False
+                        projetil = self.habilidade.BasicaRange(self.X,self.Y,(self.mov_vx,self.mov_vy))
+                        self.projeteis.append(projetil) 
+                        
+                        
+
+                    self.countatk +=1
+
+
+
+
 
 
             if self.atkEspecial:
@@ -169,7 +194,7 @@ class Jogador:
                     if self.countspec +1 >= 23:
                         self.countspec = 0
                         self.atkEspecial = False
-                        self.dados.clear()
+                        #self.dados.clear()
 
                     self.countspec +=1
 
@@ -195,10 +220,17 @@ class Jogador:
 
                 elif self.mov_vy == 1:
                     tela.blit(pg.transform.scale(baixo[self.anim_mov//4], (64,64)),(self.X,self.Y))
-                
+
                 self.parar()
-                self.cooldown1 += 1
-                self.cooldown2 += 1
+            
+
+            for projeteis in self.projeteis:      
+                projeteis.desenha(tela)         
+            
+                
+
+            self.cooldown1 += 1
+            self.cooldown2 += 1
 
 
             #atualizar posicao do hitbox

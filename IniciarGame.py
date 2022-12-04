@@ -65,16 +65,15 @@ class Game:
                     
 
             #Teclas de habilidades especiais
-            if event.type == pg.MOUSEBUTTONDOWN:
-                if pg.mouse.get_pressed()[0]:
-                    self.projeteis.append(Projetil(self.jogador1.X+32,self.jogador1.Y+45,5,mouse_x,mouse_y))      
-                    self.projeteis.append(Projetil(self.jogador2.X+32,self.jogador2.Y+45,5,mouse_x,mouse_y))          
-                    #Sons.BarulhoProjetil(self)
 
-        for projetil in self.projeteis:
+        for projetil in self.jogador1.projeteis:
             if projetil.colisaoProjetil(self.Inimigo1) and self.Inimigo1.visible:
                 self.Inimigo1.hit()
-                self.projeteis.pop(self.projeteis.index(projetil))
+                self.jogador1.projeteis.pop(self.jogador1.projeteis.index(projetil))
+        for projetil in self.jogador2.projeteis:
+            if projetil.colisaoProjetil(self.Inimigo1) and self.Inimigo1.visible:
+                self.Inimigo1.hit()
+                self.jogador2.projeteis.pop(self.jogador2.projeteis.index(projetil))
             
         
             
@@ -108,10 +107,10 @@ class Game:
         
         
         #Desenho projeteis
-        for projeteis in self.projeteis:      
+        '''for projeteis in self.jogador1.projeteis:      
                 projeteis.desenha(tela)
-                
-                projeteis.atk = True
+        for projeteis in self.jogador2.projeteis:      
+                projeteis.desenha(tela)'''
                 
         
         #ultimo setup
@@ -124,6 +123,7 @@ class Game:
 
         
         if not self.jogador1.atk and not self.jogador1.atkEspecial:
+            
             if pg.key.get_pressed()[pg.K_a] and (self.jogador1.X > 0) :
                 self.jogador1.esquerda()
                 self.jogador1.mov_vx = -1

@@ -102,8 +102,13 @@ class Imagem:
     C_atk = []
     for i in C_ataque.glob("*.png"):
         C_atk.append(pg.image.load(i))
+
+    C_special = Clerigo / 'ataque' / 'Especial'    
+    C_spec = []
+    for i in C_special.glob("*.png"):
+        C_spec.append(pg.image.load(i))
     
-    Sprites_Clerigo = [C_andarD,C_andarC,C_andarB,C_atk]
+    Sprites_Clerigo = [C_andarD,C_andarC,C_andarB,C_atk,C_spec]
 
 
   
@@ -232,6 +237,7 @@ class Imagem:
     Sprites_Soldadinho = [Mob_andarD,Mob_andarC,Mob_andarB,Mob_atk]
 
 
+
     #Animação ataques 
     Habilidades = caminho.parent / 'Imagens' / 'Habilidades'
     dano = Habilidades / 'hitDamage'
@@ -239,9 +245,9 @@ class Imagem:
     for i in dano.glob("*.png"):
         hitDamage.append(pg.image.load(i))
     
-    s_tornado = Habilidades / 'tornado'
+    C_tornado = Habilidades / 'tornado'
     tornado = []
-    for i in s_tornado.glob("*.png"):
+    for i in C_tornado.glob("*.png"):
         tornado.append(pg.image.load(i))
 
     

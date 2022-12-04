@@ -9,11 +9,12 @@ import pygame as pg
 # os ataques basicos e habilidades
 
 class melee:
-    def __init__(self,raio):
+    def __init__(self,raio,sprites):
         self.raio = raio
         self.x = None
         self.y = None
         self.contador = 0
+        self.spriteBasica= sprites
 
     def sleep(self):
         pass
@@ -31,7 +32,7 @@ class melee:
         if rect.colliderect(alvo.hitbox):
             if self.contador+1 >=5:
                 self.contador = 0
-            tela.blit(pg.transform.scale(Imagem.hitDamage[self.contador],(128,128)),(alvo.x-32,alvo.y-32))
+            tela.blit(pg.transform.scale(self.spriteBasica[self.contador],(128,128)),(alvo.x-32,alvo.y-32))
             alvo.hit()
             self.contador+=1
 
@@ -46,11 +47,21 @@ class melee:
         if rect.colliderect(alvo.hitbox):
             if self.contador+1 >=5:
                 self.contador = 0
-            tela.blit(pg.transform.scale(Imagem.hitDamage[self.contador],(128,128)),(alvo.x-32,alvo.y-32))
+            tela.blit(pg.transform.scale(self.spriteBasica[self.contador],(128,128)),(alvo.x-32,alvo.y-32))
             alvo.hit()
             self.contador+=1
         
-    
+    def BasicaRange(self,x,y,velxy):
+        velx = velxy[0]
+        vely = velxy[1]
+        x = x+32
+        y = y+40
+        if velx == 0 and vely == 0:
+            return (Projetil(x,y,self.raio,x+1,y,self.spriteBasica))      
+        else:
+            return (Projetil(x,y,self.raio,x+velx, y+vely,self.spriteBasica))
+
+            #self.projeteis.append(Projetil(self.jogador1.X+32,self.jogador1.Y+45,5,mouse_x,mouse_y))      
 
 
             # - - - - - - - - -
@@ -85,7 +96,7 @@ class melee:
 
 
 class Projetil:
-    def __init__(self,x,y,raio,mousex,mousey):
+    def __init__(self,x,y,raio,mousex,mousey,sprite):
         self.x = x
         self.y = y
         self.mousex = mousex
@@ -99,23 +110,21 @@ class Projetil:
         self.raio = raio
         self.multiplicador = 3
         self.anim = 0
-
+        self.sprite = sprite
 
     def desenha(self,tela):
 
-        self.contador += 1
 
+        self.atk = False            
+        self.x -= int(self.x_vel)
+        self.y -= int(self.y_vel)
 
-        if self.contador +1 >=17:
-            self.atk = False            
-            self.x -= int(self.x_vel)
-            self.y -= int(self.y_vel)
-            self.anim += 1
-            if self.anim + 1 >= 21:
-                self.anim = 0     
-                  
-            tela.blit(pg.transform.scale(Imagem.S_fireball1[self.anim//2],(32,32)),(self.x-16,self.y-16))
-        
+          
+        pg.draw.circle(tela,(0,0,0),(self.x,self.y),self.raio)
+        tela.blit(pg.transform.scale(self.sprite[self.anim//2],(64,64)),(self.x-16,self.y-16))
+        if self.anim + 1 >= 16:
+            self.anim = 0   
+        self.anim += 1
         
 
 
