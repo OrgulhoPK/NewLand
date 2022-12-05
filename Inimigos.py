@@ -36,7 +36,7 @@ class Inimigo:
 
         if distancia1 < distancia2:
             alvo_x= jogador1.X +32
-            alvo_y= jogador1.Y + 32
+            alvo_y= jogador1.Y 
             dist = math.sqrt((alvo_x - self.x) ** 2 +
             (alvo_y - self.y) ** 2)
             

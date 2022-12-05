@@ -12,7 +12,7 @@ class Jogador:
         #personagem
         self.nome = personagem.nome
         self.vida = personagem.vida
-        self.hpmax = personagem.vida
+        self.hpmax = personagem.vida #orientacao para barra hp e heal
         self.dano = personagem.dano
         self.hitbox = pg.Rect(self.X+17,self.Y+34,31,31)
         self.dados = []   #Dados dos inimigos
@@ -127,7 +127,12 @@ class Jogador:
         especial = self.sprites[4]
         pg.draw.circle(tela,(255,0,0),(self.X+32,self.Y+35),90,1)
         #pg.draw.ellipse(tela, (0,0,0), [(self.X+(32*self.mov_vx)),self.Y+20, 80, 40])
-        #pg.draw.rect(tela,(255,100,2),[self.hitbox.centerx + self.mov_vx,self.Y+20, 27, 35])
+        if self.mov_vx == -1:
+            pg.draw.rect(tela,(255,100,2),[self.X+10,self.Y+20, 20, 35])
+        if self.mov_vx == 0: 
+            pg.draw.rect(tela,(255,100,2),[self.X+32,self.Y+20, 20, 35])
+        if self.mov_vx ==1:
+            pg.draw.rect(tela,(255,100,2),[self.X+(32*self.mov_vx),self.Y+20, 20, 35])
         #Contador de animação (desenho)
         if self.visible:
             if self.anim_mov+1 >= 28:
@@ -139,29 +144,48 @@ class Jogador:
             #    self.atk = True
            
             if self.atk:
-                #Ida
+                #Duelista
                 if self.nome == 'Ida':            
                     if self.mov_vx == -1:
-
                         if self.countatk == 13:
                             self.habilidade.EspecialD(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
-
                         tela.blit(pg.transform.flip(ataque[self.countatk//2],True,False),(self.X-64,self.Y-64))
                     else:
-                        if self.mov_vx == 0:
-                            if self.countatk == 13:
-                                self.habilidade.EspecialD(self.X,self.Y,self.dados,(self.mov_vx +1,self.mov_vy))
-                        else:
-                            if self.countatk == 13:
-                                self.habilidade.EspecialD(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
+                        if self.countatk == 13:
+                            self.habilidade.EspecialD(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
                         tela.blit(ataque[self.countatk//2],(self.X-64,self.Y-64))
                     
                     if self.countatk +1 >= 16:
                         self.countatk = 0
                         self.atk = False
+                        self.cooldown1 = 0
+                    self.countatk +=1
+                #Tanker
+                if self.nome == 'Guaraci':            
+                    if self.mov_vx == -1:
+                        if self.countatk >10: 
+                            self.X -= self.movimento*1.5
+                            tela.blit(pg.transform.flip(ataque[self.countatk//2],True,False),(self.X,self.Y))
+                        if self.countatk == 15:
+                                self.HBasica.BasicaGuaraci(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy),self.movimento)
+                        tela.blit(pg.transform.flip(ataque[self.countatk//2],True,False),(self.X,self.Y))
+                    else:
+                        if self.countatk >10: 
+                            self.X += self.movimento*1.5
+                        if self.countatk == 15:
+                            self.HBasica.BasicaGuaraci(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy),self.movimento)
+                            
+                        
+                        tela.blit(ataque[self.countatk//2],(self.X,self.Y))
+                    
+                    if self.countatk +1 >= 16:
+                        self.countatk = 0
+                        self.cooldown1 = 0
+                        self.atk = False
+                        
                     self.countatk +=1
 
-                #Heitor
+                #Clerigo e Shaman
                 if self.nome == 'Heitor' or self.nome == 'Jurupari': 
 
                     if self.mov_vx == -1:
@@ -174,45 +198,34 @@ class Jogador:
                         self.atk = False
                         projetil = self.HBasica.BasicaRange(self.nome,self.X,self.Y,(self.mov_vx,self.mov_vy))
                         self.projeteis.append(projetil) 
+                        self.cooldown1 = 0
                         
                         
 
                     self.countatk +=1
 
 
-
-
-
-
             if self.atkEspecial:
+                #Duelista
                 if self.nome == 'Ida':
-                    
                     if self.mov_vx == -1:
-                        
                         if self.countspec >10:
                             self.X -= self.movimento*1.5
                             self.HEspecial.EspecialD(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
-
                         tela.blit(pg.transform.flip(especial[self.countspec//2],True,False),(self.X-64,self.Y-64))
-
                     else:
-                        
-                        if self.mov_vx == 0:
-                            if self.countspec > 10:
-                                self.X += self.movimento*1.5
-                                self.HEspecial.EspecialD(self.X,self.Y,self.dados,(self.mov_vx +1,self.mov_vy))
-                        else:
-                            if self.countspec > 10:
-                                self.X += self.movimento*1.5
-                                self.HEspecial.EspecialD(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
+
+                        if self.countspec > 10:
+                            self.X += self.movimento*1.5
+                            self.HEspecial.EspecialD(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
                         tela.blit(especial[self.countspec//2],(self.X-64,self.Y-64))
-                    
+                
                     if self.countspec +1 >= 23:
                         self.countspec = 0
                         self.atkEspecial = False
-                        #self.dados.clear()
-
+                        self.cooldown2 = 0
                     self.countspec +=1
+                #Clerigo
                 if self.nome == 'Heitor':
                     if self.countspec < 45:
                         pg.draw.circle(tela,(254,250,182),(self.X+32,self.Y+32),90,1)
@@ -224,9 +237,9 @@ class Jogador:
                     if self.countspec+1 >= 61:
                         self.countspec = 0
                         self.atkEspecial = False
-                        
+                        self.cooldown2 = 0                
                     self.countspec+=1
-
+                #Shaman
                 if self.nome == 'Jurupari':
                     if self.mouse:  
                         tela.blit(especial[8],(self.X,self.Y))
@@ -243,9 +256,20 @@ class Jogador:
                             self.countspec = 0
                             self.atkEspecial = False
                             self.mouseXY = None
-
-
+                            self.cooldown2 = 0
                         self.countspec+=1
+                if self.nome == 'Guaraci':
+                    if self.countspec>7:
+                        self.HEspecial.EspecialG(self.dados,self)
+
+                    tela.blit(especial[self.countspec//2],(self.X,self.Y))
+                    if self.countspec +1 >= 16:
+                        self.countspec = 0
+                        self.atkEspecial = False
+                        self.mouseXY = None
+                        self.cooldown2 = 0
+                    self.countspec+=1
+
 
 
             if not self.atk and not self.atkEspecial:

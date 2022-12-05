@@ -27,7 +27,10 @@ class Skill:
         tela = dados[0]
         alvo = dados[1]
         velx,vely= velxy
+        if velx == 0:
+            velx = 1
         rect = pg.Rect((self.x+(32*velx)),self.y+20, 80, 40)
+        
         
         if rect.colliderect(alvo.hitbox):
             if self.contador+1 >=5:
@@ -36,12 +39,14 @@ class Skill:
             alvo.hit()
             self.contador+=1
 
-    def EspecialD(self,x,y,dados,velxy):
+    def EspecialD(self,x,y,dados,velxy):#Especial duelista
         self.x = x
         self.y = y
         tela = dados[0]
         alvo = dados[1]
         velx,vely= velxy
+        if velx ==0:
+            velx =1
         rect = pg.Rect((self.x+(32*velx)),self.y+20, 80, 40)
         
         if rect.colliderect(alvo.hitbox):
@@ -51,7 +56,7 @@ class Skill:
             alvo.hit()
             self.contador+=1
         
-    def BasicaRange(self,nome,x,y,velxy):
+    def BasicaRange(self,nome,x,y,velxy): #AtaqueRange
         velx = velxy[0]
         vely = velxy[1]
         x = x+32
@@ -61,7 +66,7 @@ class Skill:
         else:
             return (Projetil(nome,x,y,self.raio,x+velx, y+vely,self.sprite))
 
-    def EspecialH(self,x,y,dados):
+    def EspecialH(self,x,y,dados): #Especial Clerigo
         self.x = x
         self.y = y
         tela = dados[0]
@@ -77,9 +82,34 @@ class Skill:
 
             self.contador+=1
 
-    def BasicaGuaraci():
-        pass
+    def BasicaGuaraci(self,x,y,dados,velxy,mov):
+        self.x = x
+        self.y = y
+        tela = dados[0]
+        alvo = dados[1]
+        velx,vely= velxy
+        rect = None
+        if velx == -1:
+            rect = pg.Rect(self.x+5,self.y+20, 20, 35)
+        elif velx == 0:
+            velx = 1 
+            rect = pg.Rect(self.x+32,self.y+20, 20, 35)
+        elif velx == 1:
+            rect = pg.Rect((self.x+(32*velx)),self.y+20, 20, 35)
+        
+        if rect.colliderect(alvo.hitbox):
+            tela.blit(pg.transform.scale(self.sprite[2],(128,128)),(alvo.x-32,alvo.y-32))
+            alvo.x += mov*1.5*velx
+            alvo.hit()
+            alvo.stun = True
 
+    def EspecialG(self,dados,jogador):
+        tela = dados[0]
+        alvo = dados[1]
+        if jogador.vida < jogador.hpmax:
+            jogador.vida += 3
+
+        tela.blit(pg.transform.scale(self.sprite,(72,64)),(jogador.X-5,jogador.Y+25))
 
   
     def ataque(self,lista):
@@ -94,7 +124,7 @@ class Skill:
         if self.colisao(alvo):
             if self.contador+1 >=36:
                 self.contador = 0
-            tela.blit(pg.transform.scale(self.sprite[self.contador//4],(96,55)),(alvo.x-15,alvo.y+28))
+            tela.blit(pg.transform.scale(self.sprite[self.contador//4],(72,64)),(alvo.x-5,alvo.y+25))
             alvo.hit()
 
             self.contador+=1

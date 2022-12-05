@@ -33,16 +33,16 @@ SelecaoPersonagem = [pg.Rect(120,249,157,50),
 
 #Lista de habilidades
 BasicaIda = Skill(5,Imagem.hitDamage)
-BasicaHeitor = [Skill(20,Imagem.tornado),Skill(92,Imagem.C_Stun1)]
+SkillsHeitor = [Skill(20,Imagem.tornado),Skill(92,Imagem.C_Stun1)]
 SkillsJurupari = [Skill(5,Imagem.S_fireball1),Skill(92,Imagem.S_CirculoFogo)]
-
+SkillsGuaraci = [Skill(5,Imagem.hitDamage),Skill(35,Imagem.circuloTotem)]
 
 #Lista de personagens
 #Personagem = Personagem (vida,dano,Sprites:list , Skills: list)
-D_Heitor = Personagem('Heitor',10,10,Imagem.Sprites_Clerigo,BasicaHeitor)
+D_Heitor = Personagem('Heitor',10,10,Imagem.Sprites_Clerigo,SkillsHeitor)
 Ida = Personagem('Ida',10,10,Imagem.Sprites_Duelista,BasicaIda)
 Jurupari = Personagem('Jurupari',10,10,Imagem.Sprites_Shaman,SkillsJurupari)
-Guaraci = Personagem('Guaraci',10,10,Imagem.Sprites_Tanker,BasicaIda)
+Guaraci = Personagem('Guaraci',10,10,Imagem.Sprites_Tanker,SkillsGuaraci)
 
 
 #Mob

@@ -204,8 +204,12 @@ class Imagem:
     T_atk = []
     for i in T_ataque.glob("*.png"):
         T_atk.append(pg.image.load(i))
-    
-    Sprites_Tanker = [T_andarD,T_andarC,T_andarB,T_atk]
+    T_spec = Tanker / 'ataque' / 'esquerda-direita'
+    T_spec1 = []
+    for i in T_spec.glob("*.png"):
+        T_spec1.append(pg.image.load(i))
+
+    Sprites_Tanker = [T_andarD,T_andarC,T_andarB,T_atk,T_spec1]
     
 
 
@@ -238,11 +242,9 @@ class Imagem:
 
     #Animação de ataques 
     Habilidades = caminho.parent / 'Imagens' / 'Habilidades'
-    dano = Habilidades / 'hitDamage'
-    hitDamage = []
-    for i in dano.glob("*.png"):
-        hitDamage.append(pg.image.load(i))
+    #
     
+    #Clerigo
     C_tornado = Habilidades / 'tornado'
     tornado = []
     for i in C_tornado.glob("*.png"):
@@ -252,7 +254,7 @@ class Imagem:
     for i in C_Stun.glob("*.png"):
         C_Stun1.append(pg.image.load(i))
 
-    
+    #Shaman
     S_fireball = Habilidades / 'Fireball'
     S_fireball1 = [] 
     for i in S_fireball.glob("*.png"):
@@ -264,6 +266,13 @@ class Imagem:
         S_CirculoFogo.append(pg.image.load(i))
 
     #outras animaçoes
+    circuloT = Habilidades / 'CirculoTotem' / 'circulo magico.png'
+    circuloTotem = pg.image.load(circuloT)
+    dano = Habilidades / 'hitDamage'
+    hitDamage = []
+    for i in dano.glob("*.png"):
+        hitDamage.append(pg.image.load(i))
+    
     starStun = Habilidades / 'StarStun'
     starStun1 = []
     for i in starStun.glob("*.png"):
