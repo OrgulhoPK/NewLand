@@ -236,9 +236,7 @@ class Imagem:
     
     Sprites_Soldadinho = [Mob_andarD,Mob_andarC,Mob_andarB,Mob_atk]
 
-
-
-    #Animação ataques 
+    #Animação de ataques 
     Habilidades = caminho.parent / 'Imagens' / 'Habilidades'
     dano = Habilidades / 'hitDamage'
     hitDamage = []
@@ -249,11 +247,26 @@ class Imagem:
     tornado = []
     for i in C_tornado.glob("*.png"):
         tornado.append(pg.image.load(i))
+    C_Stun = Habilidades / 'RaioStun'
+    C_Stun1 = []
+    for i in C_Stun.glob("*.png"):
+        C_Stun1.append(pg.image.load(i))
 
     
     S_fireball = Habilidades / 'Fireball'
     S_fireball1 = [] 
     for i in S_fireball.glob("*.png"):
         S_fireball1.append(pg.image.load(i))
+    
+    S_Circulo = Habilidades / 'CirculoFogo'
+    S_CirculoFogo = []
+    for i in S_Circulo.glob("*.png"):
+        S_CirculoFogo.append(pg.image.load(i))
+
+    #outras animaçoes
+    starStun = Habilidades / 'StarStun'
+    starStun1 = []
+    for i in starStun.glob("*.png"):
+        starStun1.append(pg.image.load(i))
 
 

@@ -49,34 +49,34 @@ class Game:
 
             #tratamento dos ataques
             #teclas de ataque básico
-            if event.type == pg.KEYDOWN and event.key == pg.K_q:
-                if self.jogador1.cooldown1 >= 15:
-                    self.jogador1.ataque(self.tela,self.Inimigo1)
+            if self.jogador1.acao and self.jogador2.acao:
+                if event.type == pg.KEYDOWN and event.key == pg.K_q:
+                    if self.jogador1.cooldown1 >= 15:
+                        self.jogador1.ataque(self.tela,self.Inimigo1)
 
-            if event.type == pg.KEYDOWN and event.key == pg.K_e:
-                if self.jogador1.cooldown2 >= 30:
-                    if self.jogador1.nome == 'Jurupari':
-                        self.jogador1.ataque_especial(self.tela,self.Inimigo1,self.jogador2)
+                if event.type == pg.KEYDOWN and event.key == pg.K_e:
+                    if self.jogador1.cooldown2 >= 60:
+                        if self.jogador1.nome == 'Jurupari':
+                            self.jogador1.mouse = True
+                            self.jogador1.ataque_especial(self.tela,self.Inimigo1,self.jogador2)
+                            
                         
-                    
-                    else:
-                        self.jogador1.ataque_especial(self.tela,self.Inimigo1)
+                        else:
+                            self.jogador1.ataque_especial(self.tela,self.Inimigo1)
 
-                    
-            if event.type == pg.KEYDOWN and event.key == pg.K_u:
-                if self.jogador2.cooldown1 >= 15:
-                    self.jogador2.ataque(self.tela,self.Inimigo1)
+                        
+                if event.type == pg.KEYDOWN and event.key == pg.K_u:
+                    if self.jogador2.cooldown1 >= 15:
+                        self.jogador2.ataque(self.tela,self.Inimigo1)
 
 
-            if event.type == pg.KEYDOWN and event.key == pg.K_o:
-                if self.jogador2.cooldown2 >= 30:
-                    if self.jogador1.nome == 'Jurupari':
-                       
-                        self.jogador2.ataque_especial(self.tela,self.Inimigo1,self.jogador1)
-                    
-                    
-                    else:
-                        self.jogador2.ataque_especial(self.tela,self.Inimigo1)
+                if event.type == pg.KEYDOWN and event.key == pg.K_o:
+                    if self.jogador2.cooldown2 >= 60:
+                        if self.jogador2.nome == 'Jurupari':
+                            self.jogador2.mouse = True
+                            self.jogador2.ataque_especial(self.tela,self.Inimigo1,self.jogador1)
+                        else:
+                            self.jogador2.ataque_especial(self.tela,self.Inimigo1)
                     
 
             #Teclas de habilidades especiais
@@ -116,9 +116,10 @@ class Game:
         
 
         #desenho jogadores / inimigos
-        self.Inimigo1.desenhar(tela)
+        
         self.jogador1.desenhar(tela) 
         self.jogador2.desenhar(tela) 
+        self.Inimigo1.desenhar(tela)
         
         
         #Desenho projeteis
@@ -175,7 +176,7 @@ class Game:
                 
 
         #trata movimento do inimigo
-        if self.Inimigo1.acao:
+        if self.Inimigo1.acao and not self.Inimigo1.stun:
             self.Inimigo1.movimento(self.jogador1,self.jogador2)
 
 

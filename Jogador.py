@@ -21,15 +21,11 @@ class Jogador:
         #personagem vivo ou nao
         self.visible= True
         self.sprites = personagem.sprites
-        self.habilidade = personagem.habilidade
-
-        
-        
-
+        self.HBasica = personagem.habilidade[0]
+        self.HEspecial = personagem.habilidade[1]
 
         #Contadores de animação e  cooldown de habilidades
         self.cooldown1= 0
- 
         self.cooldown2= 0
         self.sequenciaATK = 0
         self.anim_mov = 0    
@@ -41,16 +37,15 @@ class Jogador:
         # direcao xy
         self.mov_vx = 0
         self.mov_vy = 0
+        self.mousexy = None  #posicao do mouse para habilidade
         self.atk = False
         self.atkEspecial = False
-        self.acao = True
-        
-        #referente ao uso de habilidades
-        
+        self.acao = True     
+        self.mouse = False
 
 
 
-    #criar funções para movimentar o jogador
+    #movimento do jogador
     def esquerda(self):
         self.X -= self.movimento
     def direita(self):
@@ -108,23 +103,20 @@ class Jogador:
 
 
     def getMouse(self):
-
         for event in pg.event.get():
             mouseXY = None
             mx,my = pg.mouse.get_pos()
             if mouseXY is None:
-                print("ai")
                 self.acao = False
                 self.dados[2].acao = False
                 self.dados[1].acao = False
-
             if event.type == pg.MOUSEBUTTONDOWN:
                 if pg.mouse.get_pressed()[0]:
-                    print("aiai")
                     mouseXY = (mx,my)
-                    self.acao = False
-                    self.dados[2].acao = False
-                    self.dados[1].acao = False
+                    self.acao = True
+                    self.dados[2].acao = True
+                    self.dados[1].acao = True
+                    self.mouse = False
                     return mouseXY
 
     def desenhar(self,tela):
@@ -180,7 +172,7 @@ class Jogador:
                     if self.countatk +1 >= 16:
                         self.countatk = 0
                         self.atk = False
-                        projetil = self.habilidade.BasicaRange(self.nome,self.X,self.Y,(self.mov_vx,self.mov_vy))
+                        projetil = self.HBasica.BasicaRange(self.nome,self.X,self.Y,(self.mov_vx,self.mov_vy))
                         self.projeteis.append(projetil) 
                         
                         
@@ -199,7 +191,7 @@ class Jogador:
                         
                         if self.countspec >10:
                             self.X -= self.movimento*1.5
-                            self.habilidade.EspecialD(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
+                            self.HEspecial.EspecialD(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
 
                         tela.blit(pg.transform.flip(especial[self.countspec//2],True,False),(self.X-64,self.Y-64))
 
@@ -208,11 +200,11 @@ class Jogador:
                         if self.mov_vx == 0:
                             if self.countspec > 10:
                                 self.X += self.movimento*1.5
-                                self.habilidade.EspecialD(self.X,self.Y,self.dados,(self.mov_vx +1,self.mov_vy))
+                                self.HEspecial.EspecialD(self.X,self.Y,self.dados,(self.mov_vx +1,self.mov_vy))
                         else:
                             if self.countspec > 10:
                                 self.X += self.movimento*1.5
-                                self.habilidade.EspecialD(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
+                                self.HEspecial.EspecialD(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
                         tela.blit(especial[self.countspec//2],(self.X-64,self.Y-64))
                     
                     if self.countspec +1 >= 23:
@@ -221,13 +213,39 @@ class Jogador:
                         #self.dados.clear()
 
                     self.countspec +=1
+                if self.nome == 'Heitor':
+                    if self.countspec < 45:
+                        pg.draw.circle(tela,(254,250,182),(self.X+32,self.Y+32),90,1)
+                        pg.draw.circle(tela,(254,250,182),(self.X+32,self.Y+32),90-self.countspec*2,1)
+                        tela.blit(especial[self.countspec//5],(self.X,self.Y))                        
+                    elif self.countspec <=60:
+                        tela.blit(especial[self.countspec//7],(self.X,self.Y))
+                        self.HEspecial.EspecialH(self.X,self.Y,self.dados)
+                    if self.countspec+1 >= 61:
+                        self.countspec = 0
+                        self.atkEspecial = False
+                        
+                    self.countspec+=1
 
                 if self.nome == 'Jurupari':
-                    mouseXY = self.getMouse()
-                    if self.acao:
-                        print(mouseXY)
-                        self.ataque_especial = False
+                    if self.mouse:  
+                        tela.blit(especial[8],(self.X,self.Y))
+                        self.mouseXY = self.getMouse()
+                    if not self.mouse:  
+                        if self.countspec <45:
+                            pg.draw.circle(tela,(255,0,0),(self.mouseXY[0],self.mouseXY[1]),self.countspec*2,1)
+                            tela.blit(especial[self.countspec//5],(self.X,self.Y))
+                        elif self.countspec <135:
+                            pg.draw.circle(tela,(255,0,0),(self.mouseXY[0],self.mouseXY[1]),92,2)
+                            self.HEspecial.EspecialJ(self.mouseXY,self.dados)
+                            tela.blit(especial[self.countspec//15],(self.X,self.Y))
+                        if self.countspec +1 >= 136:
+                            self.countspec = 0
+                            self.atkEspecial = False
+                            self.mouseXY = None
 
+
+                        self.countspec+=1
 
 
             if not self.atk and not self.atkEspecial:

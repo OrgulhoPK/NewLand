@@ -1,7 +1,6 @@
 import pygame as pg
 import math
 from Configs import *
-import random
 from Jogador import Jogador
 
 class Inimigo: 
@@ -23,8 +22,10 @@ class Inimigo:
         self.hitbox = pg.Rect(self.x+17,self.y+34,31,31)
         self.raio = 500
         self.sprites = personagem.sprites
-        self.acao = True
 
+        self.acao = True
+        self.stun = False
+        self.timestun = 0
          
     def movimento(self,jogador1:Jogador,jogador2:Jogador):
         distancia1 = math.sqrt(((self.hitbox.centerx - jogador1.hitbox.centerx)**2) +
@@ -88,10 +89,10 @@ class Inimigo:
     def hit(self):
         print('hit')
         if self.vida>0:
-            self.vida -=1
-            
+            self.vida -=1            
         else:
             self.visible = False
+
     
     def areaameaca(self,alvo) -> bool:
         return ((self.y +16- self.raio< alvo.hitbox[1]+alvo.hitbox[3] and
@@ -142,15 +143,24 @@ class Inimigo:
                         tela.blit(pg.transform.scale(pg.transform.flip(esq_Dir[self.anim_mov//4],True,False), (64,64)),(self.x,self.y))
 
                 #pg.draw.circle(tela,(COR_Tela),(x+16,y+16), self.raio)
-
-
-
                 #pg.draw.rect(tela,COR_Tela,self.hitbox,2)
                 #atualiza o hitbox do mob e barra de vida
                 self.hitbox = pg.Rect(self.x+17,self.y+34,31,31)
                 pg.draw.rect(tela,(255,0,0),(self.x+17,self.y,40,8))
                 pg.draw.rect(tela,(0,128,0),(self.x+17,self.y,((self.vida/self.hpmax)*40),8))
 
+            if self.stun:
+                
+                if self.timestun+1 >=60:
+
+                    self.timestun = 0
+                    self.stun = False
+                
+                tela.blit(Stun[self.timestun//5],(self.x+5,self.y-5))
+                self.timestun +=1
+
+
+                
 
 
         

@@ -2,7 +2,7 @@ import pygame as pg
 import random
 from Personagens import Personagem
 from Imagens import Imagem
-from Habilidades import melee
+from Habilidades import Skill
 
 
 
@@ -32,24 +32,25 @@ SelecaoPersonagem = [pg.Rect(120,249,157,50),
 
 
 #Lista de habilidades
-BasicaIda = melee(5,Imagem.hitDamage)
-BasicaHeitor = melee(20,Imagem.tornado)
-BasicaJurupari = melee(5,Imagem.S_fireball1)
+BasicaIda = Skill(5,Imagem.hitDamage)
+BasicaHeitor = [Skill(20,Imagem.tornado),Skill(92,Imagem.C_Stun1)]
+SkillsJurupari = [Skill(5,Imagem.S_fireball1),Skill(92,Imagem.S_CirculoFogo)]
 
 
 #Lista de personagens
 #Personagem = Personagem (vida,dano,Sprites:list , Skills: list)
 D_Heitor = Personagem('Heitor',10,10,Imagem.Sprites_Clerigo,BasicaHeitor)
 Ida = Personagem('Ida',10,10,Imagem.Sprites_Duelista,BasicaIda)
-Jurupari = Personagem('Jurupari',10,10,Imagem.Sprites_Shaman,BasicaJurupari)
+Jurupari = Personagem('Jurupari',10,10,Imagem.Sprites_Shaman,SkillsJurupari)
 Guaraci = Personagem('Guaraci',10,10,Imagem.Sprites_Tanker,BasicaIda)
 
 
 #Mob
-Soldadinho = Personagem('Soldadinho',100,10,Imagem.Sprites_Soldadinho,BasicaIda)
+Soldadinho = Personagem('Soldadinho',300,10,Imagem.Sprites_Soldadinho,BasicaIda)
 
 
-
+#Efeitos
+Stun = Imagem.starStun1
 #Jogadores 1 e 2
 
 class setup:

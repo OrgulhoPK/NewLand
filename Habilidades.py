@@ -8,13 +8,13 @@ import pygame as pg
 #Nessa classe, estão sendo tratadas de maneira individual 
 # os ataques basicos e habilidades
 
-class melee:
+class Skill:
     def __init__(self,raio,sprites):
         self.raio = raio
         self.x = None
         self.y = None
         self.contador = 0
-        self.spriteBasica= sprites
+        self.sprite= sprites
 
     def sleep(self):
         pass
@@ -32,7 +32,7 @@ class melee:
         if rect.colliderect(alvo.hitbox):
             if self.contador+1 >=5:
                 self.contador = 0
-            tela.blit(pg.transform.scale(self.spriteBasica[self.contador],(128,128)),(alvo.x-32,alvo.y-32))
+            tela.blit(pg.transform.scale(self.sprite[self.contador],(128,128)),(alvo.x-32,alvo.y-32))
             alvo.hit()
             self.contador+=1
 
@@ -47,7 +47,7 @@ class melee:
         if rect.colliderect(alvo.hitbox):
             if self.contador+1 >=5:
                 self.contador = 0
-            tela.blit(pg.transform.scale(self.spriteBasica[self.contador],(128,128)),(alvo.x-32,alvo.y-32))
+            tela.blit(pg.transform.scale(self.sprite[self.contador],(128,128)),(alvo.x-32,alvo.y-32))
             alvo.hit()
             self.contador+=1
         
@@ -57,41 +57,47 @@ class melee:
         x = x+32
         y = y+40
         if velx == 0 and vely == 0:
-            return (Projetil(nome,x,y,self.raio,x+1,y,self.spriteBasica))      
+            return (Projetil(nome,x,y,self.raio,x+1,y,self.sprite))      
         else:
-            return (Projetil(nome,x,y,self.raio,x+velx, y+vely,self.spriteBasica))
+            return (Projetil(nome,x,y,self.raio,x+velx, y+vely,self.sprite))
 
-            #self.projeteis.append(Projetil(self.jogador1.X+32,self.jogador1.Y+45,5,mouse_x,mouse_y))      
+    def EspecialH(self,x,y,dados):
+        self.x = x
+        self.y = y
+        tela = dados[0]
+        alvo = dados[1]
+        
+        if self.colisao(alvo):
+            tela.blit(pg.transform.scale(self.sprite[self.contador//3],(64,79)),(alvo.x,alvo.y-10))
+            alvo.hit()
+            if self.contador+1 >=15:
+                self.contador = 0
+                alvo.stun = True
+                
 
-
-            # - - - - - - - - -
-            # 1 1 + 0 0 0 0 + -
-            # 1 1 0 0 0 0 0 0 -
-            # 1 1 + 0 0 0 0 + -
-            # - - - - - - - - -
-
+            self.contador+=1
 
     def BasicaGuaraci():
         pass
 
-        # - - - - - - - - -
-        # 1 1 0 + - - - - -
-        # 1 1 0 + - - - - -
-        # 1 1 0 + - - - - -
-        # - - - - - - - - -
 
   
     def ataque(self,lista):
         pass
 
 
-    def EspecialJ(self,x,y,dados,velxy):
-        #pausar a tela até obter X e Y (posicao do mouse)
-        #Usar posição X e Y pra criar um circulo que vai determinar colisão com inimigos
-        pass
+    def EspecialJ(self,mousexy,dados): #Especial Shaman
+        self.x = mousexy[0]
+        self.y = mousexy[1]
+        tela = dados[0]
+        alvo = dados[1]
+        if self.colisao(alvo):
+            if self.contador+1 >=36:
+                self.contador = 0
+            tela.blit(pg.transform.scale(self.sprite[self.contador//4],(96,55)),(alvo.x-15,alvo.y+28))
+            alvo.hit()
 
-
-
+            self.contador+=1
 
 
 
@@ -101,10 +107,7 @@ class melee:
             (self.x + self.raio>alvo.hitbox[0] and 
             self.x - self.raio < alvo.hitbox[0]+alvo.hitbox[2]
             ))
-
-
-
-    
+ 
 
 
 class Projetil:
