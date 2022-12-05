@@ -4,10 +4,9 @@ from Configs import *
 from Jogador import Jogador
 
 class Inimigo: 
-    def __init__(self,posXY,posWH,personagem:Personagem):
+    def __init__(self,posXY,personagem:Personagem):
         self.x = posXY[0]
         self.y = posXY[1]
-        self.posWH = posWH
         self.inimigovx = 0
         self.inimigovy = 0
         self.speed = 1
@@ -59,7 +58,7 @@ class Inimigo:
             self.y += self.inimigovy
         else:
             alvo_x= jogador2.X +32
-            alvo_y= jogador2.Y + 32
+            alvo_y= jogador2.Y 
             dist = math.sqrt((alvo_x - self.x) ** 2 +
             (alvo_y - self.y) ** 2)
             
@@ -94,11 +93,11 @@ class Inimigo:
             self.visible = False
 
     
-    def areaameaca(self,alvo) -> bool:
-        return ((self.y +16- self.raio< alvo.hitbox[1]+alvo.hitbox[3] and
-            self.y +16 + self.raio>alvo.hitbox[1]) and 
-            (self.x +16+ self.raio>alvo.hitbox[0] and 
-            self.x +16- self.raio < alvo.hitbox[0]+alvo.hitbox[2]
+    def areaameaca(self,alvo,raio) -> bool:
+        return ((self.y +16- raio< alvo.hitbox[1]+alvo.hitbox[3] and
+            self.y +16 + raio>alvo.hitbox[1]) and 
+            (self.x +16+ raio>alvo.hitbox[0] and 
+            self.x +16- raio < alvo.hitbox[0]+alvo.hitbox[2]
             ))
 
     def colisao(self,alvo):

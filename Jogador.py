@@ -66,7 +66,7 @@ class Jogador:
             if colide:          
                 if abs(i.top - self.hitbox.bottom) < collision_tolerance:
                     self.hitbox.bottom -= collision_tolerance 
-                    self.cima()
+                    
                 if abs(i.bottom - self.hitbox.top) < collision_tolerance:
                     self.hitbox.top += collision_tolerance 
                     self.baixo()
@@ -125,14 +125,7 @@ class Jogador:
         baixo = self.sprites[2]
         ataque = self.sprites[3]
         especial = self.sprites[4]
-        pg.draw.circle(tela,(255,0,0),(self.X+32,self.Y+35),90,1)
-        #pg.draw.ellipse(tela, (0,0,0), [(self.X+(32*self.mov_vx)),self.Y+20, 80, 40])
-        if self.mov_vx == -1:
-            pg.draw.rect(tela,(255,100,2),[self.X+10,self.Y+20, 20, 35])
-        if self.mov_vx == 0: 
-            pg.draw.rect(tela,(255,100,2),[self.X+32,self.Y+20, 20, 35])
-        if self.mov_vx ==1:
-            pg.draw.rect(tela,(255,100,2),[self.X+(32*self.mov_vx),self.Y+20, 20, 35])
+
         #Contador de animação (desenho)
         if self.visible:
             if self.anim_mov+1 >= 28:
@@ -148,11 +141,11 @@ class Jogador:
                 if self.nome == 'Ida':            
                     if self.mov_vx == -1:
                         if self.countatk == 13:
-                            self.habilidade.EspecialD(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
+                            self.HBasica.Basica(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
                         tela.blit(pg.transform.flip(ataque[self.countatk//2],True,False),(self.X-64,self.Y-64))
                     else:
                         if self.countatk == 13:
-                            self.habilidade.EspecialD(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
+                            self.HBasica.Basica(self.X,self.Y,self.dados,(self.mov_vx,self.mov_vy))
                         tela.blit(ataque[self.countatk//2],(self.X-64,self.Y-64))
                     
                     if self.countatk +1 >= 16:

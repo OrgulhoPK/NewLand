@@ -160,17 +160,14 @@ class Projetil:
 
     def desenha(self,tela):
 
-
         self.atk = False            
         self.x -= int(self.x_vel)
         self.y -= int(self.y_vel)
 
         if self.nome == 'Heitor': 
-            pg.draw.circle(tela,(0,0,0),(self.x+25,self.y+10),self.raio)
             tela.blit(pg.transform.scale(self.sprite[self.anim//2],(64,64)),(self.x,self.y-32))
         
-        if self.nome == 'Jurupari':   
-            pg.draw.circle(tela,(0,0,0),(self.x,self.y),self.raio)     
+        if self.nome == 'Jurupari':       
             tela.blit(pg.transform.scale(Imagem.S_fireball1[self.anim//2],(32,32)),(self.x-16,self.y-16))
         
         
@@ -204,3 +201,7 @@ class Projetil:
             self.x - self.raio < alvo.hitbox[0]+alvo.hitbox[2]
             ))
 
+    def distancia(self,jogador) -> bool:    
+        distancia = math.sqrt(((self.x - jogador.X)**2) +
+                                ((self.y- jogador.Y)**2))
+        return distancia > 250

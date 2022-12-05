@@ -19,13 +19,12 @@ class Game:
         self.melee = []
         self.projeteis = []
         self.encerrada = False
-        self.Inimigo1 = Inimigo(posXY=(991,350),posWH =(32,32),personagem=Soldadinho)
+        self.Inimigo1 = Inimigo(posXY=(991,350),personagem=Soldadinho)
         self.contador = 0
         self.background = Imagem.Background
         self.estruturas = Imagem.Estruturas
         self.lista = Imagem.ListaColisoes
         self.mov = False
-        self.acao = True
 
     def rodar (self):
         while not self.encerrada:
@@ -35,9 +34,9 @@ class Game:
                
 
 
-    def tratamento_eventos(self):
-        mouse_x,mouse_y = pg.mouse.get_pos()         
+    def tratamento_eventos(self):      
         self.movimentos()
+        self.acoes
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
@@ -59,8 +58,6 @@ class Game:
                         if self.jogador1.nome == 'Jurupari':
                             self.jogador1.mouse = True
                             self.jogador1.ataque_especial(self.tela,self.Inimigo1,self.jogador2)
-                            
-                        
                         else:
                             self.jogador1.ataque_especial(self.tela,self.Inimigo1)
 
@@ -68,7 +65,6 @@ class Game:
                 if event.type == pg.KEYDOWN and event.key == pg.K_u:
                     if self.jogador2.cooldown1 >= 15:
                         self.jogador2.ataque(self.tela,self.Inimigo1)
-
 
                 if event.type == pg.KEYDOWN and event.key == pg.K_o:
                     if self.jogador2.cooldown2 >= 60:
@@ -79,21 +75,27 @@ class Game:
                             self.jogador2.ataque_especial(self.tela,self.Inimigo1)
                     
 
-            #Teclas de habilidades especiais
+
+        
+            
+        
+            
+
+    def acoes(self):
 
         for projetil in self.jogador1.projeteis:
+            if projetil.distancia(self.jogador1):
+                self.jogador1.projeteis.remove(projetil)
             if projetil.colisaoProjetil(self.Inimigo1) and self.Inimigo1.visible:
                 self.Inimigo1.hit()
-                self.jogador1.projeteis.pop(self.jogador1.projeteis.index(projetil))
-        for projetil in self.jogador2.projeteis:
-            if projetil.colisaoProjetil(self.Inimigo1) and self.Inimigo1.visible:
-                self.Inimigo1.hit()
-                self.jogador2.projeteis.pop(self.jogador2.projeteis.index(projetil))
-            
-        
-            
+                self.jogador1.projeteis.remove(projetil)
 
-        
+        for projetil in self.jogador2.projeteis:
+            if projetil.distancia(self.jogador2):
+                self.jogador2.projeteis.remove(projetil)
+            if projetil.colisaoProjetil(self.Inimigo1) and self.Inimigo1.visible:
+                self.Inimigo1.hit()
+                self.jogador2.projeteis.remove(projetil)
 
 
     
