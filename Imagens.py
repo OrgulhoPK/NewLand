@@ -233,12 +233,18 @@ class Imagem:
         Mob_andarB.append(pg.image.load(i))
 
     #animacao de atk
-    Mob_ataque = Shaman / 'ataque' / 'esquerda-direita'
+    Mob_ataque = Soldado / 'ataque' / 'esquerda-direita'
     Mob_atk = []
     for i in Mob_ataque.glob("*.png"):
         Mob_atk.append(pg.image.load(i))
     
-    Sprites_Soldadinho = [Mob_andarD,Mob_andarC,Mob_andarB,Mob_atk]
+    Mob_Especial = Soldado / 'ataque' / 'Especial'
+    Mob_spec = []
+    for i in Mob_Especial.glob("*.png"):
+        Mob_spec.append(pg.image.load(i))
+    
+    Sprites_Soldadinho = [Mob_andarD,Mob_andarC,Mob_andarB,Mob_atk,Mob_spec]
+
 
     #Animação de ataques 
     Habilidades = caminho.parent / 'Imagens' / 'Habilidades'
@@ -277,5 +283,12 @@ class Imagem:
     starStun1 = []
     for i in starStun.glob("*.png"):
         starStun1.append(pg.image.load(i))
+    
+    StunMob = Habilidades / 'StunMob'
+    StunMob1 = []
+    for i in StunMob.glob("*.png"):
+        StunMob1.append(pg.image.load(i))
+    
+    
 
 

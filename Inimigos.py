@@ -4,27 +4,42 @@ from Configs import *
 from Jogador import Jogador
 
 class Inimigo: 
-    def __init__(self,posXY,personagem:Personagem):
-        self.x = posXY[0]
-        self.y = posXY[1]
+    def __init__(self,posxy,personagem:Personagem):
+        #posicao e movimento
+        self.x = posxy[0]
+        self.y = posxy[1]
         self.inimigovx = 0
         self.inimigovy = 0
         self.speed = 1
-        self.atk = False
-        self.move = True
-        self.anim_mov = 0
-        self.mov = False
-        self.vida = personagem.vida
-        self.hpmax = personagem.vida
-        self.dano = personagem.dano
-        self.visible= True
-        self.hitbox = pg.Rect(self.x+17,self.y+34,31,31)
-        self.raio = 500
-        self.sprites = personagem.sprites
 
+        #dados de jogadores
+        self.dados = []
+
+        #Atributos e skills de personagens
+        self.nome = personagem.nome
+        self.vida = personagem.vida
+        self.hpmax = personagem.vida #orientacao para barra hp e heal
+        self.dano = personagem.dano
+        self.hitbox = pg.Rect(self.x+17,self.y+34,31,31)
+        self.sprites = personagem.sprites
+        self.HBasica = personagem.habilidade[0]
+        self.HEspecial = personagem.habilidade[1]
+        self.projeteis = []  #list projeteis
+
+        #estado e condiçoes
+        self.atk = False
+        self.atkEspecial = False
+        self.visible= True
         self.acao = True
         self.stun = False
+        #Contadores de animacao e efeitos
+        self.anim_mov = 0
+        self.countatk = 0
+        self.countspec = 0
+        self.cooldown1= 0
+        self.cooldown2= 0
         self.timestun = 0
+        
          
     def movimento(self,jogador1:Jogador,jogador2:Jogador):
         distancia1 = math.sqrt(((self.hitbox.centerx - jogador1.hitbox.centerx)**2) +
@@ -34,8 +49,8 @@ class Inimigo:
                                 ((self.hitbox.centery- jogador2.hitbox.centery)**2))
 
         if distancia1 < distancia2:
-            alvo_x= jogador1.X +32
-            alvo_y= jogador1.Y 
+            alvo_x= jogador1.x+32
+            alvo_y= jogador1.y 
             dist = math.sqrt((alvo_x - self.x) ** 2 +
             (alvo_y - self.y) ** 2)
             
@@ -57,8 +72,8 @@ class Inimigo:
             self.x += self.inimigovx
             self.y += self.inimigovy
         else:
-            alvo_x= jogador2.X +32
-            alvo_y= jogador2.Y 
+            alvo_x= jogador2.x+32
+            alvo_y= jogador2.y 
             dist = math.sqrt((alvo_x - self.x) ** 2 +
             (alvo_y - self.y) ** 2)
             
@@ -92,12 +107,26 @@ class Inimigo:
         else:
             self.visible = False
 
+    def ataque(self,tela,alvo):
+        self.dados= [tela,alvo]
+        self.atk = True
+    
+    def atualizaEstado(self):
+        if self.visible == False:
+            self.hitbox = []
+        else:
+            self.hitbox = pg.Rect(self.x+17,self.y+34,31,31)
+
+    def ataque_especial(self,tela,alvo,jogador = None):
+        self.dados= [tela,alvo,jogador]
+        self.atkEspecial = True
+        
     
     def areaameaca(self,alvo,raio) -> bool:
-        return ((self.y +16- raio< alvo.hitbox[1]+alvo.hitbox[3] and
-            self.y +16 + raio>alvo.hitbox[1]) and 
-            (self.x +16+ raio>alvo.hitbox[0] and 
-            self.x +16- raio < alvo.hitbox[0]+alvo.hitbox[2]
+        return ((self.y +40- raio< alvo.hitbox[1]+alvo.hitbox[3] and
+            self.y +40 + raio>alvo.hitbox[1]) and 
+            (self.x +32+ raio>alvo.hitbox[0] and 
+            self.x +32- raio < alvo.hitbox[0]+alvo.hitbox[2]
             ))
 
     def colisao(self,alvo):
@@ -125,31 +154,62 @@ class Inimigo:
         esq_Dir = self.sprites[0]
         baixo = self.sprites[2]
         ataque = self.sprites[3]
+        especial = self.sprites[4]
+        pg.draw.circle(tela,(0,0,0),(self.x+32,self.y+40),150,2)
         if self.visible:
-            if self.move:
-                if self.anim_mov +1 >= 28:
-                    self.anim_mov = 0
-                self.anim_mov += 1
-                #desenha o mob
-                if not self.atk:
-                    if self.inimigovx == 0 and self.inimigovy == 0:
-                        tela.blit(pg.transform.scale(baixo[0], (64,64)),(self.x,self.y))
+            if self.atk:
+                if self.nome == 'Soldado':            
+                    if self.inimigovx <= 0:
+                        if self.countatk == 13:
+                            self.HBasica.Basica(self.x,self.y,self.dados,(-1,self.inimigovy))
+                        tela.blit(pg.transform.flip(ataque[self.countatk//2],True,False),(self.x-32,self.y-32))
+                    else:
+                        if self.countatk == 13:
+                            self.HBasica.Basica(self.x,self.y,self.dados,(self.inimigovx,self.inimigovy))
+                        tela.blit(ataque[self.countatk//2],(self.x-32,self.y-32))
                     
-                    elif self.inimigovx>0 or (self.inimigovx>0 and (self.inimigovy>0 or self.inimigovy<0)):                    
-                        tela.blit(pg.transform.scale(esq_Dir[self.anim_mov//4], (64,64)),(self.x,self.y))
+                    if self.countatk +1 >= 16:
+                        self.countatk = 0
+                        self.atk = False
+                        self.cooldown1 = 0
+                    self.countatk +=1
+            if self.anim_mov +1 >= 28:
+                self.anim_mov = 0
+            self.anim_mov += 1
 
-                    elif self.inimigovx<0 or (self.inimigovx<0 and (self.inimigovy>0 or self.inimigovy<0)):
-                        tela.blit(pg.transform.scale(pg.transform.flip(esq_Dir[self.anim_mov//4],True,False), (64,64)),(self.x,self.y))
+            if self.atkEspecial:
+                if self.nome == 'Soldado':
+                    if self.inimigovx :
+                        tela.blit(especial[self.countspec//4],(self.x-32,self.y-32))  
+                                                   
+                    if self.countspec +1 >= 24:
+                        self.countspec = 0
+                        self.cooldown2 = 0
+                        self.atkEspecial = False
+                        projetil = self.HEspecial.BasicaRange(self.nome,self.x,self.y,(self.inimigovx,self.inimigovy))
+                        self.projeteis.append(projetil)       
+                    self.countspec +=1
 
-                #pg.draw.circle(tela,(COR_Tela),(x+16,y+16), self.raio)
-                #pg.draw.rect(tela,COR_Tela,self.hitbox,2)
-                #atualiza o hitbox do mob e barra de vida
-                self.hitbox = pg.Rect(self.x+17,self.y+34,31,31)
-                pg.draw.rect(tela,(255,0,0),(self.x+17,self.y,40,8))
-                pg.draw.rect(tela,(0,128,0),(self.x+17,self.y,((self.vida/self.hpmax)*40),8))
-
-            if self.stun:
+            #desenha o mob
+            if not self.atk and not self.atkEspecial:
+                if self.inimigovx == 0 and self.inimigovy == 0:
+                    tela.blit(pg.transform.scale(baixo[0], (64,64)),(self.x,self.y))
                 
+                elif self.inimigovx>0 or (self.inimigovx>0 and (self.inimigovy>0 or self.inimigovy<0)):                    
+                    tela.blit(pg.transform.scale(esq_Dir[self.anim_mov//4], (64,64)),(self.x,self.y))
+
+                elif self.inimigovx<0 or (self.inimigovx<0 and (self.inimigovy>0 or self.inimigovy<0)):
+                    tela.blit(pg.transform.scale(pg.transform.flip(esq_Dir[self.anim_mov//4],True,False), (64,64)),(self.x,self.y))
+
+            #pg.draw.circle(tela,(COR_Tela),(x+16,y+16), self.raio)
+            #pg.draw.rect(tela,COR_Tela,self.hitbox,2)
+            #atualiza o hitbox do mob e barra de vida
+            self.hitbox = pg.Rect(self.x+17,self.y+34,31,31)
+            pg.draw.rect(tela,(255,0,0),(self.x+17,self.y,40,8))
+            pg.draw.rect(tela,(0,128,0),(self.x+17,self.y,((self.vida/self.hpmax)*40),8))
+
+
+            if self.stun:  
                 if self.timestun+1 >=60:
 
                     self.timestun = 0
@@ -158,6 +218,10 @@ class Inimigo:
                 tela.blit(Stun[self.timestun//5],(self.x+5,self.y-5))
                 self.timestun +=1
 
+            for projeteis in self.projeteis:      
+                projeteis.desenha(tela)
+            self.cooldown1 += 1
+            self.cooldown2 += 1
 
                 
 

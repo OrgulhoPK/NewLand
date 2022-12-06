@@ -70,22 +70,22 @@ class TelaSelecao:
 
         if opcoes == 1:
             Personagem = D_Heitor
-            NewPlayer = Jogador(posXY=(Player_x,Player_y),posWH = (32,32),personagem=Personagem)
+            NewPlayer = Jogador(posxy=(Player_x,Player_y),personagem=Personagem)
             setup.Jogadores.append(NewPlayer)
 
         if opcoes == 2:
             Personagem = Ida
-            NewPlayer = Jogador(posXY=(Player_x,Player_y),posWH = (32,32),personagem=Personagem)
+            NewPlayer = Jogador(posxy=(Player_x,Player_y),personagem=Personagem)
             setup.Jogadores.append(NewPlayer)
 
         if opcoes == 3:
             Personagem = Jurupari
-            NewPlayer = Jogador(posXY=(Player_x,Player_y),posWH = (32,32),personagem=Personagem)
+            NewPlayer = Jogador(posxy=(Player_x,Player_y),personagem=Personagem)
             setup.Jogadores.append(NewPlayer)
             
         if opcoes == 4:
             Personagem = Guaraci
-            NewPlayer = Jogador(posXY=(Player_x,Player_y),posWH = (32,32),personagem=Personagem)
+            NewPlayer = Jogador(posxy=(Player_x,Player_y),personagem=Personagem)
             setup.Jogadores.append(NewPlayer)            
 
     def DefinirJogadores(self):

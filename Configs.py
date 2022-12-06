@@ -48,10 +48,10 @@ Guaraci = Personagem('Guaraci',10,10,Imagem.Sprites_Tanker,SkillsGuaraci)
 
 
 #Lista de habilidades Inimigas
-SkillsSoldado= [Skill(5,Imagem.hitDamage)]
+SkillsSoldado= [Skill(5,Imagem.hitDamage),Skill(20,Imagem.StunMob1)]
 
 #Mob
-Soldadinho = Personagem('Soldadinho',300,10,Imagem.Sprites_Soldadinho,SkillsIda)
+Soldadinho = Personagem('Soldado',300,10,Imagem.Sprites_Soldadinho,SkillsSoldado)
 
 
 #Efeitos
