@@ -226,10 +226,10 @@ class Jogador:
                         pg.draw.circle(tela,(254,250,182),(self.x+32,self.y+32),90,1)
                         pg.draw.circle(tela,(254,250,182),(self.x+32,self.y+32),90-self.countspec*2,1)
                         tela.blit(especial[self.countspec//5],(self.x,self.y))                        
-                    elif self.countspec <=60:
+                    
+                    if self.countspec+1 >=45:
                         tela.blit(especial[self.countspec//7],(self.x,self.y))
                         self.HEspecial.EspecialH(self.x,self.y,self.dados)
-                    if self.countspec+1 >= 61:
                         self.countspec = 0
                         self.atkEspecial = False
                         self.cooldown2 = 0                

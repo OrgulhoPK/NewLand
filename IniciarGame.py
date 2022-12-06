@@ -98,8 +98,8 @@ class Game:
             if projetil.distancia(self.jogador2):
                 self.jogador2.projeteis.remove(projetil)
             for inimigo in self.Inimigos:
-                if projetil.colisaoProjetil(self.Inimigo1) and self.Inimigo1.visible:
-                    self.Inimigo1.hit()
+                if projetil.colisaoProjetil(inimigo) and inimigo.visible:
+                    inimigo.hit()
                     self.jogador2.projeteis.remove(projetil)
 
         for inimigo in self.Inimigos:

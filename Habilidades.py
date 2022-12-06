@@ -80,14 +80,12 @@ class Skill:
         
         for alvo in alvos:
             if self.colisao(alvo):
-                tela.blit(pg.transform.scale(self.sprite[self.contador//3],(64,79)),(alvo.x,alvo.y-10))
+                tela.blit(pg.transform.scale(self.sprite[self.contador],(64,79)),(alvo.x,alvo.y-10))
                 alvo.hit()
-                if self.contador+1 >=15:
+                alvo.stun = True
+                if self.contador+1 >=5:
                     self.contador = 0
-                    alvo.stun = True
-                
-
-            self.contador+=1
+                self.contador+=1
 
     def BasicaGuaraci(self,x,y,dados,velxy,mov):
         self.x = x
