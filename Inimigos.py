@@ -1,10 +1,9 @@
 import pygame as pg
 import math
-from Configs import *
-from Jogador import Jogador
+from Imagens import Imagem
 
 class Inimigo: 
-    def __init__(self,posxy,personagem:Personagem):
+    def __init__(self,posxy,personagem):
         #posicao e movimento
         self.x = posxy[0]
         self.y = posxy[1]
@@ -41,7 +40,7 @@ class Inimigo:
         self.timestun = 0
         
          
-    def movimento(self,jogador1:Jogador,jogador2:Jogador):
+    def movimento(self,jogador1,jogador2):
         distancia1 = math.sqrt(((self.hitbox.centerx - jogador1.hitbox.centerx)**2) +
                                 ((self.hitbox.centery- jogador1.hitbox.centery)**2))
 
@@ -110,12 +109,6 @@ class Inimigo:
     def ataque(self,tela,alvo):
         self.dados= [tela,alvo]
         self.atk = True
-    
-    def atualizaEstado(self):
-        if self.visible == False:
-            self.hitbox = []
-        else:
-            self.hitbox = pg.Rect(self.x+17,self.y+34,31,31)
 
     def ataque_especial(self,tela,alvo,jogador = None):
         self.dados= [tela,alvo,jogador]
@@ -130,7 +123,7 @@ class Inimigo:
             ))
 
     def colisao(self,alvo):
-        
+
         collision_tolerance = 10
         for i in alvo:
             colide = self.hitbox.colliderect(i)
@@ -215,7 +208,7 @@ class Inimigo:
                     self.timestun = 0
                     self.stun = False
                 
-                tela.blit(Stun[self.timestun//5],(self.x+5,self.y-5))
+                tela.blit(Imagem.starStun1[self.timestun//5],(self.x+5,self.y-5))
                 self.timestun +=1
 
             for projeteis in self.projeteis:      

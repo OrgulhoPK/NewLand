@@ -1,5 +1,5 @@
 import pygame as pg
-from Configs import *
+from Imagens import Imagem
 
 from Personagens import Personagem
 class Jogador:
@@ -61,22 +61,23 @@ class Jogador:
 
     #Função que calcula colisão com uma lista de objetos
     def colisao(self,alvo):
-        collision_tolerance = 10
-        for i in alvo:
-            colide = self.hitbox.colliderect(i)
-            if colide:          
-                if abs(i.top - self.hitbox.bottom) < collision_tolerance:
-                    self.hitbox.bottom -= collision_tolerance 
-                    
-                if abs(i.bottom - self.hitbox.top) < collision_tolerance:
-                    self.hitbox.top += collision_tolerance 
-                    self.baixo()
-                if abs(i.right - self.hitbox.left) < collision_tolerance:
-                    self.hitbox.left += collision_tolerance 
-                    self.direita()  
-                if abs(i.left - self.hitbox.right) < collision_tolerance:
-                    self.hitbox.right -= collision_tolerance 
-                    self.esquerda()
+        if self.visible:
+            collision_tolerance = 10
+            for i in alvo:
+                colide = self.hitbox.colliderect(i)
+                if colide:          
+                    if abs(i.top - self.hitbox.bottom) < collision_tolerance:
+                        self.hitbox.bottom -= collision_tolerance 
+                        
+                    if abs(i.bottom - self.hitbox.top) < collision_tolerance:
+                        self.hitbox.top += collision_tolerance 
+                        self.baixo()
+                    if abs(i.right - self.hitbox.left) < collision_tolerance:
+                        self.hitbox.left += collision_tolerance 
+                        self.direita()  
+                    if abs(i.left - self.hitbox.right) < collision_tolerance:
+                        self.hitbox.right -= collision_tolerance 
+                        self.esquerda()
                     
 
                         
@@ -91,13 +92,6 @@ class Jogador:
     def ataque_especial(self,tela,alvo,jogador = None):
         self.dados= [tela,alvo,jogador]
         self.atkEspecial = True
-        
-
-    def atualizaEstado(self):
-        if self.visible == False:
-            self.hitbox = []
-        else:
-            pg.Rect(self.x+17,self.y+34,31,31)
             
 
     def hit(self):
@@ -115,13 +109,15 @@ class Jogador:
             if mousexy is None:
                 self.acao = False
                 self.dados[2].acao = False
-                self.dados[1].acao = False
+                for i in self.dados[1]:
+                    i.acao = False
             if event.type == pg.MOUSEBUTTONDOWN:
                 if pg.mouse.get_pressed()[0]:
                     mousexy = (mx,my)
                     self.acao = True
                     self.dados[2].acao = True
-                    self.dados[1].acao = True
+                    for i in self.dados[1]:
+                        i.acao = True
                     self.mouse = False
                     return mousexy
 
@@ -303,7 +299,7 @@ class Jogador:
                     self.timestun = 0
                     self.stun = False
                 
-                tela.blit(Stun[self.timestun//5],(self.x+5,self.y-5))
+                tela.blit(Imagem.starStun1[self.timestun//5],(self.x+5,self.y-5))
                 self.timestun +=1
 
             for projeteis in self.projeteis:      

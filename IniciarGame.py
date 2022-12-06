@@ -19,6 +19,8 @@ class Game:
         self.melee = []
         self.projeteis = []
         self.encerrada = False
+        self.ListInimigos= ListInimigos
+        self.InimigosInvocados = []
         self.Inimigos = [Inimigo(posxy=(991,350),personagem=Soldadinho),Inimigo(posxy=(950,340),personagem=Soldadinho)]
         self.contador = 0
         self.background = Imagem.Background
@@ -37,6 +39,7 @@ class Game:
     def tratamento_eventos(self):      
         self.movimentos()
         self.acoes()
+        self.controleInimigos()
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
@@ -116,14 +119,15 @@ class Game:
                         jogador.stun = True
                         inimigo.projeteis.remove(projetil)
 
-        self.jogador1.atualizaEstado()
-        self.jogador2.atualizaEstado()
-        for inimigo in self.Inimigos:
-            inimigo.atualizaEstado()
-
-
         
-
+    def controleInimigos(self):
+        for inimigo in self.Inimigos:
+            if not inimigo.visible:
+                self.Inimigos.remove(inimigo)
+        for i in self.ListInimigos:
+            if len(self.Inimigos) <2:
+                self.Inimigos.append(i)
+                self.ListInimigos.remove(i)
 
     
     def desenha(self,tela):
@@ -140,7 +144,8 @@ class Game:
         self.contador +=1
         if self.contador +1 >= 176:
             self.contador = 0
-        self.tela.blit(Imagem.Centro[self.contador//5],(593,234))
+        pg.draw.rect(tela,(0,254,155),(545,200,180,150),1,2)
+        tela.blit(Imagem.Centro[self.contador//5],(593,234))
     
         
 
@@ -151,12 +156,6 @@ class Game:
         for inimigo in self.Inimigos:
             inimigo.desenhar(tela)
         
-        
-        #Desenho projeteis
-        '''for projeteis in self.jogador1.projeteis:      
-                projeteis.desenha(tela)
-        for projeteis in self.jogador2.projeteis:      
-                projeteis.desenha(tela)'''
                 
         
         #ultimo setup

@@ -3,6 +3,7 @@ import random
 from Personagens import Personagem
 from Imagens import Imagem
 from Habilidades import Skill
+from Inimigos import *
 
 
 
@@ -51,7 +52,7 @@ Guaraci = Personagem('Guaraci',10,10,Imagem.Sprites_Tanker,SkillsGuaraci)
 SkillsSoldado= [Skill(5,Imagem.hitDamage),Skill(20,Imagem.StunMob1)]
 
 #Mob
-Soldadinho = Personagem('Soldado',300,10,Imagem.Sprites_Soldadinho,SkillsSoldado)
+Soldadinho = Personagem('Soldado',100,10,Imagem.Sprites_Soldadinho,SkillsSoldado)
 
 
 #Efeitos
@@ -63,6 +64,17 @@ class setup:
     Jogadores = []
 
 
+#range inimigos 
+# x 525 a 750
+# y 200 a 370
+
+
+ListInimigos = []
+
+for i in range (0,30):
+    x = random.randint(525,750)
+    y = random.randint(200,370)
+    ListInimigos.append(Inimigo(posxy=(x,y),personagem=Soldadinho))
 
 
 
