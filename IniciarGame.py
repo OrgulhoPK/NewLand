@@ -1,7 +1,7 @@
 import pygame as pg
 
 from Configs import *
-import sys
+import sys,random
 from Inimigos import Inimigo
 from Imagens import Imagem
 #from Sons import Sons
@@ -20,13 +20,15 @@ class Game:
         self.projeteis = []
         self.encerrada = False
         self.ListInimigos= ListInimigos
-        self.InimigosInvocados = []
         self.Inimigos = [Inimigo(posxy=(991,350),personagem=Soldadinho),Inimigo(posxy=(950,340),personagem=Soldadinho)]
         self.contador = 0
+        self.C_efeito = 0
+        self.time_efeito = 0
         self.background = Imagem.Background
         self.estruturas = Imagem.Estruturas
         self.lista = Imagem.ListaColisoes
         self.mov = False
+        self.teleporte= setup.areaEfeito
 
     def rodar (self):
         while not self.encerrada:
@@ -129,7 +131,7 @@ class Game:
                 self.Inimigos.append(i)
                 self.ListInimigos.remove(i)
 
-    
+
     def desenha(self,tela):
         # mapa
 
@@ -145,9 +147,13 @@ class Game:
         if self.contador +1 >= 176:
             self.contador = 0
         pg.draw.rect(tela,(0,254,155),(545,200,180,150),1,2)
+
         tela.blit(Imagem.Centro[self.contador//5],(593,234))
-    
+
+        self.teleporte.Teleporte(tela,self.jogadores,self.Inimigos)
+
         
+
 
         #desenho jogadores / inimigos
         
@@ -161,6 +167,11 @@ class Game:
         #ultimo setup
         pg.display.update()
         self.FPS_CLOCK.tick(30)
+
+
+            
+
+
 
     def movimentos(self):
         #trata somente dos movimentos dos jogadores

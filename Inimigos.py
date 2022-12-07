@@ -39,7 +39,29 @@ class Inimigo:
         self.cooldown2= 0
         self.timestun = 0
         
-         
+    def seguir(self,jogador):
+        alvo_x= jogador.x+32
+        alvo_y= jogador.y 
+        dist = math.sqrt((alvo_x - self.x) ** 2 +
+        (alvo_y - self.y) ** 2)
+        
+        if dist > 1:
+            self.inimigovx = alvo_x - self.x
+            self.inimigovy = alvo_y - self.y
+            
+            norma = math.sqrt(self.inimigovx ** 2 + self.inimigovy ** 2)
+            self.inimigovx /= norma
+            self.inimigovy /= norma
+        
+            self.inimigovx *= self.speed
+            self.inimigovy *= self.speed
+        else:
+            self.inimigovx = 0
+            self.inimigovy = 0
+        self.x += self.inimigovx
+        self.y += self.inimigovy
+
+
     def movimento(self,jogador1,jogador2):
         distancia1 = math.sqrt(((self.hitbox.centerx - jogador1.hitbox.centerx)**2) +
                                 ((self.hitbox.centery- jogador1.hitbox.centery)**2))
@@ -48,55 +70,15 @@ class Inimigo:
                                 ((self.hitbox.centery- jogador2.hitbox.centery)**2))
 
         if distancia1 < distancia2:
-            alvo_x= jogador1.x+32
-            alvo_y= jogador1.y 
-            dist = math.sqrt((alvo_x - self.x) ** 2 +
-            (alvo_y - self.y) ** 2)
-            
-            if dist > 1:
-
-                self.inimigovx = alvo_x - self.x
-                self.inimigovy = alvo_y - self.y
-                
-                norma = math.sqrt(self.inimigovx ** 2 + self.inimigovy ** 2)
-                self.inimigovx /= norma
-                self.inimigovy /= norma
-            
-                self.inimigovx *= self.speed
-                self.inimigovy *= self.speed
-            else:
-                self.inimigovx = 0
-                self.inimigovy = 0
-
-            self.x += self.inimigovx
-            self.y += self.inimigovy
+            if jogador1.visible:
+                self.seguir(jogador1)
+            elif jogador2.visible:
+                self.seguir(jogador2)        
         else:
-            alvo_x= jogador2.x+32
-            alvo_y= jogador2.y 
-            dist = math.sqrt((alvo_x - self.x) ** 2 +
-            (alvo_y - self.y) ** 2)
-            
-            if dist > 1:
-
-                self.inimigovx = alvo_x - self.x
-                self.inimigovy = alvo_y - self.y
-                
-                norma = math.sqrt(self.inimigovx ** 2 + self.inimigovy ** 2)
-                self.inimigovx /= norma
-                self.inimigovy /= norma
-            
-                self.inimigovx *= self.speed
-                self.inimigovy *= self.speed
-            else:
-                self.inimigovx = 0
-                self.inimigovy = 0
-
-            self.x += self.inimigovx
-            self.y += self.inimigovy
-
-
-        
-        
+            if jogador2.visible:
+                self.seguir(jogador2)
+            elif jogador1.visible:
+                self.seguir(jogador1)
 
 
     def hit(self):

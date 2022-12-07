@@ -288,6 +288,12 @@ class Imagem:
     StunMob1 = []
     for i in StunMob.glob("*.png"):
         StunMob1.append(pg.image.load(i))
+
+    #Efeito no chao
+    CirculoTeleport = Habilidades / 'Teleporte'
+    Teleport = []
+    for i in CirculoTeleport.glob("*.png"):
+        Teleport.append(pg.image.load(i))
     
     
 

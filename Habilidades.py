@@ -9,12 +9,18 @@ import pygame as pg
 # os ataques basicos e habilidades
 
 class Skill:
-    def __init__(self,raio,sprites):
+    def __init__(self,raio,sprites,x=None,y=None):
         self.raio = raio
-        self.x = None
-        self.y = None
+        self.x = x
+        self.y = y
+        self.vx = 0
+        self.vy = 0
+        self.speed = 1
         self.contador = 0
+        self.time_efeito = 0
+        self.pos = 0 #serve somente para contar uma nova posição para o x e y
         self.sprite= sprites
+
 
     def sleep(self):
         pass
@@ -79,7 +85,7 @@ class Skill:
         alvos = dados[1]
         
         for alvo in alvos:
-            if self.colisao(alvo):
+            if self.colisao(alvo,self.raio):
                 tela.blit(pg.transform.scale(self.sprite[self.contador],(64,79)),(alvo.x,alvo.y-10))
                 alvo.hit()
                 alvo.stun = True
@@ -123,7 +129,7 @@ class Skill:
         alvos = dados[1]
 
         for alvo in alvos:
-            if self.colisao(alvo):
+            if self.colisao(alvo,self.raio):
                 if self.contador+1 >=36:
                     self.contador = 0
                 tela.blit(pg.transform.scale(self.sprite[self.contador//4],(72,64)),(alvo.x-5,alvo.y+25))
@@ -131,13 +137,56 @@ class Skill:
 
                 self.contador+=1
 
+    def Teleporte(self,tela,aliados,inimigos):
+        listTarget = aliados + inimigos
+        self.time_efeito+= 1
+        if self.time_efeito>50:
+            if self.time_efeito==51:
+                self.x = random.randint(400,1000)
+                self.y = random.randint(250,600)
+            
+            tela.blit(pg.transform.scale(self.sprite[self.contador//4],(64,40)),(self.x,self.y+20))
+            pg.draw.circle(tela,(0,0,0),(self.x+32,self.y+40),self.raio,2)
+            pg.draw.circle(tela,(55,28,15),(self.x+32,self.y+40),self.raio*10.4,2)
+            for i in listTarget:
+                if self.colisao(i,(self.raio*10)):
+                    alvo_x= i.x
+                    alvo_y= i.y+10
+                    dist = math.sqrt((alvo_x - self.x) ** 2 +
+                    (alvo_y - self.y) ** 2)
+                    
+                    if dist > 1:
+                        self.vx = alvo_x - self.x
+                        self.vy = alvo_y - self.y
+                        
+                        norma = math.sqrt(self.vx ** 2 + self.vy ** 2)
+                        self.vx /= norma
+                        self.vy /= norma
+                    
+                        self.vx *= self.speed
+                        self.vy *= self.speed
+                    else:
+                        self.vx = 0
+                        self.vy = 0
+                    self.x += self.vx
+                    self.y += self.vy
+                
+                if self.vx == 0 and self.vy ==0:
+                    print('colidiu')
 
+            self.contador +=1
+            
+            if self.contador +1 >=16:
+                self.contador = 0
+                
 
-    def colisao(self,alvo) -> bool:
-        return ((self.y - self.raio< alvo.hitbox[1]+alvo.hitbox[3] and
-            self.y + self.raio>alvo.hitbox[1]) and 
-            (self.x + self.raio>alvo.hitbox[0] and 
-            self.x - self.raio < alvo.hitbox[0]+alvo.hitbox[2]
+                
+
+    def colisao(self,alvo, raio) -> bool:
+        return ((self.y - raio< alvo.hitbox[1]+alvo.hitbox[3] and
+            self.y + raio>alvo.hitbox[1]) and 
+            (self.x + raio>alvo.hitbox[0] and 
+            self.x - raio < alvo.hitbox[0]+alvo.hitbox[2]
             ))
  
 

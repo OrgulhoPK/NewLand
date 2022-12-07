@@ -57,11 +57,13 @@ Soldadinho = Personagem('Soldado',100,10,Imagem.Sprites_Soldadinho,SkillsSoldado
 
 #Efeitos
 Stun = Imagem.starStun1
+
 #Jogadores 1 e 2
 
 class setup:
     NumTela = 0
     Jogadores = []
+    areaEfeito = Skill(10,Imagem.Teleport,682,420)
 
 
 #range inimigos 
