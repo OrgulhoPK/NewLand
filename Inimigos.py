@@ -4,16 +4,14 @@ from Imagens import Imagem
 
 class Inimigo: 
     def __init__(self,posxy,personagem):
-        #posicao e movimento
+        #posicao e speed
         self.x = posxy[0]
         self.y = posxy[1]
         self.inimigovx = 0
         self.inimigovy = 0
         self.speed = 1
-
         #dados de jogadores
         self.dados = []
-
         #Atributos e skills de personagens
         self.nome = personagem.nome
         self.vida = personagem.vida
@@ -24,28 +22,32 @@ class Inimigo:
         self.HBasica = personagem.habilidade[0]
         self.HEspecial = personagem.habilidade[1]
         self.projeteis = []  #list projeteis
-
         #estado e condiçoes
         self.atk = False
         self.atkEspecial = False
         self.visible= True
         self.acao = True
+        #controle de grupo
         self.stun = False
+        self.slow = False
+        self.timestun = 0
+        self.timeslow = 0
+        self.status = 1  # orientacao para o speed
         #Contadores de animacao e efeitos
         self.anim_mov = 0
         self.countatk = 0
-        self.countspec = 0
+        self.countspec= 0
         self.cooldown1= 0
         self.cooldown2= 0
         self.timestun = 0
-        
+
     def seguir(self,jogador):
         alvo_x= jogador.x+32
         alvo_y= jogador.y 
         dist = math.sqrt((alvo_x - self.x) ** 2 +
         (alvo_y - self.y) ** 2)
         
-        if dist > 1:
+        if dist == 1:
             self.inimigovx = alvo_x - self.x
             self.inimigovy = alvo_y - self.y
             
@@ -60,7 +62,6 @@ class Inimigo:
             self.inimigovy = 0
         self.x += self.inimigovx
         self.y += self.inimigovy
-
 
     def movimento(self,jogador1,jogador2):
         distancia1 = math.sqrt(((self.hitbox.centerx - jogador1.hitbox.centerx)**2) +
@@ -80,7 +81,6 @@ class Inimigo:
             elif jogador1.visible:
                 self.seguir(jogador1)
 
-
     def hit(self):
         print('hit')
         if self.vida>0:
@@ -95,17 +95,37 @@ class Inimigo:
     def ataque_especial(self,tela,alvo,jogador = None):
         self.dados= [tela,alvo,jogador]
         self.atkEspecial = True
-        
     
+    def atualizarEstado(self,tela):
+        #controles de grupo 
+        if self.stun:  
+            if self.timestun+1 >=60:
+                self.timestun = 0
+                self.stun = False
+            tela.blit(Imagem.starStun1[self.timestun//5],(self.x+5,self.y-5))
+            self.timestun +=1
+
+        if self.slow:
+            if self.timeslow == 0:
+                self.status = self.speed
+            if self.timeslow+1 >=150:
+                self.timeslow = 0
+                self.slow = False
+                self.speed = self.status
+            self.speed = self.status/2
+            self.timeslow +=1
+        if not self.slow:
+            self.speed = self.status
+      
+    #Definido uma area de ameaça para utilizar os ataques basicos e/ou habilidades
     def areaameaca(self,alvo,raio) -> bool:
-        return ((self.y +40- raio< alvo.hitbox[1]+alvo.hitbox[3] and
-            self.y +40 + raio>alvo.hitbox[1]) and 
-            (self.x +32+ raio>alvo.hitbox[0] and 
-            self.x +32- raio < alvo.hitbox[0]+alvo.hitbox[2]
+        return ((self.y+40 - raio< alvo.hitbox[1]+alvo.hitbox[3] and
+            self.y+40 + raio>alvo.hitbox[1]) and 
+            (self.x+32 + raio>alvo.hitbox[0] and 
+            self.x+32 - raio < alvo.hitbox[0]+alvo.hitbox[2]
             ))
 
     def colisao(self,alvo):
-
         collision_tolerance = 10
         for i in alvo:
             colide = self.hitbox.colliderect(i)
@@ -123,14 +143,11 @@ class Inimigo:
                     self.hitbox.right -= collision_tolerance 
                     self.x -= self.speed
 
-
-
     def desenhar(self,tela):
         esq_Dir = self.sprites[0]
         baixo = self.sprites[2]
         ataque = self.sprites[3]
         especial = self.sprites[4]
-        pg.draw.circle(tela,(0,0,0),(self.x+32,self.y+40),150,2)
         if self.visible:
             if self.atk:
                 if self.nome == 'Soldado':            

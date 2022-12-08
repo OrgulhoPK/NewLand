@@ -7,6 +7,7 @@ class Imagem:
     caminho = Path(__file__)
     
     #Carregamento Menu Inicial
+
     Inicial = caminho.parent / 'Imagens' / 'Menu Inicial' / 'Tela Fundo'
     Titulo = caminho.parent / 'Imagens' / 'Menu Inicial' / 'Titulo'
     telaFundo = Inicial / '1 - TelaFundoMenu.png'
@@ -16,12 +17,13 @@ class Imagem:
     telaFundo1 = pg.image.load(telaFundo)
     Adventure = pg.image.load(Adventure)
     opcoes = pg.image.load(opcoes)
-
     NomeTitulo = []
     for i in Titulo.glob('*.png'):
         NomeTitulo.append(pg.image.load(i))
     
+
     #Carregamento Selecao personagens + Historias
+
     FundoSelecao = Inicial / 'Tela Selecao.png'
     FundoSelecao1 = pg.image.load(FundoSelecao)
     Historia_Heitor = Inicial / 'Historia_D.Heitor.png'
@@ -30,8 +32,6 @@ class Imagem:
     HIda = pg.image.load(Historia_Ida)
     Historia_Jurupari = Inicial / 'Historia_Jurupari.png'
     HJurupari = pg.image.load(Historia_Jurupari)
-
-    
 
     #Carregamento do Mapa PVP e estruturas
     Map = caminho.parent / 'Imagens' / 'Mapa PVP' / 'Map'
@@ -57,7 +57,6 @@ class Imagem:
             tilesetEstruturas.append(frame)
 
 
-
     #list com os tiles carregados no mapa
     Background = load_tiles(file,tilesetFundo)
     Estruturas = load_tiles(file2,tilesetEstruturas)
@@ -75,7 +74,8 @@ class Imagem:
 
 
 
-
+    #TODAS ANIMACOES DE PERSONAGEM (INCLUINDO HABILIDADES E MAPA EFEITOS)
+    
     #Animação dos Personagens em ordem
     Personagens = caminho.parent / 'Imagens' / 'Personagens'
 
@@ -98,7 +98,6 @@ class Imagem:
 
     #animacao de atk
     C_ataque = Clerigo / 'ataque' / 'esquerda-direita'
-    # [cima,baixo,esquerda-direita]
     C_atk = []
     for i in C_ataque.glob("*.png"):
         C_atk.append(pg.image.load(i))
@@ -109,8 +108,6 @@ class Imagem:
         C_spec.append(pg.image.load(i))
     
     Sprites_Clerigo = [C_andarD,C_andarC,C_andarB,C_atk,C_spec]
-
-
   
     #Duelista ------------------------
     Duelista = Personagens / 'Duelista'
@@ -129,7 +126,6 @@ class Imagem:
         D_andarC.append(pg.image.load(i))
     for i in baixoP2.glob("*.png"):
         D_andarB.append(pg.image.load(i))
-
 
     #animacao de atk
     D_ataque = Duelista / 'ataque' / 'esquerda-direita'
@@ -168,8 +164,6 @@ class Imagem:
     S_atk = []
     for i in S_ataque.glob("*.png"):
         S_atk.append(pg.image.load(i))
-    
-    
 
     #Animacao de conjuracao shaman
     S_especial = Shaman / 'ataque' / 'Especial'
@@ -178,8 +172,6 @@ class Imagem:
         S_esp.append(pg.image.load(i))
 
     Sprites_Shaman = [S_andarD,S_andarC,S_andarB,S_atk,S_esp]
-
-
 
     #Tanker -------------------------------
     Tanker = Personagens / 'Tanker'
@@ -210,9 +202,8 @@ class Imagem:
         T_spec1.append(pg.image.load(i))
 
     Sprites_Tanker = [T_andarD,T_andarC,T_andarB,T_atk,T_spec1]
-    
 
-
+    #MOB -------------------------------------------
 
     #Animacao do Mob
     Soldado = Personagens / 'Mob_Soldadinho'
@@ -245,10 +236,9 @@ class Imagem:
     
     Sprites_Soldadinho = [Mob_andarD,Mob_andarC,Mob_andarB,Mob_atk,Mob_spec]
 
-
+    #Animaçoes das habilidades em geral
     #Animação de ataques 
     Habilidades = caminho.parent / 'Imagens' / 'Habilidades'
-    #
     
     #Clerigo
     C_tornado = Habilidades / 'tornado'
@@ -294,6 +284,12 @@ class Imagem:
     Teleport = []
     for i in CirculoTeleport.glob("*.png"):
         Teleport.append(pg.image.load(i))
+
+    CirculoSlow = Habilidades / 'Slow'
+    Slow = []
+    for i in CirculoSlow.glob("*.png"):
+        Slow.append(pg.image.load(i))
+
     
     
 

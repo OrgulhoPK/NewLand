@@ -15,18 +15,16 @@ class Skill:
         self.y = y
         self.vx = 0
         self.vy = 0
-        self.speed = 1
+        self.speed = 0.5
         self.contador = 0
-        self.time_efeito = 0
         self.pos = 0 #serve somente para contar uma nova posição para o x e y
         self.sprite= sprites
 
+        #contador para time debuff
+        self.time_efeito = 0
+        self.tempo = 0
 
-    def sleep(self):
-        pass
-
-    #mob e a duelista
-    def Basica(self,x,y,dados,velxy):
+    def Basica(self,x,y,dados,velxy):#Ataque mob e duelista
         
         self.x = x
         self.y = y
@@ -118,9 +116,7 @@ class Skill:
         tela = dados[0]
         if jogador.vida < jogador.hpmax:
             jogador.vida += 3
-
         tela.blit(pg.transform.scale(self.sprite,(72,64)),(jogador.x-5,jogador.y+25))
-
 
     def EspecialJ(self,mousexy,dados): #Especial Shaman
         self.x = mousexy[0]
@@ -140,47 +136,49 @@ class Skill:
     def Teleporte(self,tela,aliados,inimigos):
         listTarget = aliados + inimigos
         self.time_efeito+= 1
-        if self.time_efeito>50:
-            if self.time_efeito==51:
+        if self.time_efeito>300:
+            if self.time_efeito==301:
                 self.x = random.randint(400,1000)
-                self.y = random.randint(250,600)
-            
-            tela.blit(pg.transform.scale(self.sprite[self.contador//4],(64,40)),(self.x,self.y+20))
-            pg.draw.circle(tela,(0,0,0),(self.x+32,self.y+40),self.raio,2)
-            pg.draw.circle(tela,(55,28,15),(self.x+32,self.y+40),self.raio*10.4,2)
+                self.y = random.randint(250,600)   
+            tela.blit(pg.transform.scale(self.sprite[self.contador//4],(64,40)),(self.x-30,self.y))
+            #pg.draw.circle(tela,(0,0,0),(self.x,self.y+24),self.raio,2)
+            #pg.draw.circle(tela,(55,28,15),(self.x,self.y+24),self.raio*20,2)
             for i in listTarget:
-                if self.colisao(i,(self.raio*10)):
-                    alvo_x= i.x
-                    alvo_y= i.y+10
-                    dist = math.sqrt((alvo_x - self.x) ** 2 +
-                    (alvo_y - self.y) ** 2)
-                    
-                    if dist > 1:
-                        self.vx = alvo_x - self.x
-                        self.vy = alvo_y - self.y
-                        
-                        norma = math.sqrt(self.vx ** 2 + self.vy ** 2)
-                        self.vx /= norma
-                        self.vy /= norma
-                    
-                        self.vx *= self.speed
-                        self.vy *= self.speed
-                    else:
-                        self.vx = 0
-                        self.vy = 0
-                    self.x += self.vx
-                    self.y += self.vy
-                
-                if self.vx == 0 and self.vy ==0:
-                    print('colidiu')
-
+                if self.colisao(i,(self.raio*20)) and i.visible:
+                    self.seguir(i)
+                if self.colisao(i,(self.raio)) and i.visible:
+                    if self.tempo == 15:
+                        self.time_efeito = 0
+                        self.tempo = 0
+                        i.x = random.randint(400,1000)
+                        i.y = random.randint(250,600)  
+                    self.tempo +=1
+                               
             self.contador +=1
-            
             if self.contador +1 >=16:
                 self.contador = 0
                 
-
-                
+    def Slow(self,tela,aliados,inimigos):
+        listTarget = aliados + inimigos
+        self.time_efeito+= 1
+        if self.time_efeito>180:
+            if self.time_efeito==181:
+                self.x = random.randint(400,1000)
+                self.y = random.randint(250,600)   
+            tela.blit(pg.transform.scale(self.sprite[self.contador//4],(64,40)),(self.x-30,self.y))
+            for i in listTarget:
+                if self.colisao(i,(self.raio*20)) and i.visible:
+                    self.seguir(i)
+                if self.colisao(i,(self.raio)) and i.visible:
+                    if self.tempo == 15:
+                        self.time_efeito = 0
+                        self.tempo = 0
+                        i.slow = True
+                    self.tempo +=1
+                               
+            self.contador +=1
+            if self.contador +1 >=16:
+                self.contador = 0            
 
     def colisao(self,alvo, raio) -> bool:
         return ((self.y - raio< alvo.hitbox[1]+alvo.hitbox[3] and
@@ -189,7 +187,29 @@ class Skill:
             self.x - raio < alvo.hitbox[0]+alvo.hitbox[2]
             ))
  
-
+    def seguir(self,alvo):
+        #objeto segue o personagem 
+        #pode ser aplicado para qualquer skill basica ou terreno móvel
+        alvo_x= alvo.x + 32
+        alvo_y= alvo.y + 32
+        dist = math.sqrt((alvo_x - self.x) ** 2 +
+        (alvo_y - self.y) ** 2)
+        
+        if dist > 1:
+            self.vx = alvo_x - self.x
+            self.vy = alvo_y - self.y
+            
+            norma = math.sqrt(self.vx ** 2 + self.vy ** 2)
+            self.vx /= norma
+            self.vy /= norma
+        
+            self.vx *= self.speed
+            self.vy *= self.speed
+        else:
+            self.vx = 0
+            self.vy = 0
+        self.x += self.vx
+        self.y += self.vy
 
 class Projetil:
     def __init__(self,nome,x,y,raio,mousex,mousey,sprite):

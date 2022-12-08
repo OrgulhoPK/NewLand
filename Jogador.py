@@ -4,17 +4,14 @@ from Imagens import Imagem
 from Personagens import Personagem
 class Jogador:
     def __init__(self,posxy,personagem:Personagem): #(self, x, y, widht, height)
-        #posição e movimento
+        #posição e speed
         self.x = posxy[0]
         self.y = posxy[1]
         self.mov_vx = 0
         self.mov_vy = 0
-        self.movimento = 4
-
-
+        self.speed = 4
         #Dados dos inimigos
         self.dados = []   
-
         #Atributos e skills de personagens
         self.nome = personagem.nome
         self.vida = personagem.vida
@@ -25,7 +22,6 @@ class Jogador:
         self.HBasica = personagem.habilidade[0]
         self.HEspecial = personagem.habilidade[1]
         self.projeteis = []  #list projeteis
-
         #estado e  condições
         self.mousexy = None  #posicao do mouse para habilidade
         self.visible= True
@@ -33,8 +29,12 @@ class Jogador:
         self.atkEspecial = False
         self.acao = True     
         self.mouse = False
+         #controle de grupo
+        self.slow = False
         self.stun = False
-
+        self.timestun = 0 
+        self.timeslow = 0
+        self.status = self.speed
         #Contadores de animação e  efeitos
         self.cooldown1= 0
         self.cooldown2= 0
@@ -42,24 +42,56 @@ class Jogador:
         self.anim_mov = 0    
         self.countatk = 0
         self.countspec =  0
-        self.timestun = 0 
 
-
-
-    #movimento do jogador
+    #speed do jogador
     def esquerda(self):
-        self.x -= self.movimento
+        self.x -= self.speed
     def direita(self):
-        self.x += self.movimento
+        self.x += self.speed
     def cima(self):
-        self.y -= self.movimento
+        self.y -= self.speed
     def baixo(self):
-        self.y  += self.movimento
+        self.y  += self.speed
     def parar(self):
         self.mov_vy = 0
         self.mov_vx = 0
 
     #Função que calcula colisão com uma lista de objetos
+                    
+    def ataque(self,tela,alvo):
+        self.dados= [tela,alvo]
+        self.atk = True
+
+    def ataque_especial(self,tela,alvo,jogador = None):
+        self.dados= [tela,alvo,jogador]
+        self.atkEspecial = True
+            
+    def atualizarEstado(self,tela):
+        #controles de grupo
+        if self.stun:  
+            if self.timestun+1 >=60:
+                self.timestun = 0
+                self.stun = False
+            tela.blit(Imagem.starStun1[self.timestun//5],(self.x+5,self.y-5))
+            self.timestun +=1
+
+        if self.slow:
+            if self.timeslow == 0:
+                self.status = self.speed
+            if self.timeslow+1 >=60:
+                self.timeslow = 0
+                self.slow = False
+            self.speed = self.status/2
+            self.timeslow +=1
+        if not self.slow:
+            self.speed = self.status
+            
+    def hit(self):
+        if self.vida>0:
+            self.vida -=1
+        else:
+            self.visible = False
+
     def colisao(self,alvo):
         if self.visible:
             collision_tolerance = 10
@@ -78,29 +110,6 @@ class Jogador:
                     if abs(i.left - self.hitbox.right) < collision_tolerance:
                         self.hitbox.right -= collision_tolerance 
                         self.esquerda()
-                    
-
-                        
-
-    def disparo(self):
-        pass
-
-    def ataque(self,tela,alvo,mousexy=None):
-        self.dados= [tela,alvo,mousexy]
-        self.atk = True
-
-    def ataque_especial(self,tela,alvo,jogador = None):
-        self.dados= [tela,alvo,jogador]
-        self.atkEspecial = True
-            
-
-    def hit(self):
-        if self.vida>0:
-            self.dano = True
-            self.vida -=1
-        else:
-            self.visible = False
-
 
     def getMouse(self):
         for event in pg.event.get():
@@ -122,22 +131,16 @@ class Jogador:
                     return mousexy
 
     def desenhar(self,tela):
-        esq_Dir = self.sprites[0]
-        cima = self.sprites[1]
-        baixo = self.sprites[2]
-        ataque = self.sprites[3]
-        especial = self.sprites[4]
-
+        #sprites
+        esq_Dir,cima,baixo,ataque,especial = self.sprites[0],self.sprites[1],self.sprites[2],self.sprites[3],self.sprites[4]
+        
         #Contador de animação (desenho)
         if self.visible:
             if self.anim_mov+1 >= 28:
                 self.anim_mov = 0
             self.anim_mov +=1
 
-            #Tratamento da animação de ataque
-            #if pg.mouse.get_pressed()[0] :
-            #    self.atk = True
-           
+            #ataques básicos
             if self.atk:
                 #Duelista
                 if self.nome == 'Ida':            
@@ -159,16 +162,16 @@ class Jogador:
                 if self.nome == 'Guaraci':            
                     if self.mov_vx == -1:
                         if self.countatk >10: 
-                            self.x -= self.movimento*1.5
+                            self.x -= self.speed*1.5
                             tela.blit(pg.transform.flip(ataque[self.countatk//2],True,False),(self.x,self.y))
                         if self.countatk == 15:
-                                self.HBasica.BasicaGuaraci(self.x,self.y,self.dados,(self.mov_vx,self.mov_vy),self.movimento)
+                                self.HBasica.BasicaGuaraci(self.x,self.y,self.dados,(self.mov_vx,self.mov_vy),self.speed)
                         tela.blit(pg.transform.flip(ataque[self.countatk//2],True,False),(self.x,self.y))
                     else:
                         if self.countatk >10: 
-                            self.x += self.movimento*1.5
+                            self.x += self.speed*1.5
                         if self.countatk == 15:
-                            self.HBasica.BasicaGuaraci(self.x,self.y,self.dados,(self.mov_vx,self.mov_vy),self.movimento)
+                            self.HBasica.BasicaGuaraci(self.x,self.y,self.dados,(self.mov_vx,self.mov_vy),self.speed)
                             
                         
                         tela.blit(ataque[self.countatk//2],(self.x,self.y))
@@ -199,19 +202,19 @@ class Jogador:
 
                     self.countatk +=1
 
-
+            #ataques especiais
             if self.atkEspecial:
                 #Duelista
                 if self.nome == 'Ida':
                     if self.mov_vx == -1:
                         if self.countspec >10:
-                            self.x -= self.movimento*1.5
+                            self.x -= self.speed*1.5
                             self.HEspecial.EspecialD(self.x,self.y,self.dados,(self.mov_vx,self.mov_vy))
                         tela.blit(pg.transform.flip(especial[self.countspec//2],True,False),(self.x-64,self.y-64))
                     else:
 
                         if self.countspec > 10:
-                            self.x += self.movimento*1.5
+                            self.x += self.speed*1.5
                             self.HEspecial.EspecialD(self.x,self.y,self.dados,(self.mov_vx,self.mov_vy))
                         tela.blit(especial[self.countspec//2],(self.x-64,self.y-64))
                 
@@ -266,7 +269,7 @@ class Jogador:
                     self.countspec+=1
 
 
-
+            #movimentacao do jogador
             if not self.atk and not self.atkEspecial:
                 if self.mov_vx == 0 and self.mov_vy ==0:
                     tela.blit(pg.transform.scale(baixo[0], (64,64)),(self.x,self.y))
@@ -288,32 +291,19 @@ class Jogador:
                 elif self.mov_vy == 1:
                     tela.blit(pg.transform.scale(baixo[self.anim_mov//4], (64,64)),(self.x,self.y))
 
-                self.parar()
+                self.parar()  
             
 
-                   
-            
-            if self.stun:  
-                if self.timestun+1 >=60:
-
-                    self.timestun = 0
-                    self.stun = False
-                
-                tela.blit(Imagem.starStun1[self.timestun//5],(self.x+5,self.y-5))
-                self.timestun +=1
-
+            #projeteis
             for projeteis in self.projeteis:      
                 projeteis.desenha(tela)  
+
             self.cooldown1 += 1
             self.cooldown2 += 1
 
-
-            #atualizar posicao do hitbox
+            #atualizar posicao do hitbox e barra de vida
             self.hitbox = pg.Rect(self.x+17,self.y+34,31,31)
-            
-            #pg.draw.rect(tela,COR_Tela,self.hitbox,2)
             pg.draw.rect(tela,(255,0,0),(self.x+17,self.y,40,8))
-            #40 - (4 * (10-self.vida))
             pg.draw.rect(tela,(0,128,0),(self.x+17,self.y,((self.vida/self.hpmax)*40),8))
 
 

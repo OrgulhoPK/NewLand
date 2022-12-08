@@ -36,14 +36,10 @@ class TelaSelecao:
         tela.blit(Imagem.FundoSelecao1, (0,0))
         tela.blit(Imagem.NomeTitulo[self.contador//4],(540,0))
 
-
-
         if self.rect == 1:
             pg.draw.rect(tela,corArcoIris,SelecaoPersonagem[0],2)
             tela.blit(pg.transform.scale(Imagem.C_andarD[self.contador//8], (64,64)),(310,235))
             tela.blit(Imagem.HHeitor,(860,310))
-
-
 
         if self.rect == 2:
             pg.draw.rect(tela,corArcoIris,SelecaoPersonagem[1],2)
@@ -62,8 +58,7 @@ class TelaSelecao:
             
 
         self.FPS_Clock.tick(30)
-        pg.display.flip()
-                    
+        pg.display.flip()         
 
     def Selecao(self):
         opcoes = self.SelectMenu(SelecaoPersonagem)
@@ -93,8 +88,6 @@ class TelaSelecao:
             self.encerra = True
             setup.NumTela = 3
         self.Selecao()
-        
-
 
     def SelectMenu(self,opcoes):
         mx,my = pg.mouse.get_pos()
@@ -125,4 +118,3 @@ class TelaSelecao:
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 self.encerra = True
                 setup.NumTela = 1
-            

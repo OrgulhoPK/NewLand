@@ -32,8 +32,6 @@ def load_tiles(filename,tileset):
         y+=1
     return image
 
-
-
 #Classe feita para separar os sprites do .png
 class TileSet:
 	def __init__(self, image):
@@ -47,7 +45,6 @@ class TileSet:
 
 		return image
 
-
 #classe feita para imprimir a tela e/ou obter o retangulo do tile
 class Tile:
 
@@ -55,13 +52,9 @@ class Tile:
         self.tileImage = tileImage
         self.posX = posX
         self.posY = posY
-
     #retorna a posição no x e y para adição à lista de colisoes
     def rect (self):
-
         return (self.posX,self.posY)
-    
-
     def desenha(self,screen):
         self.tileImage.set_colorkey((0,0,0))
         screen.blit(self.tileImage,(self.posX,self.posY))

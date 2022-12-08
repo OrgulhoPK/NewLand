@@ -14,6 +14,7 @@ class Jogo:
 
     pg.display.set_caption('New Land, a adventure RPG')
     #pg.display.set_icon()
+    
 
     def rodar(self):
         setup.NumTela = 1

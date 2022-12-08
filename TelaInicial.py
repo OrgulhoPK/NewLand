@@ -15,7 +15,6 @@ class PrimeiraTela:
         self.opcoes = 0
         self.menu = 0
 
-    
     def rodar(self):
         while not self.encerra:
             #Chamando o volume da musica do menu
@@ -23,8 +22,7 @@ class PrimeiraTela:
             Sons.menu1.set_volume(0.10)
             self.tratamento_eventos()
             self.desenha(self.tela)
-
-    
+  
     def tratamento_eventos(self):
         for event in pg.event.get():
             if (event.type == pg.QUIT) or \
@@ -36,7 +34,6 @@ class PrimeiraTela:
         self.opcoes = self.SelectMenu(TelaInicial)
         if self.opcoes == 1:
             self.StoryMode()
-
 
     def desenha(self,tela):
 
@@ -56,7 +53,6 @@ class PrimeiraTela:
         self.FPS_Clock.tick(30)
         pg.display.flip()     
 
-
     def StoryMode(self):
         self.menu = 1
         while self.menu == 1:
@@ -73,17 +69,8 @@ class PrimeiraTela:
                     setup.NumTela = 2
                     Sons.menu1.stop()
                     
-                               
-
-
     def SelectMenu(self,opcoes):
         mx,my = pg.mouse.get_pos()
         if opcoes[0].collidepoint((mx,my)):
             if pg.mouse.get_pressed()[0]:
                 return 1
-
-
-        
-
-        
-                

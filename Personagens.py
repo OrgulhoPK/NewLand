@@ -8,9 +8,5 @@ class Personagem:
         self.vida = vida
         self.dano = dano
         self.sprites = sprites  #[Esq_dir,cima,baixo,ataque]
-        #self.skills = skills
         self.habilidade = habilidade
 
-    def sleep(self):
-        pass
-        
