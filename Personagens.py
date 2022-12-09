@@ -9,4 +9,5 @@ class Personagem:
         self.dano = dano
         self.sprites = sprites  #[Esq_dir,cima,baixo,ataque]
         self.habilidade = habilidade
+        
 

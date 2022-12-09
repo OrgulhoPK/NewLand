@@ -91,7 +91,7 @@ class Skill:
                     self.contador = 0
                 self.contador+=1
 
-    def BasicaGuaraci(self,x,y,dados,velxy,mov):
+    def BasicaGuaraci(self,x,y,dados,velxy,mov): #Ataque Tanker
         self.x = x
         self.y = y
         tela = dados[0]
@@ -112,7 +112,7 @@ class Skill:
                 alvo.hit()
                 alvo.stun = True
 
-    def EspecialG(self,dados,jogador):
+    def EspecialG(self,dados,jogador): #Especial Tanker
         tela = dados[0]
         if jogador.vida < jogador.hpmax:
             jogador.vida += 3
@@ -138,8 +138,8 @@ class Skill:
         self.time_efeito+= 1
         if self.time_efeito>300:
             if self.time_efeito==301:
-                self.x = random.randint(400,1000)
-                self.y = random.randint(250,600)   
+                self.x = random.randint(126,1105)
+                self.y = random.randint(292,563)   
             tela.blit(pg.transform.scale(self.sprite[self.contador//4],(64,40)),(self.x-30,self.y))
             #pg.draw.circle(tela,(0,0,0),(self.x,self.y+24),self.raio,2)
             #pg.draw.circle(tela,(55,28,15),(self.x,self.y+24),self.raio*20,2)
@@ -150,8 +150,8 @@ class Skill:
                     if self.tempo == 15:
                         self.time_efeito = 0
                         self.tempo = 0
-                        i.x = random.randint(400,1000)
-                        i.y = random.randint(250,600)  
+                        i.x = random.randint(126,1105)
+                        i.y = random.randint(292,563)  
                     self.tempo +=1
                                
             self.contador +=1
@@ -163,8 +163,8 @@ class Skill:
         self.time_efeito+= 1
         if self.time_efeito>180:
             if self.time_efeito==181:
-                self.x = random.randint(400,1000)
-                self.y = random.randint(250,600)   
+                self.x = random.randint(126,1105)
+                self.y = random.randint(292,563)   
             tela.blit(pg.transform.scale(self.sprite[self.contador//4],(64,40)),(self.x-30,self.y))
             for i in listTarget:
                 if self.colisao(i,(self.raio*20)) and i.visible:
@@ -180,6 +180,19 @@ class Skill:
             if self.contador +1 >=16:
                 self.contador = 0            
 
+    def cura(self,x,y,tela,dados):
+        self.x = x+12
+        self.y = y+54
+        tela.blit(pg.transform.scale(self.sprite,(110,100)),(self.x-54,self.y-48))
+        if self.contador>=30:
+            self.contador = 0
+            for i in dados:
+                if i.vida < i.hpmax:
+                    i.vida +=1
+        self.contador+=1
+
+            
+        self.contador+=1 
     def colisao(self,alvo, raio) -> bool:
         return ((self.y - raio< alvo.hitbox[1]+alvo.hitbox[3] and
             self.y + raio>alvo.hitbox[1]) and 
@@ -249,17 +262,12 @@ class Projetil:
             self.anim = 0   
         self.anim += 1
         
-
-
     def ataque(self,lista):
         for i in lista:
             colide = self.colisaoProjetil(i)
             if colide:
                 i.hit('dano')
                 
-
-
-
     def colisaoProjetil(self,alvo) -> bool:
         if self.nome == 'Heitor': 
             return ((self.y+10 - self.raio< alvo.hitbox[1]+alvo.hitbox[3] and

@@ -10,8 +10,8 @@ from Inimigos import *
 S_HEIGHT = 720
 S_WIDHT = 1280
 tela = pg.display.set_mode((S_WIDHT, S_HEIGHT))
-Player_y = random.randint(288,433)
-Player_x = random.randint(127,433)
+Player_y = random.randint(292,563)
+Player_x = random.randint(126,1105)
 
 #caixa de selecao do menu 1
 TelaInicial = [pg.Rect(530,391,184,33),
@@ -38,17 +38,17 @@ Guaraci = Personagem('Guaraci',10,10,Imagem.Sprites_Tanker,SkillsGuaraci)
 
 
 
-
 #Lista de habilidades Inimigas
 SkillsSoldado= [Skill(5,Imagem.hitDamage),Skill(20,Imagem.StunMob1)]
-
+SkillsTotem = [Skill(55,Imagem.circuloTotem),None]
 #Mob
 Soldadinho = Personagem('Soldado',100,10,Imagem.Sprites_Soldadinho,SkillsSoldado)
-
+Totem = Personagem('Estrutura',7,0,Imagem.Sprites_Totem,SkillsTotem)
 #Efeitos
 Stun = Imagem.starStun1
 
 #Setup para configurar e editar valores 
+Estrutura = (Inimigo(posxy=(234,450),personagem=Totem))
 class setup:
     NumTela = 0
     Jogadores = []
@@ -58,6 +58,7 @@ class setup:
 
 
 ListInimigos = []
+
 
 for i in range (0,30):
     x = random.randint(525,750)

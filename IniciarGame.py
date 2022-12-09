@@ -15,6 +15,7 @@ class Game:
         self.encerrada = False
         self.background = Imagem.Background
         self.estruturas = Imagem.Estruturas
+        self.Totem = [Estrutura]
 
         #jogadores e inimigos
         self.jogador1 = jogadores[0]
@@ -22,6 +23,7 @@ class Game:
         self.jogadores = [self.jogador1,self.jogador2]
         self.ListInimigos = ListInimigos
         self.Inimigos = []
+        self.dados = self.Inimigos + self.Totem
     
         #contador e efeitos de arena
         self.contador = 0
@@ -39,6 +41,7 @@ class Game:
         self.controleInimigos()     
         self.movimentos()
         self.acoes()
+
         
         for event in pg.event.get():
             tecla = pg.key.get_pressed()
@@ -55,28 +58,28 @@ class Game:
             if self.jogador1.acao and self.jogador2.acao:
                 if event.type == pg.KEYDOWN and tecla[pg.K_q]:
                     if self.jogador1.cooldown1 >= 15:
-                        self.jogador1.ataque(self.tela,self.Inimigos)
+                        self.jogador1.ataque(self.tela,self.dados)
 
                 if event.type == pg.KEYDOWN and tecla[pg.K_e]:
                     if self.jogador1.cooldown2 >= 60:
                         if self.jogador1.nome == 'Jurupari':
                             self.jogador1.mouse = True
-                            self.jogador1.ataque_especial(self.tela,self.Inimigos,self.jogador2)
+                            self.jogador1.ataque_especial(self.tela,self.dados,self.jogador2)
                         else:
-                            self.jogador1.ataque_especial(self.tela,self.Inimigos)
+                            self.jogador1.ataque_especial(self.tela,self.dados)
 
                         
                 if event.type == pg.KEYDOWN and tecla[pg.K_u]:
                     if self.jogador2.cooldown1 >= 15:
-                        self.jogador2.ataque(self.tela,self.Inimigos)
+                        self.jogador2.ataque(self.tela,self.dados)
 
                 if event.type == pg.KEYDOWN and tecla[pg.K_o]:
                     if self.jogador2.cooldown2 >= 60:
                         if self.jogador2.nome == 'Jurupari':
                             self.jogador2.mouse = True
-                            self.jogador2.ataque_especial(self.tela,self.Inimigos,self.jogador2)
+                            self.jogador2.ataque_especial(self.tela,self.dados,self.jogador2)
                         else:
-                            self.jogador2.ataque_especial(self.tela,self.Inimigos)       
+                            self.jogador2.ataque_especial(self.tela,self.dados)       
 
     def desenha(self,tela):
         # mapa
@@ -98,6 +101,8 @@ class Game:
         self.jogador2.desenhar(tela) 
         for inimigo in self.Inimigos:
             inimigo.desenhar(tela)
+
+        self.Totem[0].desenhar(tela)
         
         #ultimo setup
         pg.display.update()
@@ -107,19 +112,19 @@ class Game:
 
         for projetil in self.jogador1.projeteis:
             if projetil.distancia(self.jogador1):
-                self.jogador1.projeteis.remove(projetil)
-            for inimigo in self.Inimigos:
+                self.jogador1.projeteis.clear()
+            for inimigo in self.dados:
                 if projetil.colisaoProjetil(inimigo) and inimigo.visible:
                     inimigo.hit()
-                    self.jogador1.projeteis.remove(projetil)
+                    self.jogador1.projeteis.clear()
 
         for projetil in self.jogador2.projeteis:
             if projetil.distancia(self.jogador2):
-                self.jogador2.projeteis.remove(projetil)
-            for inimigo in self.Inimigos:
+                self.jogador2.projeteis.clear()
+            for inimigo in self.dados:
                 if projetil.colisaoProjetil(inimigo) and inimigo.visible:
                     inimigo.hit()
-                    self.jogador2.projeteis.remove(projetil)
+                    self.jogador2.projeteis.clear()
 
         for inimigo in self.Inimigos:
             for jogador in self.jogadores:
@@ -136,11 +141,14 @@ class Game:
                             inimigo.ataque_especial(self.tela,self.jogadores)
                 for projetil in inimigo.projeteis:
                     if projetil.distancia(inimigo):
-                        inimigo.projeteis.remove(projetil)
+                        inimigo.projeteis.clear()
                     elif projetil.colisaoProjetil(jogador) and jogador.visible:
                         jogador.hit()
                         jogador.stun = True
-                        inimigo.projeteis.remove(projetil)
+                        inimigo.projeteis.clear()
+
+        if self.Totem[0].atk:
+            self.Totem[0].dados = self.jogadores
 #adiciona inimigos na lista Inimigos, até um certo limite  
     def controleInimigos(self):
         for inimigo in self.Inimigos:

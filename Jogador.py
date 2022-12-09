@@ -13,6 +13,7 @@ class Jogador:
         #Dados dos inimigos
         self.dados = []   
         #Atributos e skills de personagens
+        #separei para ter uma visao melhor dos atributos
         self.nome = personagem.nome
         self.vida = personagem.vida
         self.hpmax = personagem.vida #orientacao para barra hp e heal
@@ -65,9 +66,8 @@ class Jogador:
     def ataque_especial(self,tela,alvo,jogador = None):
         self.dados= [tela,alvo,jogador]
         self.atkEspecial = True
-            
+    #controles de grupo     
     def atualizarEstado(self,tela):
-        #controles de grupo
         if self.stun:  
             if self.timestun+1 >=60:
                 self.timestun = 0
@@ -85,7 +85,7 @@ class Jogador:
             self.timeslow +=1
         if not self.slow:
             self.speed = self.status
-            
+
     def hit(self):
         if self.vida>0:
             self.vida -=1
@@ -292,8 +292,6 @@ class Jogador:
                     tela.blit(pg.transform.scale(baixo[self.anim_mov//4], (64,64)),(self.x,self.y))
 
                 self.parar()  
-            
-
             #projeteis
             for projeteis in self.projeteis:      
                 projeteis.desenha(tela)  
@@ -305,6 +303,7 @@ class Jogador:
             self.hitbox = pg.Rect(self.x+17,self.y+34,31,31)
             pg.draw.rect(tela,(255,0,0),(self.x+17,self.y,40,8))
             pg.draw.rect(tela,(0,128,0),(self.x+17,self.y,((self.vida/self.hpmax)*40),8))
+
 
 
     

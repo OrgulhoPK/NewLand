@@ -240,6 +240,19 @@ class Imagem:
     
     Sprites_Soldadinho = [Mob_andarD,Mob_andarC,Mob_andarB,Mob_atk,Mob_spec]
 
+
+    #carregamento da estrutura quebrável
+    Estrutura_pasta = Personagens / 'Totem'
+    Totem = []
+    for i in Estrutura_pasta.glob("*.png"):
+        Totem.append(pg.image.load(i))
+    
+    Sprites_Totem = [Totem]
+
+
+
+
+
     #Animaçoes das habilidades em geral
     #Animação de ataques 
     Habilidades = caminho.parent / 'Imagens' / 'Habilidades'
@@ -264,6 +277,8 @@ class Imagem:
     S_CirculoFogo = []
     for i in S_Circulo.glob("*.png"):
         S_CirculoFogo.append(pg.image.load(i))
+
+
 
     #outras animaçoes
     circuloT = Habilidades / 'CirculoTotem' / 'circulo magico.png'
