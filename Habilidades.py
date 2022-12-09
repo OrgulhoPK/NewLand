@@ -187,8 +187,9 @@ class Skill:
         if self.contador>=30:
             self.contador = 0
             for i in dados:
-                if i.vida < i.hpmax:
-                    i.vida +=1
+                if self.colisao(i,self.raio):
+                    if i.vida < i.hpmax:
+                        i.vida +=1
         self.contador+=1
 
             

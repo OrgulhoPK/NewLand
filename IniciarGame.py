@@ -23,7 +23,7 @@ class Game:
         self.jogadores = [self.jogador1,self.jogador2]
         self.ListInimigos = ListInimigos
         self.Inimigos = []
-        self.dados = self.Inimigos + self.Totem
+
     
         #contador e efeitos de arena
         self.contador = 0
@@ -58,28 +58,28 @@ class Game:
             if self.jogador1.acao and self.jogador2.acao:
                 if event.type == pg.KEYDOWN and tecla[pg.K_q]:
                     if self.jogador1.cooldown1 >= 15:
-                        self.jogador1.ataque(self.tela,self.dados)
+                        self.jogador1.ataque(self.tela,self.Inimigos,self.Totem)
 
                 if event.type == pg.KEYDOWN and tecla[pg.K_e]:
                     if self.jogador1.cooldown2 >= 60:
                         if self.jogador1.nome == 'Jurupari':
                             self.jogador1.mouse = True
-                            self.jogador1.ataque_especial(self.tela,self.dados,self.jogador2)
+                            self.jogador1.ataque_especial(self.tela,self.Inimigos,self.Totem,self.jogador2)
                         else:
-                            self.jogador1.ataque_especial(self.tela,self.dados)
+                            self.jogador1.ataque_especial(self.tela,self.Inimigos,self.Totem)
 
                         
                 if event.type == pg.KEYDOWN and tecla[pg.K_u]:
                     if self.jogador2.cooldown1 >= 15:
-                        self.jogador2.ataque(self.tela,self.dados)
+                        self.jogador2.ataque(self.tela,self.Inimigos,self.Totem)
 
                 if event.type == pg.KEYDOWN and tecla[pg.K_o]:
                     if self.jogador2.cooldown2 >= 60:
                         if self.jogador2.nome == 'Jurupari':
                             self.jogador2.mouse = True
-                            self.jogador2.ataque_especial(self.tela,self.dados,self.jogador2)
+                            self.jogador2.ataque_especial(self.tela,self.Inimigos,self.Totem,self.jogador2)
                         else:
-                            self.jogador2.ataque_especial(self.tela,self.dados)       
+                            self.jogador2.ataque_especial(self.tela,self.Inimigos,self.Totem)       
 
     def desenha(self,tela):
         # mapa
@@ -100,20 +100,20 @@ class Game:
         self.jogador1.desenhar(tela) 
         self.jogador2.desenhar(tela) 
         for inimigo in self.Inimigos:
-            inimigo.desenhar(tela)
-
+            inimigo.desenhar(tela),
         self.Totem[0].desenhar(tela)
+        
         
         #ultimo setup
         pg.display.update()
         self.FPS_CLOCK.tick(30)
 #controle dos projeteis e area de ameaça dos inimigos
     def acoes(self):
-
+        dados = self.Totem + self.Inimigos
         for projetil in self.jogador1.projeteis:
             if projetil.distancia(self.jogador1):
                 self.jogador1.projeteis.clear()
-            for inimigo in self.dados:
+            for inimigo in dados:
                 if projetil.colisaoProjetil(inimigo) and inimigo.visible:
                     inimigo.hit()
                     self.jogador1.projeteis.clear()
@@ -121,7 +121,7 @@ class Game:
         for projetil in self.jogador2.projeteis:
             if projetil.distancia(self.jogador2):
                 self.jogador2.projeteis.clear()
-            for inimigo in self.dados:
+            for inimigo in dados:
                 if projetil.colisaoProjetil(inimigo) and inimigo.visible:
                     inimigo.hit()
                     self.jogador2.projeteis.clear()
@@ -217,3 +217,14 @@ class Game:
         for inimigo in self.Inimigos:
             inimigo.colisao(lista)
             inimigo.atualizarEstado(tela)
+        
+        if not self.jogador1.mouse and not self.jogador2.mouse:
+            for inimigo in self.Inimigos:
+                inimigo.acao = True
+            self.jogador1.acao = True
+            self.jogador2.acao = True
+        else:
+            for inimigo in self.Inimigos:
+                inimigo.acao = False
+            self.jogador1.acao = False
+            self.jogador2.acao = False

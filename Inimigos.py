@@ -154,9 +154,18 @@ class Inimigo:
 
     def desenhar(self,tela):
         if self.nome == 'Estrutura':
-            self.hitbox = pg.Rect(self.x,self.y+33,28,35)
             objeto = self.sprites[0]
-            
+            if self.atk:
+
+                tela.blit(objeto[0],(self.x,self.y))
+                if self.countatk <300:
+                    self.HBasica.cura(self.x,self.y,tela,self.dados)
+                if self.countatk +1 >= 840:
+                    self.countatk = 0
+                    self.vida = 7
+                    self.atk = False
+                self.countatk +=1 
+
             if not self.atk:
                 if self.vida >0:
                     tela.blit(objeto[self.vida],(self.x,self.y))
@@ -164,19 +173,9 @@ class Inimigo:
             if self.vida<=0:
                 self.vida = 0
                 self.atk = True
+            self.hitbox = pg.Rect(self.x,self.y+33,28,35)
             
-            if self.atk:
-                
-                if self.countatk <300:
-                    self.HBasica.cura(self.x,self.y,tela,self.dados)
-                    
-                if self.countatk +1 >= 840:
-                    self.countatk = 0
-                    self.vida = 7
-                    self.atk = False
-                
-                tela.blit(objeto[0],(self.x,self.y))
-                self.countatk +=1
+            
                 
 
         else:
@@ -233,7 +232,7 @@ class Inimigo:
                 self.hitbox = pg.Rect(self.x+17,self.y+34,31,31)
                 pg.draw.rect(tela,(255,0,0),(self.x+17,self.y,40,8))
                 pg.draw.rect(tela,(0,128,0),(self.x+17,self.y,((self.vida/self.hpmax)*40),8))
-
+                pg.draw.rect(tela,(0,0,0),self.hitbox,2)
                 for projeteis in self.projeteis:      
                     projeteis.desenha(tela)
                 self.cooldown1 += 1

@@ -59,12 +59,14 @@ class Jogador:
 
     #Função que calcula colisão com uma lista de objetos
                     
-    def ataque(self,tela,alvo):
-        self.dados= [tela,alvo]
+    def ataque(self,tela,alvo,Totem):
+        dados = alvo + Totem
+        self.dados= [tela,dados]
         self.atk = True
 
-    def ataque_especial(self,tela,alvo,jogador = None):
-        self.dados= [tela,alvo,jogador]
+    def ataque_especial(self,tela,alvo,Totem,jogador = None):
+        dados = Totem+alvo
+        self.dados= [tela,dados,jogador]
         self.atkEspecial = True
     #controles de grupo     
     def atualizarEstado(self,tela):
@@ -100,6 +102,7 @@ class Jogador:
                 if colide:          
                     if abs(i.top - self.hitbox.bottom) < collision_tolerance:
                         self.hitbox.bottom -= collision_tolerance 
+                        self.cima()
                         
                     if abs(i.bottom - self.hitbox.top) < collision_tolerance:
                         self.hitbox.top += collision_tolerance 
@@ -115,25 +118,15 @@ class Jogador:
         for event in pg.event.get():
             mousexy = None
             mx,my = pg.mouse.get_pos()
-            if mousexy is None:
-                self.acao = False
-                self.dados[2].acao = False
-                for i in self.dados[1]:
-                    i.acao = False
             if event.type == pg.MOUSEBUTTONDOWN:
                 if pg.mouse.get_pressed()[0]:
                     mousexy = (mx,my)
-                    self.acao = True
-                    self.dados[2].acao = True
-                    for i in self.dados[1]:
-                        i.acao = True
                     self.mouse = False
                     return mousexy
 
     def desenhar(self,tela):
         #sprites
         esq_Dir,cima,baixo,ataque,especial = self.sprites[0],self.sprites[1],self.sprites[2],self.sprites[3],self.sprites[4]
-        
         #Contador de animação (desenho)
         if self.visible:
             if self.anim_mov+1 >= 28:
