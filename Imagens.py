@@ -13,10 +13,12 @@ class Imagem:
     telaFundo = Inicial / '1 - TelaFundoMenu.png'
     Adventure = Inicial / '2 - the adventure.png'
     opcoes = Inicial / '3 - opcoes.png'
+    historiaJogo = Inicial / '4 - TelaHistoria.png'
     #Coloquei separado, porque no linux estava lendo no for em ordem diferente
     telaFundo1 = pg.image.load(telaFundo)
     Adventure = pg.image.load(Adventure)
     opcoes = pg.image.load(opcoes)
+    historia = pg.image.load(historiaJogo)
     NomeTitulo = []
     for i in Titulo.glob('*.png'):
         NomeTitulo.append(pg.image.load(i))
@@ -32,6 +34,8 @@ class Imagem:
     HIda = pg.image.load(Historia_Ida)
     Historia_Jurupari = Inicial / 'Historia_Jurupari.png'
     HJurupari = pg.image.load(Historia_Jurupari)
+    Historia_Guaraci = Inicial / 'Historia_Guaraci.png'
+    Hguaraci = pg.image.load(Historia_Guaraci)
 
     #Carregamento do Mapa PVP e estruturas
     Map = caminho.parent / 'Imagens' / 'Mapa PVP' / 'Map'

@@ -47,8 +47,14 @@ class PrimeiraTela:
         #Subtitulo e opçoes
 
         tela.blit(Imagem.Adventure, (500,263))
+        
         if self.menu == 0:
             tela.blit(Imagem.opcoes, (490,391))
+
+        if self.menu == 1:
+            tela.blit(Imagem.historia, (300,350))
+
+    
 
         self.FPS_Clock.tick(30)
         pg.display.flip()     

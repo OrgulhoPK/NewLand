@@ -54,6 +54,7 @@ class TelaSelecao:
         if self.rect == 4:
             pg.draw.rect(tela,corArcoIris,SelecaoPersonagem[3],2)
             tela.blit(pg.transform.scale(Imagem.T_andarD[self.contador//8], (64,64)),(310,430))
+            tela.blit(Imagem.Hguaraci,(860,310))
 
             
 
