@@ -54,14 +54,15 @@ class Game:
                 setup.Jogadores.clear()
 
             #tratamento dos ataques
-            #teclas de ataque básico
+            #teclas de ataque básico e especial
+            # a condição de time das skills (cololdown >= Tempo de resfriamento da skill)
             if self.jogador1.acao and self.jogador2.acao:
                 if event.type == pg.KEYDOWN and tecla[pg.K_q]:
-                    if self.jogador1.cooldown1 >= 15:
+                    if self.jogador1.cooldown1 >= self.jogador1.timeSkills[0] and not self.jogador1.stun:
                         self.jogador1.ataque(self.tela,self.Inimigos,self.Totem)
 
                 if event.type == pg.KEYDOWN and tecla[pg.K_e]:
-                    if self.jogador1.cooldown2 >= 60:
+                    if self.jogador1.cooldown2 >= self.jogador1.timeSkills[1] and not self.jogador1.stun:
                         if self.jogador1.nome == 'Jurupari':
                             self.jogador1.mouse = True
                             self.jogador1.ataque_especial(self.tela,self.Inimigos,self.Totem,self.jogador2)
@@ -70,11 +71,11 @@ class Game:
 
                         
                 if event.type == pg.KEYDOWN and tecla[pg.K_u]:
-                    if self.jogador2.cooldown1 >= 15:
+                    if self.jogador2.cooldown1 >=  self.jogador2.timeSkills[0] and not self.jogador2.stun:
                         self.jogador2.ataque(self.tela,self.Inimigos,self.Totem)
 
                 if event.type == pg.KEYDOWN and tecla[pg.K_o]:
-                    if self.jogador2.cooldown2 >= 60:
+                    if self.jogador2.cooldown2 >=  self.jogador1.timeSkills[1] and not self.jogador2.stun:
                         if self.jogador2.nome == 'Jurupari':
                             self.jogador2.mouse = True
                             self.jogador2.ataque_especial(self.tela,self.Inimigos,self.Totem,self.jogador2)
@@ -108,29 +109,36 @@ class Game:
         pg.display.update()
         self.FPS_CLOCK.tick(30)
 #controle dos projeteis e area de ameaça dos inimigos
+#Tem um try / except na função para se o projetil acertar 2 inimigos (chamava a função de remover 2x)
     def acoes(self):
         dados = self.Totem + self.Inimigos
         for projetil in self.jogador1.projeteis:
             if projetil.distancia(self.jogador1):
-                self.jogador1.projeteis.clear()
+                self.jogador1.projeteis.remove(projetil)
+
+                    
             for inimigo in dados:
                 if projetil.colisaoProjetil(inimigo) and inimigo.visible:
-                    inimigo.hit()
-                    self.jogador1.projeteis.clear()
-
+                    inimigo.hit(10)
+                    try:
+                        self.jogador1.projeteis.remove(projetil)
+                    except ValueError:
+                        pass
         for projetil in self.jogador2.projeteis:
             if projetil.distancia(self.jogador2):
-                self.jogador2.projeteis.clear()
+                    self.jogador2.projeteis.remove(projetil)
             for inimigo in dados:
                 if projetil.colisaoProjetil(inimigo) and inimigo.visible:
-                    inimigo.hit()
-                    self.jogador2.projeteis.clear()
-
+                    inimigo.hit(10)
+                    try:
+                        self.jogador2.projeteis.remove(projetil)
+                    except ValueError:
+                        pass
+                        
         for inimigo in self.Inimigos:
             for jogador in self.jogadores:
                 #primeiro analisa se tem alguem na area de ameaça, se tiver, analisa se está vivo
-                if inimigo.areaameaca(jogador,80):
-                   
+                if inimigo.areaameaca(jogador,80): 
                     if jogador.visible:
                         #ataques por segundo 0.42 (1 seg, 30 frames) 70*0.42 = 29.4
                         if inimigo.cooldown1 >=70 and not inimigo.stun and not inimigo.atkEspecial:
@@ -143,9 +151,12 @@ class Game:
                     if projetil.distancia(inimigo):
                         inimigo.projeteis.clear()
                     elif projetil.colisaoProjetil(jogador) and jogador.visible:
-                        jogador.hit()
+                        jogador.hit(3)
                         jogador.stun = True
-                        inimigo.projeteis.clear()
+                        try:
+                            inimigo.projeteis.remove(projetil)
+                        except ValueError:
+                            pass
 
         if self.Totem[0].atk:
             self.Totem[0].dados = self.jogadores
@@ -164,7 +175,7 @@ class Game:
         # E trata dos limites de tela
         tecla = pg.key.get_pressed()
         
-        if not self.jogador1.atk and not self.jogador1.atkEspecial and self.jogador1.acao:
+        if not self.jogador1.atk and not self.jogador1.atkEspecial and self.jogador1.acao and not self.jogador1.stun:
 
             if tecla[pg.K_a] and (self.jogador1.x > 0) :
                 self.jogador1.esquerda()
@@ -183,7 +194,7 @@ class Game:
                 self.jogador1.mov_vy = 1
             
             #Movimento jogador 2
-        if not self.jogador2.atk and not self.jogador2.atkEspecial and self.jogador2.acao:
+        if not self.jogador2.atk and not self.jogador2.atkEspecial and self.jogador2.acao and not self.jogador2.stun:
             if tecla[pg.K_j] and (self.jogador2.x > 0) :
                 self.jogador2.esquerda()
                 self.jogador2.mov_vx = -1               

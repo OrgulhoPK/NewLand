@@ -22,6 +22,7 @@ SelecaoPersonagem = [pg.Rect(120,249,157,50),
                 pg.Rect(120,381,157,50),
                 pg.Rect(120,444,157,50)]
 
+
 #Lista de habilidades Aliadas
 SkillsIda = [Skill(5,Imagem.hitDamage),Skill(5,Imagem.hitDamage)]
 SkillsHeitor = [Skill(20,Imagem.tornado),Skill(92,Imagem.C_Stun1)]
@@ -30,20 +31,21 @@ SkillsGuaraci = [Skill(5,Imagem.hitDamage),Skill(35,Imagem.circuloTotem)]
 
 
 #Lista de personagens
+
 #Personagem = Personagem (vida,dano, Sprites:list , Skills: list)
-D_Heitor = Personagem('Heitor',10,10,Imagem.Sprites_Clerigo,SkillsHeitor)
-Ida = Personagem('Ida',10,10,Imagem.Sprites_Duelista,SkillsIda)
-Jurupari = Personagem('Jurupari',10,10,Imagem.Sprites_Shaman,SkillsJurupari)
-Guaraci = Personagem('Guaraci',10,10,Imagem.Sprites_Tanker,SkillsGuaraci)
+D_Heitor = Personagem('Heitor',30,4,[5,150],Imagem.Sprites_Clerigo,SkillsHeitor)
+Ida = Personagem('Ida',35,5,[20,150],Imagem.Sprites_Duelista,SkillsIda)
+Jurupari = Personagem('Jurupari',20,4,[3,350],Imagem.Sprites_Shaman,SkillsJurupari)
+Guaraci = Personagem('Guaraci',50,3,[40,200],Imagem.Sprites_Tanker,SkillsGuaraci)
 
 
 
-#Lista de habilidades Inimigas
+#Lista de habilidades Inimigas 
 SkillsSoldado= [Skill(5,Imagem.hitDamage),Skill(20,Imagem.StunMob1)]
 SkillsTotem = [Skill(55,Imagem.circuloTotem),None]
 #Mob
-Soldadinho = Personagem('Soldado',100,10,Imagem.Sprites_Soldadinho,SkillsSoldado)
-Totem = Personagem('Estrutura',7,0,Imagem.Sprites_Totem,SkillsTotem)
+Soldadinho = Personagem('Soldado',60,2,[70,250],Imagem.Sprites_Soldadinho,SkillsSoldado)
+Totem = Personagem('Estrutura',7,0,[0,0],Imagem.Sprites_Totem,SkillsTotem)
 #Efeitos
 Stun = Imagem.starStun1
 

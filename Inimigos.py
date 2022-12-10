@@ -9,14 +9,13 @@ class Inimigo:
         self.y = posxy[1]
         self.inimigovx = 0
         self.inimigovy = 0
-        self.speed = 1
+        self.speed = personagem.speed
         #dados de jogadores
         self.dados = []
         #Atributos e skills de personagens
         self.nome = personagem.nome
         self.vida = personagem.vida
         self.hpmax = personagem.vida #orientacao para barra hp e heal
-        self.dano = personagem.dano
         self.hitbox = pg.Rect(self.x+17,self.y+34,31,31)
         self.sprites = personagem.sprites
         self.HBasica = personagem.habilidade[0]
@@ -37,8 +36,8 @@ class Inimigo:
         self.anim_mov = 0
         self.countatk = 0
         self.countspec= 0
-        self.cooldown1= 0
-        self.cooldown2= 0
+        self.cooldown1= personagem.timeSkills[0]
+        self.cooldown2= personagem.timeSkills[1]
         self.timestun = 0
 
     def seguir(self,jogador):
@@ -85,14 +84,14 @@ class Inimigo:
                 elif jogador1.visible:
                     self.seguir(jogador1)
 
-    def hit(self):
-        print('hit')
+    def hit(self,dano):
+        print(dano)
         if self.nome == 'Estrutura':
             self.vida -= 1
        
         else:
             if self.vida>0:
-                self.vida -=1            
+                self.vida -= dano            
             else:
                 self.visible = False
 
@@ -110,7 +109,6 @@ class Inimigo:
             if self.timestun+1 >=60:
                 self.timestun = 0
                 self.stun = False
-            tela.blit(Imagem.starStun1[self.timestun//5],(self.x+5,self.y-5))
             self.timestun +=1
 
         if self.slow:
@@ -156,7 +154,6 @@ class Inimigo:
         if self.nome == 'Estrutura':
             objeto = self.sprites[0]
             if self.atk:
-
                 tela.blit(objeto[0],(self.x,self.y))
                 if self.countatk <300:
                     self.HBasica.cura(self.x,self.y,tela,self.dados)
@@ -165,7 +162,6 @@ class Inimigo:
                     self.vida = 7
                     self.atk = False
                 self.countatk +=1 
-
             if not self.atk:
                 if self.vida >0:
                     tela.blit(objeto[self.vida],(self.x,self.y))
@@ -174,9 +170,6 @@ class Inimigo:
                 self.vida = 0
                 self.atk = True
             self.hitbox = pg.Rect(self.x,self.y+33,28,35)
-            
-            
-                
 
         else:
             esq_Dir = self.sprites[0]
@@ -228,11 +221,12 @@ class Inimigo:
                     elif self.inimigovx<0 or (self.inimigovx<0 and (self.inimigovy>0 or self.inimigovy<0)):
                         tela.blit(pg.transform.scale(pg.transform.flip(esq_Dir[self.anim_mov//4],True,False), (64,64)),(self.x,self.y))
 
+                if self.stun:
+                    tela.blit(Imagem.starStun1[self.timestun//5],(self.x+5,self.y-10))
                 #atualiza o hitbox do mob e barra de vida
                 self.hitbox = pg.Rect(self.x+17,self.y+34,31,31)
                 pg.draw.rect(tela,(255,0,0),(self.x+17,self.y,40,8))
                 pg.draw.rect(tela,(0,128,0),(self.x+17,self.y,((self.vida/self.hpmax)*40),8))
-                pg.draw.rect(tela,(0,0,0),self.hitbox,2)
                 for projeteis in self.projeteis:      
                     projeteis.desenha(tela)
                 self.cooldown1 += 1

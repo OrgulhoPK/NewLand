@@ -17,13 +17,14 @@ class Skill:
         self.vy = 0
         self.speed = 0.5
         self.contador = 0
-        self.pos = 0 #serve somente para contar uma nova posição para o x e y
+        self.pos = 0    #serve somente para contar uma nova posição para o x e y
         self.sprite= sprites
 
         #contador para time debuff
         self.time_efeito = 0
         self.tempo = 0
 
+#Mob e Duelista
     def Basica(self,x,y,dados,velxy):#Ataque mob e duelista
         
         self.x = x
@@ -40,9 +41,11 @@ class Skill:
                 if self.contador+1 >=5:
                     self.contador = 0
                 tela.blit(pg.transform.scale(self.sprite[self.contador],(128,128)),(alvo.x-32,alvo.y-32))
-                alvo.hit()
+                if alvo.nome == 'Soldado' or alvo.nome == 'Boss':
+                    alvo.hit(6)
+                else:
+                    alvo.hit(2)
                 self.contador+=1
-
     def EspecialD(self,x,y,dados,velxy):#Especial duelista
         self.x = x
         self.y = y
@@ -56,10 +59,12 @@ class Skill:
             if rect.colliderect(alvo.hitbox):
                 if self.contador+1 >=5:
                     self.contador = 0
+
                 tela.blit(pg.transform.scale(self.sprite[self.contador],(128,128)),(alvo.x-32,alvo.y-32))
-                alvo.hit()
+                alvo.hit(4)
                 self.contador+=1
-        
+
+#Clerigo e Shaman     
     def BasicaRange(self,nome,x,y,velxy): #AtaqueRange
         velx = velxy[0]
         vely = velxy[1]
@@ -75,22 +80,35 @@ class Skill:
                 return (Projetil(nome,x,y,self.raio,x+1,y,self.sprite))      
             else:
                 return (Projetil(nome,x,y,self.raio,x+velx, y+vely,self.sprite))
-
     def EspecialH(self,x,y,dados): #Especial Clerigo
         self.x = x
         self.y = y
         tela = dados[0]
         alvos = dados[1]
-        
         for alvo in alvos:
             if self.colisao(alvo,self.raio):
                 tela.blit(pg.transform.scale(self.sprite[self.contador],(64,79)),(alvo.x,alvo.y-10))
-                alvo.hit()
+                alvo.hit(25)
                 alvo.stun = True
                 if self.contador+1 >=5:
                     self.contador = 0
                 self.contador+=1
+    def EspecialJ(self,mousexy,dados): #Especial Shaman
+        self.x = mousexy[0]
+        self.y = mousexy[1]
+        tela = dados[0]
+        alvos = dados[1]
 
+        for alvo in alvos:
+            if self.colisao(alvo,self.raio):
+                if self.contador+1 >=36:
+                    self.contador = 0
+                tela.blit(pg.transform.scale(self.sprite[self.contador//4],(72,64)),(alvo.x-5,alvo.y+25))
+                alvo.hit(1)
+
+                self.contador+=1
+
+#Tanker
     def BasicaGuaraci(self,x,y,dados,velxy,mov): #Ataque Tanker
         self.x = x
         self.y = y
@@ -109,30 +127,15 @@ class Skill:
             if rect.colliderect(alvo.hitbox):
                 tela.blit(pg.transform.scale(self.sprite[2],(128,128)),(alvo.x-32,alvo.y-32))
                 alvo.x += mov*1.5*velx
-                alvo.hit()
+                alvo.hit(10)
                 alvo.stun = True
-
     def EspecialG(self,dados,jogador): #Especial Tanker
         tela = dados[0]
         if jogador.vida < jogador.hpmax:
             jogador.vida += 3
         tela.blit(pg.transform.scale(self.sprite,(72,64)),(jogador.x-5,jogador.y+25))
 
-    def EspecialJ(self,mousexy,dados): #Especial Shaman
-        self.x = mousexy[0]
-        self.y = mousexy[1]
-        tela = dados[0]
-        alvos = dados[1]
-
-        for alvo in alvos:
-            if self.colisao(alvo,self.raio):
-                if self.contador+1 >=36:
-                    self.contador = 0
-                tela.blit(pg.transform.scale(self.sprite[self.contador//4],(72,64)),(alvo.x-5,alvo.y+25))
-                alvo.hit()
-
-                self.contador+=1
-
+#Terreno e Totem
     def Teleporte(self,tela,aliados,inimigos):
         listTarget = aliados + inimigos
         self.time_efeito+= 1
@@ -156,8 +159,7 @@ class Skill:
                                
             self.contador +=1
             if self.contador +1 >=16:
-                self.contador = 0
-                
+                self.contador = 0                
     def Slow(self,tela,aliados,inimigos):
         listTarget = aliados + inimigos
         self.time_efeito+= 1
@@ -179,7 +181,6 @@ class Skill:
             self.contador +=1
             if self.contador +1 >=16:
                 self.contador = 0            
-
     def cura(self,x,y,tela,dados):
         self.x = x+12
         self.y = y+54
@@ -189,18 +190,19 @@ class Skill:
             for i in dados:
                 if self.colisao(i,self.raio):
                     if i.vida < i.hpmax:
-                        i.vida +=1
+                        i.vida +=2
         self.contador+=1
 
             
         self.contador+=1 
+
+#Complemento de algumas skills
     def colisao(self,alvo, raio) -> bool:
         return ((self.y - raio< alvo.hitbox[1]+alvo.hitbox[3] and
             self.y + raio>alvo.hitbox[1]) and 
             (self.x + raio>alvo.hitbox[0] and 
             self.x - raio < alvo.hitbox[0]+alvo.hitbox[2]
             ))
- 
     def seguir(self,alvo):
         #objeto segue o personagem 
         #pode ser aplicado para qualquer skill basica ou terreno móvel
@@ -224,6 +226,7 @@ class Skill:
             self.vy = 0
         self.x += self.vx
         self.y += self.vy
+
 
 class Projetil:
     def __init__(self,nome,x,y,raio,mousex,mousey,sprite):
@@ -262,12 +265,6 @@ class Projetil:
         if self.anim + 1 >= 16:
             self.anim = 0   
         self.anim += 1
-        
-    def ataque(self,lista):
-        for i in lista:
-            colide = self.colisaoProjetil(i)
-            if colide:
-                i.hit('dano')
                 
     def colisaoProjetil(self,alvo) -> bool:
         if self.nome == 'Heitor': 
@@ -286,4 +283,4 @@ class Projetil:
     def distancia(self,jogador) -> bool:    
         distancia = math.sqrt(((self.x - jogador.x)**2) +
                                 ((self.y- jogador.y)**2))
-        return distancia > 250
+        return distancia > 350
