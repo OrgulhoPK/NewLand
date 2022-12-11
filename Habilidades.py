@@ -4,7 +4,6 @@ import math,random
 import pygame as pg
 from Jogador import Jogador
 from Inimigos import Inimigo
-from Sons import Sons
 
 
 

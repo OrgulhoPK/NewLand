@@ -118,15 +118,13 @@ class Game:
         pg.display.update()
         self.FPS_CLOCK.tick(30)
     
-#relogio de timer do jogo
+#relogio de timer do jogo tempo [min , seg]
     def timer(self,tela):
         if self.tempo[1]<0:
             self.tempo[0]-=1
             self.tempo[1]=59
         if self.ticks%30 == 0:
             self.tempo[1]-=1
-            
-
         self.ticks += 1
 #controle dos projeteis e area de ameaça dos inimigos
 #Tem um try / except na função para se o projetil acertar 2 inimigos (chamava a função de remover 2x)
@@ -177,7 +175,6 @@ class Game:
                             inimigo.projeteis.remove(projetil)
                         except ValueError:
                             pass
-
         if self.Totem[0].atk:
             self.Totem[0].dados = self.jogadores
 #adiciona inimigos na lista Inimigos, até um certo limite  
@@ -186,9 +183,14 @@ class Game:
             if not inimigo.visible:
                 self.Inimigos.remove(inimigo)
         for i in self.ListInimigos:
-            if len(self.Inimigos) <2:
+            if self.tempo[1]%18 == 0 and len(self.Inimigos)<3 and self.ListInimigos:
                 self.Inimigos.append(i)
                 self.ListInimigos.remove(i)
+            if not self.Inimigos:
+                self.Inimigos.append(i)
+                self.ListInimigos.remove(i)
+
+
 #movimento dos jogadores e inimigos
     def movimentos(self):
         #trata somente dos movimentos dos jogadores

@@ -43,11 +43,14 @@ Guaraci = Personagem('Guaraci',50,3,[40,200],Imagem.Sprites_Tanker,SkillsGuaraci
 
 
 #Lista de habilidades Inimigas 
+SkillsBoss = [Skill(5,Imagem.hitDamage),Skill(20,Imagem.StunMob1)]
 SkillsSoldado= [Skill(5,Imagem.hitDamage),Skill(20,Imagem.StunMob1)]
 SkillsTotem = [Skill(55,Imagem.circuloTotem),None]
 #Mob
+Boss = Personagem('Boss',300,2,[70,250],Imagem.Sprites_Boss,SkillsBoss)
 Soldadinho = Personagem('Soldado',60,2,[70,250],Imagem.Sprites_Soldadinho,SkillsSoldado)
 Totem = Personagem('Estrutura',7,0,[0,0],Imagem.Sprites_Totem,SkillsTotem)
+
 #Efeitos
 Stun = Imagem.starStun1
 

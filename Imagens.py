@@ -207,11 +207,10 @@ class Imagem:
 
     Sprites_Tanker = [T_andarD,T_andarC,T_andarB,T_atk,T_spec1]
 
-    #MOB -------------------------------------------
+    #MOB -------------------------------------------------------------------
 
     #Animacao do Mob
     Soldado = Personagens / 'Mob_Soldadinho'
-
     #carregamento do andar
     esquerda_direitaMob =  Soldado / 'andar' / 'esquerda-direita'
     cimaMob =  Soldado / 'andar' / 'cima'
@@ -226,7 +225,6 @@ class Imagem:
         Mob_andarC.append(pg.image.load(i))
     for i in baixoMob.glob("*.png"):
         Mob_andarB.append(pg.image.load(i))
-
     #animacao de atk
     Mob_ataque = Soldado / 'ataque' / 'esquerda-direita'
     Mob_atk = []
@@ -239,6 +237,36 @@ class Imagem:
         Mob_spec.append(pg.image.load(i))
     
     Sprites_Soldadinho = [Mob_andarD,Mob_andarC,Mob_andarB,Mob_atk,Mob_spec]
+
+    #Boss ----------------------------------------------------------------------
+    #Animacao do Boss
+    Boss = Personagens / 'Boss'
+
+    #carregamento do andar
+    esquerda_direitaBoss =  Boss / 'andar' / 'esquerda-direita'
+    baixoBoss = Boss / 'andar' / 'baixo'   
+    
+    Boss_andarD = [] #esquerda | direita
+    Boss_andarC = []
+    Boss_andarB = [] #baixo P3
+    for i in esquerda_direitaBoss.glob("*.png"):
+        Boss_andarD.append(pg.image.load(i))
+    for i in baixoBoss.glob("*.png"):
+        Boss_andarB.append(pg.image.load(i))
+
+    #animacao de atk
+    Boss_ataque = Boss / 'ataque' / 'esquerda-direita'
+    Boss_atk = []
+    for i in Boss_ataque.glob("*.png"):
+        Boss_atk.append(pg.image.load(i))
+    
+    Boss_Especial = Boss / 'ataque' / 'Especial'
+    Boss_spec = []
+    for i in Boss_Especial.glob("*.png"):
+        Boss_spec.append(pg.image.load(i))
+    
+    Sprites_Boss = [Boss_andarD,Boss_andarC,Boss_andarB,Boss_atk,Boss_spec]
+
 
 
     #carregamento da estrutura quebrável
