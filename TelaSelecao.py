@@ -22,7 +22,7 @@ class TelaSelecao:
 
     def tratamento_eventos(self):
         Sons.menu1.play()
-        Sons.menu1.set_volume(0.10)
+        Sons.menu1.set_volume(0.20)
         for event in pg.event.get():
             if (event.type == pg.QUIT):
                 sys.exit()

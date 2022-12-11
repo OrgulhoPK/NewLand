@@ -19,7 +19,7 @@ class PrimeiraTela:
         while not self.encerra:
             #Chamando o volume da musica do menu
             Sons.menu1.play()
-            Sons.menu1.set_volume(0.10)
+            Sons.menu1.set_volume(0.20)
             self.tratamento_eventos()
             self.desenha(self.tela)
   

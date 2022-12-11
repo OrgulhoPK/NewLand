@@ -46,7 +46,7 @@ class Game:
                
     def tratamento_eventos(self):
         Sons.batalha.play()
-        Sons.batalha.set_volume(0.10)
+        Sons.batalha.set_volume(0.30)
         for event in pg.event.get():
             tecla = pg.key.get_pressed()
             if event.type == pg.QUIT:

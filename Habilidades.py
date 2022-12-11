@@ -71,10 +71,7 @@ class Skill:
         velx = velxy[0]
         vely = velxy[1]
         x = x+32
-        y = y+40
-        Sons.ataque.play()
-        
-        
+        y = y+40        
         if nome == 'Soldado':
             if velx < 0 and vely == 0:
                 return (Projetil(nome,x-16,y,self.raio,x-17,y,self.sprite))  

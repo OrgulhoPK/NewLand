@@ -1,6 +1,7 @@
 import pygame as pg
 from Imagens import Imagem
 from Personagens import Personagem
+from Sons import Sons
 
 class Jogador:
     def __init__(self,posxy:list,personagem:Personagem): #(self, x, y, widht, height)
@@ -209,6 +210,8 @@ class Jogador:
 
         #Clerigo e Shaman
         if self.nome == 'Heitor' or self.nome == 'Jurupari': 
+            Sons.ataque.play()
+            Sons.ataque.set_volume(1.0)
 
             if self.mov_vx == -1:
                 tela.blit(pg.transform.flip(ataque[self.countatk//2],True,False),(self.x,self.y))
