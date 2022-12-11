@@ -36,8 +36,8 @@ class Inimigo:
         self.anim_mov = 0
         self.countatk = 0
         self.countspec= 0
-        self.cooldown1= personagem.timeSkills[0]
-        self.cooldown2= personagem.timeSkills[1]
+        self.cooldown1= 0
+        self.cooldown2= 0
         self.timestun = 0
 
     def seguir(self,jogador):
@@ -103,7 +103,7 @@ class Inimigo:
         self.dados= [tela,alvo,jogador]
         self.atkEspecial = True
     
-    def atualizarEstado(self,tela):
+    def atualizarEstado(self):
         #controles de grupo 
         if self.stun:  
             if self.timestun+1 >=60:

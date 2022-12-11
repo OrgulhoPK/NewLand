@@ -35,7 +35,7 @@ SkillsGuaraci = [Skill(5,Imagem.hitDamage),Skill(35,Imagem.circuloTotem)]
 #Personagem = Personagem (vida,dano, Sprites:list , Skills: list)
 D_Heitor = Personagem('Heitor',30,4,[5,150],Imagem.Sprites_Clerigo,SkillsHeitor)
 Ida = Personagem('Ida',35,5,[20,150],Imagem.Sprites_Duelista,SkillsIda)
-Jurupari = Personagem('Jurupari',20,4,[3,350],Imagem.Sprites_Shaman,SkillsJurupari)
+Jurupari = Personagem('Jurupari',20,4,[3,450],Imagem.Sprites_Shaman,SkillsJurupari)
 Guaraci = Personagem('Guaraci',50,3,[40,200],Imagem.Sprites_Tanker,SkillsGuaraci)
 
 

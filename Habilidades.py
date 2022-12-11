@@ -25,8 +25,7 @@ class Skill:
         self.tempo = 0
 
 #Mob e Duelista
-    def Basica(self,x,y,dados,velxy):#Ataque mob e duelista
-        
+    def Basica(self,x:float,y:float,dados:list,velxy:list[float]):#Ataque mob e duelista
         self.x = x
         self.y = y
         tela = dados[0]
@@ -72,12 +71,16 @@ class Skill:
         y = y+40
         if nome == 'Soldado':
             if velx < 0 and vely == 0:
-                return (Projetil(nome,x,y,self.raio,x-1,y,self.sprite))      
+                return (Projetil(nome,x-16,y,self.raio,x-17,y,self.sprite))  
+            if velx <=0:
+                return (Projetil(nome,x-16,y,self.raio,x-17, y+vely,self.sprite))    
             else:
                 return (Projetil(nome,x,y,self.raio,x+velx, y+vely,self.sprite))
         else:
             if velx == 0 and vely == 0:
                 return (Projetil(nome,x,y,self.raio,x+1,y,self.sprite))      
+            if velx ==-1:
+                return (Projetil(nome,x-48,y,self.raio,x-48+velx, y+vely,self.sprite))
             else:
                 return (Projetil(nome,x,y,self.raio,x+velx, y+vely,self.sprite))
     def EspecialH(self,x,y,dados): #Especial Clerigo
@@ -126,7 +129,7 @@ class Skill:
         for alvo in alvos:
             if rect.colliderect(alvo.hitbox):
                 tela.blit(pg.transform.scale(self.sprite[2],(128,128)),(alvo.x-32,alvo.y-32))
-                alvo.x += mov*1.5*velx
+                alvo.x += mov*2*velx
                 alvo.hit(10)
                 alvo.stun = True
     def EspecialG(self,dados,jogador): #Especial Tanker

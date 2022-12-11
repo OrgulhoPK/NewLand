@@ -27,7 +27,7 @@ class Game:
         #contador e efeitos de arena
         self.contador = 0
         self.ticks = 0
-        self.tempo = [6,0]
+        self.tempo = [5,0]
         self.lista = Imagem.ListaColisoes
         self.teleporte= setup.areaEfeito
         self.slow = setup.areaEfeito2
@@ -35,15 +35,15 @@ class Game:
 
     def rodar (self):
         while not self.encerrada:
-            self.tratamento_eventos()
             self.timer(self.tela)
-            self.Estado_Colisoes(self.lista,self.tela)
-            self.controleInimigos()     
-            self.movimentos()
+            self.controleInimigos()
             self.acoes()
-            self.desenha(self.tela)     
+            self.movimentos()
+            self.Estado_Colisoes(self.lista)   
+            self.tratamento_eventos()
+            self.desenha(self.tela)  
                
-    def tratamento_eventos(self): 
+    def tratamento_eventos(self):
         for event in pg.event.get():
             tecla = pg.key.get_pressed()
             if event.type == pg.QUIT:
@@ -72,8 +72,7 @@ class Game:
                             self.jogador1.ataque_especial(self.tela,self.Inimigos,self.Totem,self.jogador2)
                         else:
                             self.jogador1.ataque_especial(self.tela,self.Inimigos,self.Totem)
-
-                        
+        
                 if event.type == pg.KEYDOWN and tecla[pg.K_u]:
                     if self.jogador2.cooldown1 >=  self.jogador2.timeSkills[0] and not self.jogador2.stun:
                         self.jogador2.ataque(self.tela,self.Inimigos,self.Totem)
@@ -107,15 +106,20 @@ class Game:
         for inimigo in self.Inimigos:
             inimigo.desenhar(tela),
         self.Totem[0].desenhar(tela)
-        
-        
+
         #ultimo setup
         pg.display.update()
         self.FPS_CLOCK.tick(30)
+    
 #relogio de timer do jogo
     def timer(self,tela):
+        if self.tempo[1]<0:
+            self.tempo[0]-=1
+            self.tempo[1]=59
         if self.ticks%30 == 0:
-            print(self.ticks//30)
+            print(f'{self.tempo[0]:02}:{self.tempo[1]:02}')
+            self.tempo[1]-=1
+            
 
         self.ticks += 1
 #controle dos projeteis e area de ameaça dos inimigos
@@ -184,9 +188,7 @@ class Game:
         #trata somente dos movimentos dos jogadores
         # E trata dos limites de tela
         tecla = pg.key.get_pressed()
-        
         if not self.jogador1.atk and not self.jogador1.atkEspecial and self.jogador1.acao and not self.jogador1.stun:
-
             if tecla[pg.K_a] and (self.jogador1.x > 0) :
                 self.jogador1.esquerda()
                 self.jogador1.mov_vx = -1
@@ -202,6 +204,7 @@ class Game:
             if tecla[pg.K_s] and (self.jogador1.y + 64 < S_HEIGHT) :
                 self.jogador1.baixo()
                 self.jogador1.mov_vy = 1
+                
             
             #Movimento jogador 2
         if not self.jogador2.atk and not self.jogador2.atkEspecial and self.jogador2.acao and not self.jogador2.stun:
@@ -227,17 +230,17 @@ class Game:
             if inimigo.acao and not inimigo.stun and not inimigo.atk and not inimigo.atkEspecial:
                 inimigo.movimento(self.jogador1,self.jogador2)
 #colisoes e estado de debuff(stun ou slow)
-    def Estado_Colisoes(self,lista,tela):
+    def Estado_Colisoes(self,lista):
 
         self.jogador1.colisao(lista)
-        self.jogador1.atualizarEstado(tela)
+        self.jogador1.atualizarEstado()
 
         self.jogador2.colisao(lista)
-        self.jogador2.atualizarEstado(tela)
+        self.jogador2.atualizarEstado()
 
         for inimigo in self.Inimigos:
             inimigo.colisao(lista)
-            inimigo.atualizarEstado(tela)
+            inimigo.atualizarEstado()
         
         if not self.jogador1.mouse and not self.jogador2.mouse:
             for inimigo in self.Inimigos:
