@@ -24,25 +24,26 @@ class Game:
         self.ListInimigos = ListInimigos
         self.Inimigos = []
 
-    
         #contador e efeitos de arena
         self.contador = 0
+        self.ticks = 0
+        self.tempo = [6,0]
         self.lista = Imagem.ListaColisoes
         self.teleporte= setup.areaEfeito
         self.slow = setup.areaEfeito2
 
+
     def rodar (self):
         while not self.encerrada:
             self.tratamento_eventos()
+            self.timer(self.tela)
             self.Estado_Colisoes(self.lista,self.tela)
+            self.controleInimigos()     
+            self.movimentos()
+            self.acoes()
             self.desenha(self.tela)     
                
     def tratamento_eventos(self): 
-        self.controleInimigos()     
-        self.movimentos()
-        self.acoes()
-
-        
         for event in pg.event.get():
             tecla = pg.key.get_pressed()
             if event.type == pg.QUIT:
@@ -50,8 +51,11 @@ class Game:
                 sys.exit()    
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:        
                 self.encerrada = True
+                self.ticks = 0
+                self.timer = [6,0]
                 setup.NumTela = 2
                 setup.Jogadores.clear()
+
 
             #tratamento dos ataques
             #teclas de ataque básico e especial
@@ -108,6 +112,12 @@ class Game:
         #ultimo setup
         pg.display.update()
         self.FPS_CLOCK.tick(30)
+#relogio de timer do jogo
+    def timer(self,tela):
+        if self.ticks%30 == 0:
+            print(self.ticks//30)
+
+        self.ticks += 1
 #controle dos projeteis e area de ameaça dos inimigos
 #Tem um try / except na função para se o projetil acertar 2 inimigos (chamava a função de remover 2x)
     def acoes(self):
