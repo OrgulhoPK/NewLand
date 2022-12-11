@@ -93,13 +93,13 @@ class Jogador:
         self.cooldown2 += 1
 
     #Funcao de dano sofrido
-    def hit(self,dano):
+    def hit(self,dano:int):
         if self.vida>0:
             self.vida -= dano
         else:
             self.visible = False
     #Função que calcula colisão com uma lista de objetos 
-    def colisao(self,alvo):
+    def colisao(self,alvo:list):
         if self.visible:
             collision_tolerance = 10
             for i in alvo:

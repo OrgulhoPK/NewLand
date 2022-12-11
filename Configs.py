@@ -9,9 +9,11 @@ from Inimigos import *
 #Configuracoes padroes
 S_HEIGHT = 720
 S_WIDHT = 1280
+
 tela = pg.display.set_mode((S_WIDHT, S_HEIGHT))
 Player_y = random.randint(292,563)
 Player_x = random.randint(126,1105)
+
 
 #caixa de selecao do menu 1
 TelaInicial = [pg.Rect(530,391,184,33),

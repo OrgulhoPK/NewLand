@@ -11,6 +11,7 @@ class Game:
     def __init__(self,tela,jogadores):
         #tela e configuracoes locais
         self.FPS_CLOCK = pg.time.Clock()
+        self.font = pg.font.Font('Fonts/runescape_uf.ttf',52)
         self.tela = tela
         self.encerrada = False
         self.background = Imagem.Background
@@ -107,6 +108,9 @@ class Game:
             inimigo.desenhar(tela),
         self.Totem[0].desenhar(tela)
 
+        text = self.font.render((f'{self.tempo[0]:02}:{self.tempo[1]:02}'), 1, (0,0,0))
+        tela.blit(text,(580,2))
+
         #ultimo setup
         pg.display.update()
         self.FPS_CLOCK.tick(30)
@@ -117,7 +121,6 @@ class Game:
             self.tempo[0]-=1
             self.tempo[1]=59
         if self.ticks%30 == 0:
-            print(f'{self.tempo[0]:02}:{self.tempo[1]:02}')
             self.tempo[1]-=1
             
 
