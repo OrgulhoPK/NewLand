@@ -1,9 +1,11 @@
 import pygame as pg
 import math
 from Imagens import Imagem
+from Personagens import Personagem
+
 
 class Inimigo: 
-    def __init__(self,posxy,personagem):
+    def __init__(self,posxy:list[float],personagem:Personagem):
         #posicao e speed
         self.x = posxy[0]
         self.y = posxy[1]
@@ -40,7 +42,7 @@ class Inimigo:
         self.cooldown2= 0
         self.timestun = 0
 
-    def seguir(self,jogador):
+    def seguir(self,jogador:list):
         alvo_x= jogador.x+32
         alvo_y= jogador.y 
         dist = math.sqrt((alvo_x - self.x) ** 2 +
@@ -84,7 +86,7 @@ class Inimigo:
                 elif jogador1.visible:
                     self.seguir(jogador1)
 
-    def hit(self,dano):
+    def hit(self,dano:int):
         print(dano)
         if self.nome == 'Estrutura':
             self.vida -= 1
@@ -95,12 +97,12 @@ class Inimigo:
             else:
                 self.visible = False
 
-    def ataque(self,tela,alvo):
+    def ataque(self,tela,alvo:list):
         self.dados= [tela,alvo]
         self.atk = True
 
-    def ataque_especial(self,tela,alvo,jogador = None):
-        self.dados= [tela,alvo,jogador]
+    def ataque_especial(self,tela,alvo:list):
+        self.dados= [tela,alvo]
         self.atkEspecial = True
     
     def atualizarEstado(self):
@@ -125,14 +127,14 @@ class Inimigo:
 
       
     #Definido uma area de ameaça para utilizar os ataques basicos e/ou habilidades
-    def areaameaca(self,alvo,raio) -> bool:
+    def areaameaca(self,alvo,raio:int) -> bool:
         return ((self.y+40 - raio< alvo.hitbox[1]+alvo.hitbox[3] and
             self.y+40 + raio>alvo.hitbox[1]) and 
             (self.x+32 + raio>alvo.hitbox[0] and 
             self.x+32 - raio < alvo.hitbox[0]+alvo.hitbox[2]
             ))
-
-    def colisao(self,alvo):
+    #"alvo:list" referente a todos os objetos que podem colidir
+    def colisao(self,alvo:list):
         collision_tolerance = 10
         for i in alvo:
             colide = self.hitbox.colliderect(i)

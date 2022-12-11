@@ -75,7 +75,7 @@ class PrimeiraTela:
                     setup.NumTela = 2
                     Sons.menu1.stop()
                     
-    def SelectMenu(self,opcoes):
+    def SelectMenu(self,opcoes:list):
         mx,my = pg.mouse.get_pos()
         if opcoes[0].collidepoint((mx,my)):
             if pg.mouse.get_pressed()[0]:

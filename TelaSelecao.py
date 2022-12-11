@@ -4,6 +4,7 @@ from Configs import *
 from Imagens import Imagem
 from Jogador import Jogador
 from Personagens import Personagem
+from Sons import Sons
 
 class TelaSelecao:
     def __init__(self,tela):
@@ -20,6 +21,8 @@ class TelaSelecao:
             self.DefinirJogadores()    
 
     def tratamento_eventos(self):
+        Sons.menu1.play()
+        Sons.menu1.set_volume(0.10)
         for event in pg.event.get():
             if (event.type == pg.QUIT):
                 sys.exit()
@@ -27,6 +30,7 @@ class TelaSelecao:
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                     self.encerra = True
                     setup.NumTela = 1
+        
 
     def desenha(self,tela):
         self.contador += 1
@@ -88,9 +92,10 @@ class TelaSelecao:
         if len(setup.Jogadores) == 2:
             self.encerra = True
             setup.NumTela = 3
+            Sons.menu1.stop()
         self.Selecao()
 
-    def SelectMenu(self,opcoes):
+    def SelectMenu(self,opcoes:list) -> int:
         mx,my = pg.mouse.get_pos()
         for event in pg.event.get():
             if opcoes[0].collidepoint((mx,my)):

@@ -4,7 +4,7 @@ from Configs import *
 import sys,random
 from Inimigos import Inimigo
 from Imagens import Imagem
-#from Sons import Sons
+from Sons import Sons
 
 
 class Game:
@@ -45,6 +45,8 @@ class Game:
             self.desenha(self.tela)  
                
     def tratamento_eventos(self):
+        Sons.batalha.play()
+        Sons.batalha.set_volume(0.10)
         for event in pg.event.get():
             tecla = pg.key.get_pressed()
             if event.type == pg.QUIT:
@@ -56,6 +58,7 @@ class Game:
                 self.timer = [6,0]
                 setup.NumTela = 2
                 setup.Jogadores.clear()
+                Sons.batalha.stop()
 
 
             #tratamento dos ataques

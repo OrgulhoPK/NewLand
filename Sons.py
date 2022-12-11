@@ -8,24 +8,16 @@ class Sons:
     pg.mixer.init()
 
 
-    #Chamando a musica menu
-    #som = caminho.parent / 'menu1.ogg'
-    menu1 = pg.mixer.Sound('menu1.wav')
+   #Chamando as musicas
+    menu1 = pg.mixer.Sound('Sons/menu1.wav')
 
-    
-    
-    
-    
-    
-    def BarulhoProjetil(self):
-        caminho = Path(__file__)
-        pg.mixer.init()
-        barulho = pg.mixer.Sound('whoosh.wav')
-        som = barulho.play()
+    batalha = pg.mixer.Sound('Sons/overworld.wav')
+
+    ataque = pg.mixer.Sound('Sons/whoosh.wav')
 
 
-    def MusicaTelaInicial(self):
-        
-        pg.mixer.init()
-        menu1 = pg.mixer.Sound('menu1.wav')
-        somMenu1 = menu1.play()
+    
+    
+    
+    
+   

@@ -54,10 +54,10 @@ class Imagem:
     tilesetEstruturas = []
 
     for i in range(0,186): # 186 tiles
-            frame = tileFundo.get_tile(i,16,16)
+            frame = tileFundo.get_tile(i)
             tilesetFundo.append(frame)
     for i in range(0,115): # 115 tiles
-            frame = tilesetsBack.get_tile(i,16,16)
+            frame = tilesetsBack.get_tile(i)
             tilesetEstruturas.append(frame)
 
 

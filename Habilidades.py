@@ -2,6 +2,9 @@ from Configs import *
 from Imagens import *
 import math,random
 import pygame as pg
+from Jogador import Jogador
+from Inimigos import Inimigo
+from Sons import Sons
 
 
 
@@ -9,7 +12,7 @@ import pygame as pg
 # os ataques basicos e habilidades
 
 class Skill:
-    def __init__(self,raio,sprites,x=None,y=None):
+    def __init__(self,raio:int,sprites:list,x=None,y=None):
         self.raio = raio
         self.x = x
         self.y = y
@@ -45,7 +48,7 @@ class Skill:
                 else:
                     alvo.hit(2)
                 self.contador+=1
-    def EspecialD(self,x,y,dados,velxy):#Especial duelista
+    def EspecialD(self,x:float,y:float,dados:list,velxy:list[float]):#Especial duelista
         self.x = x
         self.y = y
         tela = dados[0]
@@ -64,11 +67,14 @@ class Skill:
                 self.contador+=1
 
 #Clerigo e Shaman     
-    def BasicaRange(self,nome,x,y,velxy): #AtaqueRange
+    def BasicaRange(self,nome:str,x:float,y:float,velxy:list[float]): #AtaqueRange
         velx = velxy[0]
         vely = velxy[1]
         x = x+32
         y = y+40
+        Sons.ataque.play()
+        
+        
         if nome == 'Soldado':
             if velx < 0 and vely == 0:
                 return (Projetil(nome,x-16,y,self.raio,x-17,y,self.sprite))  
@@ -83,7 +89,9 @@ class Skill:
                 return (Projetil(nome,x-48,y,self.raio,x-48+velx, y+vely,self.sprite))
             else:
                 return (Projetil(nome,x,y,self.raio,x+velx, y+vely,self.sprite))
-    def EspecialH(self,x,y,dados): #Especial Clerigo
+
+            
+    def EspecialH(self,x:float,y:float,dados:list): #Especial Clerigo
         self.x = x
         self.y = y
         tela = dados[0]
@@ -96,7 +104,7 @@ class Skill:
                 if self.contador+1 >=5:
                     self.contador = 0
                 self.contador+=1
-    def EspecialJ(self,mousexy,dados): #Especial Shaman
+    def EspecialJ(self,mousexy:list[float],dados:list): #Especial Shaman
         self.x = mousexy[0]
         self.y = mousexy[1]
         tela = dados[0]
@@ -112,7 +120,7 @@ class Skill:
                 self.contador+=1
 
 #Tanker
-    def BasicaGuaraci(self,x,y,dados,velxy,mov): #Ataque Tanker
+    def BasicaGuaraci(self,x:float,y:float,dados:list,velxy:list[float],mov:int): #Ataque Tanker
         self.x = x
         self.y = y
         tela = dados[0]
@@ -132,14 +140,14 @@ class Skill:
                 alvo.x += mov*2*velx
                 alvo.hit(10)
                 alvo.stun = True
-    def EspecialG(self,dados,jogador): #Especial Tanker
+    def EspecialG(self,dados:list,jogador): #Especial Tanker
         tela = dados[0]
         if jogador.vida < jogador.hpmax:
             jogador.vida += 3
         tela.blit(pg.transform.scale(self.sprite,(72,64)),(jogador.x-5,jogador.y+25))
 
 #Terreno e Totem
-    def Teleporte(self,tela,aliados,inimigos):
+    def Teleporte(self,tela,aliados:list,inimigos:list):
         listTarget = aliados + inimigos
         self.time_efeito+= 1
         if self.time_efeito>300:
@@ -163,7 +171,7 @@ class Skill:
             self.contador +=1
             if self.contador +1 >=16:
                 self.contador = 0                
-    def Slow(self,tela,aliados,inimigos):
+    def Slow(self,tela,aliados:list[Jogador],inimigos:list[Inimigo]):
         listTarget = aliados + inimigos
         self.time_efeito+= 1
         if self.time_efeito>180:
@@ -184,7 +192,7 @@ class Skill:
             self.contador +=1
             if self.contador +1 >=16:
                 self.contador = 0            
-    def cura(self,x,y,tela,dados):
+    def cura(self,x:float,y:float,tela,dados:list):
         self.x = x+12
         self.y = y+54
         tela.blit(pg.transform.scale(self.sprite,(110,100)),(self.x-54,self.y-48))
@@ -200,7 +208,7 @@ class Skill:
         self.contador+=1 
 
 #Complemento de algumas skills
-    def colisao(self,alvo, raio) -> bool:
+    def colisao(self,alvo:list, raio:int) -> bool:
         return ((self.y - raio< alvo.hitbox[1]+alvo.hitbox[3] and
             self.y + raio>alvo.hitbox[1]) and 
             (self.x + raio>alvo.hitbox[0] and 
@@ -232,7 +240,7 @@ class Skill:
 
 
 class Projetil:
-    def __init__(self,nome,x,y,raio,mousex,mousey,sprite):
+    def __init__(self,nome:str,x:float,y:float,raio:int,mousex:float,mousey:float,sprite:list):
         self.x = x
         self.y = y
         self.mousex = mousex

@@ -1,8 +1,5 @@
-import pygame as pg
-from Habilidades import Skill
-
 class Personagem:
-    def __init__(self,nome:str,vida:int,speed:int,timeSkills:list[int],sprites:list[list],habilidade:Skill):
+    def __init__(self,nome:str,vida:int,speed:int,timeSkills:list[int],sprites:list[list],habilidade:list):
         #vida,dano,skillbasica,skillespecial,estado
         self.nome = nome
         self.vida = vida

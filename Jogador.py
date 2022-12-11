@@ -1,7 +1,7 @@
 import pygame as pg
 from Imagens import Imagem
-
 from Personagens import Personagem
+
 class Jogador:
     def __init__(self,posxy:list,personagem:Personagem): #(self, x, y, widht, height)
         #posição e speed
