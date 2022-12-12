@@ -28,7 +28,7 @@ class Game:
         #contador e efeitos de arena
         self.contador = 0
         self.ticks = 0
-        self.tempo = [5,0]
+        self.tempo = [0,5]
         self.timepause = False
         self.lista = Imagem.ListaColisoes
         self.teleporte= self.Fase.areaEfeito

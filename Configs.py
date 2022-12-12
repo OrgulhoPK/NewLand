@@ -33,10 +33,10 @@ SkillsGuaraci = [Skill(5,Imagem.hitDamage),Skill(35,Imagem.circuloTotem)]
 #Lista de personagens
 
 #Personagem = Personagem (vida,dano, Sprites:list , Skills: list)
-D_Heitor = Personagem('Heitor',30,4,[5,150],Imagem.Sprites_Clerigo,SkillsHeitor)
+D_Heitor = Personagem('Heitor',30,4,[6,150],Imagem.Sprites_Clerigo,SkillsHeitor)
 Ida = Personagem('Ida',35,5,[20,150],Imagem.Sprites_Duelista,SkillsIda)
 Jurupari = Personagem('Jurupari',20,4,[3,450],Imagem.Sprites_Shaman,SkillsJurupari)
-Guaraci = Personagem('Guaraci',50,3,[40,200],Imagem.Sprites_Tanker,SkillsGuaraci)
+Guaraci = Personagem('Guaraci',50,3,[54,210],Imagem.Sprites_Tanker,SkillsGuaraci)
 
 
 
@@ -45,7 +45,7 @@ SkillsBoss = [Skill(5,Imagem.hitDamage),Skill(20,Imagem.StunMob1)]
 SkillsSoldado= [Skill(5,Imagem.hitDamage),Skill(20,Imagem.StunMob1)]
 SkillsTotem = [Skill(55,Imagem.circuloTotem),None]
 #Mob
-Boss = Personagem('Boss',300,2,[70,250],Imagem.Sprites_Boss,SkillsBoss)
+Boss = Personagem('Boss',300,2,[70,280],Imagem.Sprites_Boss,SkillsBoss)
 Soldadinho = Personagem('Soldado',60,2,[70,250],Imagem.Sprites_Soldadinho,SkillsSoldado)
 Totem = Personagem('Estrutura',7,0,[0,0],Imagem.Sprites_Totem,SkillsTotem)
 
@@ -62,11 +62,11 @@ class setup:
 
     ListInimigos = []
     ListBoss = []
-
+#Define a quantidade de monstros no jogo
     def adicionarInimigos(self):
         if not self.ListBoss and not self.ListInimigos:
             self.ListBoss.append(Inimigo(posxy=(500,300),personagem=Boss))
-            for i in range (0,30):
+            for i in range (0,15):
                 x = random.randint(525,750)
                 y = random.randint(200,370)
                 self.ListInimigos.append(Inimigo(posxy=(x,y),personagem=Soldadinho))
