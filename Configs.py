@@ -45,8 +45,8 @@ SkillsBoss = [Skill(5,Imagem.hitDamage),Skill(20,Imagem.StunMob1)]
 SkillsSoldado= [Skill(5,Imagem.hitDamage),Skill(20,Imagem.StunMob1)]
 SkillsTotem = [Skill(55,Imagem.circuloTotem),None]
 #Mob
-Boss = Personagem('Boss',5,2,[70,250],Imagem.Sprites_Boss,SkillsBoss)
-Soldadinho = Personagem('Soldado',5,2,[70,250],Imagem.Sprites_Soldadinho,SkillsSoldado)
+Boss = Personagem('Boss',300,2,[70,250],Imagem.Sprites_Boss,SkillsBoss)
+Soldadinho = Personagem('Soldado',60,2,[70,250],Imagem.Sprites_Soldadinho,SkillsSoldado)
 Totem = Personagem('Estrutura',7,0,[0,0],Imagem.Sprites_Totem,SkillsTotem)
 
 #Efeitos
@@ -66,7 +66,7 @@ class setup:
     def adicionarInimigos(self):
         if not self.ListBoss and not self.ListInimigos:
             self.ListBoss.append(Inimigo(posxy=(500,300),personagem=Boss))
-            for i in range (0,3):
+            for i in range (0,30):
                 x = random.randint(525,750)
                 y = random.randint(200,370)
                 self.ListInimigos.append(Inimigo(posxy=(x,y),personagem=Soldadinho))

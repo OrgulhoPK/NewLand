@@ -37,6 +37,7 @@ class Game:
 
     def rodar (self):
         while not self.encerrada:
+            
             self.timer()
             self.controleInimigos()
             self.acoes()
@@ -45,21 +46,13 @@ class Game:
             self.tratamento_eventos()
             self.desenha(self.tela)  
             self.FimDeJogo(self.tela)
+
                
     def tratamento_eventos(self):
         Sons.batalha.play()
         Sons.batalha.set_volume(0.30)
         for event in pg.event.get():
             tecla = pg.key.get_pressed()
-            if event.type == pg.QUIT:
-                pg.quit()
-                sys.exit()    
-            if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:        
-                self.encerrada = True
-                self.ticks = 0
-                self.Fase.NumTela = 2
-                self.Fase.Jogadores.clear()
-                Sons.batalha.stop()
             #tratamento dos ataques
             #teclas de ataque básico e especial
             # a condição de time das skills (cololdown >= Tempo de resfriamento da skill)
@@ -67,7 +60,6 @@ class Game:
                 if event.type == pg.KEYDOWN and tecla[pg.K_q]:
                     if self.jogadores[0].cooldown1 >= self.jogadores[0].timeSkills[0] and not self.jogadores[0].stun:
                         self.jogadores[0].ataque(self.tela,self.Inimigos,self.Totem)
-
                 if event.type == pg.KEYDOWN and tecla[pg.K_e]:
                     if self.jogadores[0].cooldown2 >= self.jogadores[0].timeSkills[1] and not self.jogadores[0].stun:
                         if self.jogadores[0].nome == 'Jurupari':
@@ -87,7 +79,15 @@ class Game:
                             self.jogadores[1].ataque_especial(self.tela,self.Inimigos,self.Totem,self.jogadores[1])
                         else:
                             self.jogadores[1].ataque_especial(self.tela,self.Inimigos,self.Totem)       
-
+            if event.type == pg.QUIT:
+                pg.quit()
+                sys.exit()    
+            if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:        
+                self.encerrada = True
+                self.ticks = 0
+                self.Fase.NumTela = 2
+                Sons.batalha.stop()
+    
     def desenha(self,tela):
         # mapa
         for i in self.background:
@@ -97,7 +97,6 @@ class Game:
         self.contador +=1
         if self.contador +1 >= 176:
             self.contador = 0
-        pg.draw.rect(tela,(0,254,155),(545,200,180,150),1,2)
         tela.blit(Imagem.Centro[self.contador//5],(593,234))
 
         self.teleporte.Teleporte(tela,self.jogadores,self.Inimigos)

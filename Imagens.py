@@ -43,14 +43,7 @@ class Imagem:
     file2 = Map / 'CSVs' / 'Estruturas.csv'
     Centro1 = Imagem / 'Mapa PVP' / 'Centro'
 
-    TelaFinal = Imagem / 'Tela Final'
-    Vitoria1 = TelaFinal / 'tela final1.png'
-    Derrota1 = TelaFinal / 'tela final2.png'
-    TimesUp1 = TelaFinal / 'tela final3.png'
-    Vitoria = pg.image.load(Vitoria1)
-    Derrota = pg.image.load(Derrota1)
-    TimesUp = pg.image.load(TimesUp1)
-    ListFinais = [Vitoria,Derrota,TimesUp]
+    
 
     #leitura e separação do tileset
     localTile1 = Map /'Background.png'
@@ -62,10 +55,10 @@ class Imagem:
     tilesetsBack = TileSet(tileset2)
     tilesetEstruturas = []
 
-    for i in range(0,186): # 186 tiles
+    for i in range(0,157): # 157 tiles no Background
             frame = tileFundo.get_tile(i)
             tilesetFundo.append(frame)
-    for i in range(0,115): # 115 tiles
+    for i in range(0,153): # 153 tiles nas Estruturas
             frame = tilesetsBack.get_tile(i)
             tilesetEstruturas.append(frame)
 
@@ -83,6 +76,14 @@ class Imagem:
     for i in Centro1.glob('*.png'):
         Centro.append(pg.image.load(i))
 
+    TelaFinal = Imagem / 'Tela Final'
+    Vitoria1 = TelaFinal / 'tela final1.png'
+    Derrota1 = TelaFinal / 'tela final2.png'
+    TimesUp1 = TelaFinal / 'tela final3.png'
+    Vitoria = pg.image.load(Vitoria1)
+    Derrota = pg.image.load(Derrota1)
+    TimesUp = pg.image.load(TimesUp1)
+    ListFinais = [Vitoria,Derrota,TimesUp]
 
 
 

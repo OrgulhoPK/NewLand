@@ -15,6 +15,7 @@ class TelaSelecao:
         self.menu = 0
         self.rect = 0
         self.Fase = Fase
+        self.count = 0
     def rodar(self):
         while not self.encerra:
             self.tratamento_eventos()
@@ -91,11 +92,15 @@ class TelaSelecao:
             self.Fase.Jogadores.append(NewPlayer)            
 
     def DefinirJogadores(self):
+        self.count+=1
+        if self.count ==1:
+            self.Fase.Jogadores.clear()
         if len(self.Fase.Jogadores) == 2:
             self.encerra = True
             self.Fase.NumTela = 3
             Sons.menu1.stop()
         self.Selecao()
+        
 
     def SelectMenu(self,opcoes:list) -> int:
         mx,my = pg.mouse.get_pos()

@@ -38,13 +38,10 @@ def load_tiles(filename:Path,tileset:list) -> list:
 class TileSet:
 	def __init__(self, image:Path):
 		self.tiles = image
-
 	def get_tile(self, frame:int, width=16, height=16):
 		image = pg.Surface((width, height))
-        
         #os tiles lidos, estão na vertical, sendo x = 0 e y = frame * altura
 		image.blit(self.tiles, (0, 0), (0, (frame * height), width, height))
-
 		return image
 
 #classe feita para imprimir a tela e/ou obter o retangulo do tile
