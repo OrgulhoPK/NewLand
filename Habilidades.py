@@ -46,7 +46,7 @@ class Skill:
                 if alvo.nome == 'Soldado' or alvo.nome == 'Boss':
                     alvo.hit(7)
                 else:
-                    alvo.hit(3)
+                    alvo.hit(2)
                 if nome == 'Boss':
                     alvo.slow = True
                 self.contador+=1
