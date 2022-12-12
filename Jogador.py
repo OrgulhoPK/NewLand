@@ -174,11 +174,11 @@ class Jogador:
         if self.nome == 'Ida':            
                 if self.mov_vx == -1:
                     if self.countatk > 13:
-                        self.HBasica.Basica(self.x,self.y,self.dados,(self.mov_vx,self.mov_vy))
+                        self.HBasica.Basica(self.nome,self.x,self.y,self.dados,(self.mov_vx,self.mov_vy))
                     tela.blit(pg.transform.flip(ataque[self.countatk//2],True,False),(self.x-64,self.y-64))
                 else:
                     if self.countatk > 13:
-                        self.HBasica.Basica(self.x,self.y,self.dados,(self.mov_vx,self.mov_vy))
+                        self.HBasica.Basica(self.nome,self.x,self.y,self.dados,(self.mov_vx,self.mov_vy))
                     tela.blit(ataque[self.countatk//2],(self.x-64,self.y-64))
                 
                 if self.countatk +1 >= 16:

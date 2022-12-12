@@ -25,7 +25,6 @@ class Imagem:
     
 
     #Carregamento Selecao personagens + Historias
-
     FundoSelecao = Inicial / 'Tela Selecao.png'
     FundoSelecao1 = pg.image.load(FundoSelecao)
     Historia_Heitor = Inicial / 'Historia_D.Heitor.png'
@@ -38,10 +37,20 @@ class Imagem:
     Hguaraci = pg.image.load(Historia_Guaraci)
 
     #Carregamento do Mapa PVP e estruturas
-    Map = caminho.parent / 'Imagens' / 'Mapa PVP' / 'Map'
+    Imagem = caminho.parent / 'Imagens'
+    Map = Imagem / 'Mapa PVP' / 'Map'
     file = Map / 'CSVs' / 'Background.csv'
     file2 = Map / 'CSVs' / 'Estruturas.csv'
-    Centro1 = caminho.parent / 'Imagens' / 'Mapa PVP' / 'Centro'
+    Centro1 = Imagem / 'Mapa PVP' / 'Centro'
+
+    TelaFinal = Imagem / 'Tela Final'
+    Vitoria1 = TelaFinal / 'tela final1.png'
+    Derrota1 = TelaFinal / 'tela final2.png'
+    TimesUp1 = TelaFinal / 'tela final3.png'
+    Vitoria = pg.image.load(Vitoria1)
+    Derrota = pg.image.load(Derrota1)
+    TimesUp = pg.image.load(TimesUp1)
+    ListFinais = [Vitoria,Derrota,TimesUp]
 
     #leitura e separação do tileset
     localTile1 = Map /'Background.png'
@@ -268,7 +277,7 @@ class Imagem:
     Sprites_Boss = [Boss_andarD,Boss_andarC,Boss_andarB,Boss_atk,Boss_spec]
 
 
-
+    
     #carregamento da estrutura quebrável
     Estrutura_pasta = Personagens / 'Totem'
     Totem = []

@@ -7,13 +7,14 @@ from Personagens import Personagem
 from Sons import Sons
 
 class TelaSelecao:
-    def __init__(self,tela):
+    def __init__(self,tela,Fase):
         self.tela = tela
         self.encerra = False
         self.FPS_Clock = pg.time.Clock()
         self.contador = 0
         self.menu = 0
         self.rect = 0
+        self.Fase = Fase
     def rodar(self):
         while not self.encerra:
             self.tratamento_eventos()
@@ -29,7 +30,7 @@ class TelaSelecao:
                 pg.quit()
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                     self.encerra = True
-                    setup.NumTela = 1
+                    self.Fase.NumTela = 1
         
 
     def desenha(self,tela):
@@ -67,31 +68,32 @@ class TelaSelecao:
 
     def Selecao(self):
         opcoes = self.SelectMenu(SelecaoPersonagem)
-
+        Player_y = random.randint(292,563)
+        Player_x = random.randint(126,1105) 
         if opcoes == 1:
             Personagem = D_Heitor
             NewPlayer = Jogador(posxy=(Player_x,Player_y),personagem=Personagem)
-            setup.Jogadores.append(NewPlayer)
+            self.Fase.Jogadores.append(NewPlayer)
 
         if opcoes == 2:
             Personagem = Ida
             NewPlayer = Jogador(posxy=(Player_x,Player_y),personagem=Personagem)
-            setup.Jogadores.append(NewPlayer)
+            self.Fase.Jogadores.append(NewPlayer)
 
         if opcoes == 3:
             Personagem = Jurupari
             NewPlayer = Jogador(posxy=(Player_x,Player_y),personagem=Personagem)
-            setup.Jogadores.append(NewPlayer)
+            self.Fase.Jogadores.append(NewPlayer)
             
         if opcoes == 4:
             Personagem = Guaraci
             NewPlayer = Jogador(posxy=(Player_x,Player_y),personagem=Personagem)
-            setup.Jogadores.append(NewPlayer)            
+            self.Fase.Jogadores.append(NewPlayer)            
 
     def DefinirJogadores(self):
-        if len(setup.Jogadores) == 2:
+        if len(self.Fase.Jogadores) == 2:
             self.encerra = True
-            setup.NumTela = 3
+            self.Fase.NumTela = 3
             Sons.menu1.stop()
         self.Selecao()
 
@@ -123,4 +125,4 @@ class TelaSelecao:
                 sys.exit()
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                 self.encerra = True
-                setup.NumTela = 1
+                self.Fase.NumTela = 1

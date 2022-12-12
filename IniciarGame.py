@@ -8,7 +8,7 @@ from Sons import Sons
 
 
 class Game:
-    def __init__(self,tela,jogadores):
+    def __init__(self,tela,Fase):
         #tela e configuracoes locais
         self.FPS_CLOCK = pg.time.Clock()
         self.font = pg.font.Font('Fonts/runescape_uf.ttf',52)
@@ -16,33 +16,35 @@ class Game:
         self.encerrada = False
         self.background = Imagem.Background
         self.estruturas = Imagem.Estruturas
+        self.Finais = Imagem.ListFinais
         self.Totem = [Estrutura]
 
         #jogadores e inimigos
-        self.jogador1 = jogadores[0]
-        self.jogador2 = jogadores[1]
-        self.jogadores = [self.jogador1,self.jogador2]
-        self.ListInimigos = ListInimigos
+        self.jogadores = Fase.Jogadores
         self.Inimigos = []
-
+        self.ListInimigos = Fase.ListInimigos
+        self.Boss = Fase.ListBoss
+        self.Fase = Fase
         #contador e efeitos de arena
         self.contador = 0
         self.ticks = 0
         self.tempo = [5,0]
+        self.timepause = False
         self.lista = Imagem.ListaColisoes
-        self.teleporte= setup.areaEfeito
-        self.slow = setup.areaEfeito2
+        self.teleporte= self.Fase.areaEfeito
+        self.slow = self.Fase.areaEfeito2
 
 
     def rodar (self):
         while not self.encerrada:
-            self.timer(self.tela)
+            self.timer()
             self.controleInimigos()
             self.acoes()
             self.movimentos()
             self.Estado_Colisoes(self.lista)   
             self.tratamento_eventos()
             self.desenha(self.tela)  
+            self.FimDeJogo(self.tela)
                
     def tratamento_eventos(self):
         Sons.batalha.play()
@@ -55,39 +57,36 @@ class Game:
             if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:        
                 self.encerrada = True
                 self.ticks = 0
-                self.timer = [6,0]
-                setup.NumTela = 2
-                setup.Jogadores.clear()
+                self.Fase.NumTela = 2
+                self.Fase.Jogadores.clear()
                 Sons.batalha.stop()
-
-
             #tratamento dos ataques
             #teclas de ataque básico e especial
             # a condição de time das skills (cololdown >= Tempo de resfriamento da skill)
-            if self.jogador1.acao and self.jogador2.acao:
+            if self.jogadores[0].acao and self.jogadores[1].acao:
                 if event.type == pg.KEYDOWN and tecla[pg.K_q]:
-                    if self.jogador1.cooldown1 >= self.jogador1.timeSkills[0] and not self.jogador1.stun:
-                        self.jogador1.ataque(self.tela,self.Inimigos,self.Totem)
+                    if self.jogadores[0].cooldown1 >= self.jogadores[0].timeSkills[0] and not self.jogadores[0].stun:
+                        self.jogadores[0].ataque(self.tela,self.Inimigos,self.Totem)
 
                 if event.type == pg.KEYDOWN and tecla[pg.K_e]:
-                    if self.jogador1.cooldown2 >= self.jogador1.timeSkills[1] and not self.jogador1.stun:
-                        if self.jogador1.nome == 'Jurupari':
-                            self.jogador1.mouse = True
-                            self.jogador1.ataque_especial(self.tela,self.Inimigos,self.Totem,self.jogador2)
+                    if self.jogadores[0].cooldown2 >= self.jogadores[0].timeSkills[1] and not self.jogadores[0].stun:
+                        if self.jogadores[0].nome == 'Jurupari':
+                            self.jogadores[0].mouse = True
+                            self.jogadores[0].ataque_especial(self.tela,self.Inimigos,self.Totem,self.jogadores[1])
                         else:
-                            self.jogador1.ataque_especial(self.tela,self.Inimigos,self.Totem)
+                            self.jogadores[0].ataque_especial(self.tela,self.Inimigos,self.Totem)
         
                 if event.type == pg.KEYDOWN and tecla[pg.K_u]:
-                    if self.jogador2.cooldown1 >=  self.jogador2.timeSkills[0] and not self.jogador2.stun:
-                        self.jogador2.ataque(self.tela,self.Inimigos,self.Totem)
+                    if self.jogadores[1].cooldown1 >=  self.jogadores[1].timeSkills[0] and not self.jogadores[1].stun:
+                        self.jogadores[1].ataque(self.tela,self.Inimigos,self.Totem)
 
                 if event.type == pg.KEYDOWN and tecla[pg.K_o]:
-                    if self.jogador2.cooldown2 >=  self.jogador1.timeSkills[1] and not self.jogador2.stun:
-                        if self.jogador2.nome == 'Jurupari':
-                            self.jogador2.mouse = True
-                            self.jogador2.ataque_especial(self.tela,self.Inimigos,self.Totem,self.jogador2)
+                    if self.jogadores[1].cooldown2 >=  self.jogadores[0].timeSkills[1] and not self.jogadores[1].stun:
+                        if self.jogadores[1].nome == 'Jurupari':
+                            self.jogadores[1].mouse = True
+                            self.jogadores[1].ataque_especial(self.tela,self.Inimigos,self.Totem,self.jogadores[1])
                         else:
-                            self.jogador2.ataque_especial(self.tela,self.Inimigos,self.Totem)       
+                            self.jogadores[1].ataque_especial(self.tela,self.Inimigos,self.Totem)       
 
     def desenha(self,tela):
         # mapa
@@ -105,8 +104,8 @@ class Game:
         self.slow.Slow(tela,self.jogadores,self.Inimigos)
         
         #desenho jogadores / inimigos
-        self.jogador1.desenhar(tela) 
-        self.jogador2.desenhar(tela) 
+        self.jogadores[0].desenhar(tela) 
+        self.jogadores[1].desenhar(tela) 
         for inimigo in self.Inimigos:
             inimigo.desenhar(tela),
         self.Totem[0].desenhar(tela)
@@ -114,42 +113,51 @@ class Game:
         text = self.font.render((f'{self.tempo[0]:02}:{self.tempo[1]:02}'), 1, (0,0,0))
         tela.blit(text,(580,2))
 
+        #Desenhos da tela Vitoria / Derrota
+        if not(self.ListInimigos) and not(self.Inimigos) and not(self.Boss):
+            tela.blit(pg.transform.scale(self.Finais[0],(1280,720)),(0,0))
+        if not(self.jogadores[0].visible) and not(self.jogadores[1].visible):
+            tela.blit(pg.transform.scale(self.Finais[1],(1280,720)),(0,0))
+        if self.tempo[0]==0 and self.tempo[1]==0:
+            tela.blit(pg.transform.scale(self.Finais[2],(1280,720)),(0,0))
+
         #ultimo setup
         pg.display.update()
         self.FPS_CLOCK.tick(30)
     
 #relogio de timer do jogo tempo [min , seg]
-    def timer(self,tela):
-        if self.tempo[1]<0:
-            self.tempo[0]-=1
-            self.tempo[1]=59
-        if self.ticks%30 == 0:
-            self.tempo[1]-=1
-        self.ticks += 1
+    def timer(self):
+        if not self.timepause:
+            if self.tempo[1]<0:
+                self.tempo[0]-=1
+                self.tempo[1]=59
+            if self.ticks%30 == 0:
+                self.tempo[1]-=1
+            self.ticks += 1
 #controle dos projeteis e area de ameaça dos inimigos
 #Tem um try / except na função para se o projetil acertar 2 inimigos (chamava a função de remover 2x)
     def acoes(self):
         dados = self.Totem + self.Inimigos
-        for projetil in self.jogador1.projeteis:
-            if projetil.distancia(self.jogador1):
-                self.jogador1.projeteis.remove(projetil)
+        for projetil in self.jogadores[0].projeteis:
+            if projetil.distancia(self.jogadores[0]):
+                self.jogadores[0].projeteis.remove(projetil)
 
                     
             for inimigo in dados:
                 if projetil.colisaoProjetil(inimigo) and inimigo.visible:
                     inimigo.hit(10)
                     try:
-                        self.jogador1.projeteis.remove(projetil)
+                        self.jogadores[0].projeteis.remove(projetil)
                     except ValueError:
                         pass
-        for projetil in self.jogador2.projeteis:
-            if projetil.distancia(self.jogador2):
-                    self.jogador2.projeteis.remove(projetil)
+        for projetil in self.jogadores[1].projeteis:
+            if projetil.distancia(self.jogadores[1]):
+                    self.jogadores[1].projeteis.remove(projetil)
             for inimigo in dados:
                 if projetil.colisaoProjetil(inimigo) and inimigo.visible:
                     inimigo.hit(10)
                     try:
-                        self.jogador2.projeteis.remove(projetil)
+                        self.jogadores[1].projeteis.remove(projetil)
                     except ValueError:
                         pass
                         
@@ -179,16 +187,33 @@ class Game:
             self.Totem[0].dados = self.jogadores
 #adiciona inimigos na lista Inimigos, até um certo limite  
     def controleInimigos(self):
+        #Remove o inimigo ao morrer
         for inimigo in self.Inimigos:
             if not inimigo.visible:
                 self.Inimigos.remove(inimigo)
+            if inimigo.summons:
+                try:
+                    self.Inimigos.append(inimigo.summons[0])
+                    inimigo.summons.clear()
+                except ValueError:
+                    pass
+                
+        #adiciona um inimigo de tempo em tempo e remove da lista de inimigos
         for i in self.ListInimigos:
             if self.tempo[1]%18 == 0 and len(self.Inimigos)<3 and self.ListInimigos:
                 self.Inimigos.append(i)
                 self.ListInimigos.remove(i)
+        #adiciona se nao tiver nenhum inimigo na arena
             if not self.Inimigos:
                 self.Inimigos.append(i)
                 self.ListInimigos.remove(i)
+            
+        #Invoca o boss quando nao tiver mais nenhum inimigo na lista 
+        if not self.ListInimigos and self.Boss:
+            for i in self.Boss:
+                self.Inimigos.append(i)
+                self.Boss.remove(i)
+        #Referente à habilidade especial do boss
 
 
 #movimento dos jogadores e inimigos
@@ -196,67 +221,116 @@ class Game:
         #trata somente dos movimentos dos jogadores
         # E trata dos limites de tela
         tecla = pg.key.get_pressed()
-        if not self.jogador1.atk and not self.jogador1.atkEspecial and self.jogador1.acao and not self.jogador1.stun:
-            if tecla[pg.K_a] and (self.jogador1.x > 0) :
-                self.jogador1.esquerda()
-                self.jogador1.mov_vx = -1
+        if not self.jogadores[0].atk and not self.jogadores[0].atkEspecial and self.jogadores[0].acao and not self.jogadores[0].stun:
+            if tecla[pg.K_a] and (self.jogadores[0].x > 0) :
+                self.jogadores[0].esquerda()
+                self.jogadores[0].mov_vx = -1
 
-            if tecla[pg.K_d] and (self.jogador1.x + 64 < S_WIDHT) :          
-                self.jogador1.direita()
-                self.jogador1.mov_vx = 1
+            if tecla[pg.K_d] and (self.jogadores[0].x + 64 < S_WIDHT) :          
+                self.jogadores[0].direita()
+                self.jogadores[0].mov_vx = 1
 
-            if tecla[pg.K_w] and (self.jogador1.y > 0) : 
-                self.jogador1.cima()   
-                self.jogador1.mov_vy = -1                
+            if tecla[pg.K_w] and (self.jogadores[0].y > 0) : 
+                self.jogadores[0].cima()   
+                self.jogadores[0].mov_vy = -1                
                       
-            if tecla[pg.K_s] and (self.jogador1.y + 64 < S_HEIGHT) :
-                self.jogador1.baixo()
-                self.jogador1.mov_vy = 1
+            if tecla[pg.K_s] and (self.jogadores[0].y + 64 < S_HEIGHT) :
+                self.jogadores[0].baixo()
+                self.jogadores[0].mov_vy = 1
                 
             
             #Movimento jogador 2
-        if not self.jogador2.atk and not self.jogador2.atkEspecial and self.jogador2.acao and not self.jogador2.stun:
-            if tecla[pg.K_j] and (self.jogador2.x > 0) :
-                self.jogador2.esquerda()
-                self.jogador2.mov_vx = -1               
+        if not self.jogadores[1].atk and not self.jogadores[1].atkEspecial and self.jogadores[1].acao and not self.jogadores[1].stun:
+            if tecla[pg.K_j] and (self.jogadores[1].x > 0) :
+                self.jogadores[1].esquerda()
+                self.jogadores[1].mov_vx = -1               
 
-            if tecla[pg.K_l] and (self.jogador2.x + 64 < S_WIDHT) :          
-                self.jogador2.direita()
-                self.jogador2.mov_vx = 1          
+            if tecla[pg.K_l] and (self.jogadores[1].x + 64 < S_WIDHT) :          
+                self.jogadores[1].direita()
+                self.jogadores[1].mov_vx = 1          
 
-            if tecla[pg.K_i] and (self.jogador2.y > 0) : 
-                self.jogador2.cima()   
-                self.jogador2.mov_vy = -1
+            if tecla[pg.K_i] and (self.jogadores[1].y > 0) : 
+                self.jogadores[1].cima()   
+                self.jogadores[1].mov_vy = -1
                                               
-            if tecla[pg.K_k] and (self.jogador2.y + 64 < S_HEIGHT) :
-                self.jogador2.baixo()
-                self.jogador2.mov_vy = 1
+            if tecla[pg.K_k] and (self.jogadores[1].y + 64 < S_HEIGHT) :
+                self.jogadores[1].baixo()
+                self.jogadores[1].mov_vy = 1
                 
 
         #trata movimento do inimigo
         for inimigo in self.Inimigos:
             if inimigo.acao and not inimigo.stun and not inimigo.atk and not inimigo.atkEspecial:
-                inimigo.movimento(self.jogador1,self.jogador2)
+                inimigo.movimento(self.jogadores[0],self.jogadores[1])
 #colisoes e estado de debuff(stun ou slow)
+    def FimDeJogo(self,tela):
+        if not(self.jogadores[0].visible) and not(self.jogadores[1].visible):
+            self.timepause = True
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    pg.quit()
+                    sys.exit()    
+                if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:        
+                    self.encerrada = True
+                    self.ticks = 0
+                    self.Fase.NumTela = 1
+                    self.Fase.Jogadores.clear()
+                    Sons.batalha.stop()
+                    self.timepause = False
+        if self.tempo[0]==0 and self.tempo[1]==0:
+            self.tempo = [0,0]
+            self.timepause = True
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    pg.quit()
+                    sys.exit()    
+                if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:        
+                    self.encerrada = True
+                    self.ticks = 0
+                    self.Fase.NumTela = 1
+                    self.Fase.Jogadores.clear()
+                    Sons.batalha.stop()
+                    self.timepause = False
+        if not(self.ListInimigos) and not(self.Inimigos) and not(self.Boss):
+            self.timepause = True
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    pg.quit()
+                    sys.exit()    
+                if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:        
+                    self.encerrada = True
+                    self.ticks = 0
+                    self.Fase.NumTela = 1
+                    self.Fase.Jogadores.clear()
+                    Sons.batalha.stop()
+                    self.timepause = False
+        
+        
+
+
+
+
     def Estado_Colisoes(self,lista):
 
-        self.jogador1.colisao(lista)
-        self.jogador1.atualizarEstado()
+        self.jogadores[0].colisao(lista)
+        self.jogadores[0].atualizarEstado()
 
-        self.jogador2.colisao(lista)
-        self.jogador2.atualizarEstado()
+        self.jogadores[1].colisao(lista)
+        self.jogadores[1].atualizarEstado()
 
         for inimigo in self.Inimigos:
             inimigo.colisao(lista)
             inimigo.atualizarEstado()
         
-        if not self.jogador1.mouse and not self.jogador2.mouse:
+        if not self.jogadores[0].mouse and not self.jogadores[1].mouse:
             for inimigo in self.Inimigos:
                 inimigo.acao = True
-            self.jogador1.acao = True
-            self.jogador2.acao = True
+            self.jogadores[0].acao = True
+            self.jogadores[1].acao = True
         else:
             for inimigo in self.Inimigos:
                 inimigo.acao = False
-            self.jogador1.acao = False
-            self.jogador2.acao = False
+            self.jogadores[0].acao = False
+            self.jogadores[1].acao = False
+
+

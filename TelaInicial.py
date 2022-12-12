@@ -7,13 +7,14 @@ from Sons import Sons
 
 class PrimeiraTela:
     
-    def __init__(self,tela):
+    def __init__(self,tela,Fase):
         self.tela = tela
         self.encerra = False
         self.FPS_Clock = pg.time.Clock()
         self.contador = 0
         self.opcoes = 0
         self.menu = 0
+        self.Fase = Fase
 
     def rodar(self):
         while not self.encerra:
@@ -72,7 +73,7 @@ class PrimeiraTela:
                 if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
                     self.menu = 0
                     self.encerra = True
-                    setup.NumTela = 2
+                    self.Fase.NumTela = 2
                     Sons.menu1.stop()
                     
     def SelectMenu(self,opcoes:list):

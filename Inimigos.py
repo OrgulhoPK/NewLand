@@ -23,6 +23,7 @@ class Inimigo:
         self.HBasica = personagem.habilidade[0]
         self.HEspecial = personagem.habilidade[1]
         self.projeteis = []  #list projeteis
+        self.summons = [] #lista para invocar mais 'aliados'
         #estado e condiçoes
         self.atk = False
         self.atkEspecial = False
@@ -87,7 +88,6 @@ class Inimigo:
                     self.seguir(jogador1)
 
     def hit(self,dano:int):
-        print(dano)
         if self.nome == 'Estrutura':
             self.vida -= 1
        
@@ -154,25 +154,7 @@ class Inimigo:
 
     def desenhar(self,tela):
         if self.nome == 'Estrutura':
-            objeto = self.sprites[0]
-            if self.atk:
-                tela.blit(objeto[0],(self.x,self.y))
-                if self.countatk <300:
-                    self.HBasica.cura(self.x,self.y,tela,self.dados)
-                if self.countatk +1 >= 840:
-                    self.countatk = 0
-                    self.vida = 7
-                    self.atk = False
-                self.countatk +=1 
-            if not self.atk:
-                if self.vida >0:
-                    tela.blit(objeto[self.vida],(self.x,self.y))
-
-            if self.vida<=0:
-                self.vida = 0
-                self.atk = True
-            self.hitbox = pg.Rect(self.x,self.y+33,28,35)
-
+            self.desenharEstrutura(tela)
         else:
             esq_Dir = self.sprites[0]
             baixo = self.sprites[2]
@@ -180,14 +162,14 @@ class Inimigo:
             especial = self.sprites[4]
             if self.visible:
                 if self.atk:
-                    if self.nome == 'Soldado':            
+                    if self.nome == 'Soldado' or self.nome == 'Boss':            
                         if self.inimigovx <= 0:
                             if self.countatk == 13:
-                                self.HBasica.Basica(self.x,self.y,self.dados,(-1,self.inimigovy))
+                                self.HBasica.Basica(self.nome,self.x,self.y,self.dados,(-1,self.inimigovy))
                             tela.blit(pg.transform.flip(ataque[self.countatk//2],True,False),(self.x-32,self.y-32))
                         else:
                             if self.countatk == 13:
-                                self.HBasica.Basica(self.x,self.y,self.dados,(self.inimigovx,self.inimigovy))
+                                self.HBasica.Basica(self.nome,self.x,self.y,self.dados,(self.inimigovx,self.inimigovy))
                             tela.blit(ataque[self.countatk//2],(self.x-32,self.y-32))
                         
                         if self.countatk +1 >= 16:
@@ -203,7 +185,6 @@ class Inimigo:
                     if self.nome == 'Soldado':
                         if self.inimigovx :
                             tela.blit(especial[self.countspec//4],(self.x-32,self.y-32))  
-                                                    
                         if self.countspec +1 >= 24:
                             self.countspec = 0
                             self.cooldown2 = 0
@@ -211,7 +192,16 @@ class Inimigo:
                             projetil = self.HEspecial.BasicaRange(self.nome,self.x,self.y,(self.inimigovx,self.inimigovy))
                             self.projeteis.append(projetil)       
                         self.countspec +=1
-
+                    if self.nome == 'Boss':
+                        if self.inimigovx :
+                            tela.blit(especial[self.countspec//4],(self.x,self.y))                  
+                        if self.countspec +1 >= 32:
+                            self.countspec = 0
+                            self.cooldown2 = 0
+                            self.atkEspecial = False
+                            inimigo = self.HEspecial.EspecialBoss(self)
+                            self.summons.append(inimigo)   
+                        self.countspec +=1
                 #desenha o mob
                 if not self.atk and not self.atkEspecial:
                     if self.inimigovx == 0 and self.inimigovy == 0:
@@ -233,8 +223,25 @@ class Inimigo:
                     projeteis.desenha(tela)
                 self.cooldown1 += 1
                 self.cooldown2 += 1
+    def desenharEstrutura(self,tela):
+        objeto = self.sprites[0]
+        if self.atk:
+            tela.blit(objeto[0],(self.x,self.y))
+            if self.countatk <300:
+                self.HBasica.cura(self.x,self.y,tela,self.dados)
+            if self.countatk +1 >= 840:
+                self.countatk = 0
+                self.vida = 7
+                self.atk = False
+            self.countatk +=1 
+        if not self.atk:
+            if self.vida >0:
+                tela.blit(objeto[self.vida],(self.x,self.y))
 
-                    
+        if self.vida<=0:
+            self.vida = 0
+            self.atk = True
+        self.hitbox = pg.Rect(self.x,self.y+33,28,35)
 
 
         

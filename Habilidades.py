@@ -1,9 +1,10 @@
-from Configs import *
-from Imagens import *
 import math,random
 import pygame as pg
+from Configs import *
+from Imagens import *
 from Jogador import Jogador
 from Inimigos import Inimigo
+from Personagens import Personagem
 
 
 
@@ -26,8 +27,8 @@ class Skill:
         self.time_efeito = 0
         self.tempo = 0
 
-#Mob e Duelista
-    def Basica(self,x:float,y:float,dados:list,velxy:list[float]):#Ataque mob e duelista
+#Mob e Duelista e Boss
+    def Basica(self,nome,x:float,y:float,dados:list,velxy:list[float]):#Ataque mob e duelista
         self.x = x
         self.y = y
         tela = dados[0]
@@ -43,9 +44,11 @@ class Skill:
                     self.contador = 0
                 tela.blit(pg.transform.scale(self.sprite[self.contador],(128,128)),(alvo.x-32,alvo.y-32))
                 if alvo.nome == 'Soldado' or alvo.nome == 'Boss':
-                    alvo.hit(6)
+                    alvo.hit(7)
                 else:
-                    alvo.hit(2)
+                    alvo.hit(3)
+                if nome == 'Boss':
+                    alvo.slow = True
                 self.contador+=1
     def EspecialD(self,x:float,y:float,dados:list,velxy:list[float]):#Especial duelista
         self.x = x
@@ -64,7 +67,19 @@ class Skill:
                 tela.blit(pg.transform.scale(self.sprite[self.contador],(128,128)),(alvo.x-32,alvo.y-32))
                 alvo.hit(4)
                 self.contador+=1
+#O Boss invoca aliados para lutar com ele na arena
+#Tem uma pequena chance de invocar um segundo Boss
+    def EspecialBoss(self,inimigo):
+        SkillsSoldado1= [Skill(5,Imagem.hitDamage),Skill(20,Imagem.StunMob1)]
+        Soldado = Personagem('Soldado',60,2,[70,250],Imagem.Sprites_Soldadinho,SkillsSoldado1)
 
+        x = random.randint(525,750)
+        y = random.randint(200,370)
+
+        return Inimigo((x,y),Soldado)
+
+        
+        
 #Clerigo e Shaman     
     def BasicaRange(self,nome:str,x:float,y:float,velxy:list[float]): #AtaqueRange
         velx = velxy[0]
